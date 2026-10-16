@@ -1,0 +1,103 @@
+import { describe, expect, it } from 'vitest';
+import {
+  GENERATOR_KIND_ICON,
+  LIGHT_COLORS,
+  LIGHT_LABELS,
+  MAP_COLORS,
+  MATERIAL_COLORS,
+  MATERIAL_LABELS,
+  PIN_BORDER,
+  SECTOR_ICON,
+  buyerPinHtml,
+  buyerPinSpec,
+  generatorPinHtml,
+  generatorPinSpec,
+  lightColor,
+} from './markers';
+
+const idle = { selected: false, hot: false };
+
+describe('colores del semáforo', () => {
+  it('salvia, ámbar y coral apagados (espejo de los tokens ok/warn/bad); el pin usa los mismos tonos', () => {
+    expect(lightColor('verde')).toBe('#8fb8a0');
+    expect(lightColor('amarillo')).toBe('#c9a86a');
+    expect(lightColor('rojo')).toBe('#c98b78');
+    expect(PIN_BORDER).toEqual(LIGHT_COLORS);
+  });
+  it('gris para "no compra este material"', () => {
+    expect(lightColor(undefined)).toBe(LIGHT_COLORS.sinEvaluar);
+  });
+});
+
+describe('etiquetas e íconos', () => {
+  it('el semáforo usa el mismo vocabulario que el panel', () => {
+    expect(LIGHT_LABELS).toEqual({ verde: 'Cierra', amarillo: 'Justo', rojo: 'No cierra', sinEvaluar: 'No compra este material' });
+  });
+  it('materiales: 4 tonos distintos, ninguno del semáforo ni del acento', () => {
+    const colors = Object.values(MATERIAL_COLORS);
+    expect(new Set(colors).size).toBe(4);
+    for (const c of [...Object.values(LIGHT_COLORS), MAP_COLORS.selection]) expect(colors).not.toContain(c);
+    expect(MATERIAL_LABELS.cascarilla).toBe('Cascarilla');
+  });
+  it('planta: árbol para aserraderos y foresto-industria, trigo para el molino arrocero', () => {
+    expect(GENERATOR_KIND_ICON).toEqual({ aserradero: 'tree-pine', foresto_industria: 'tree-pine', molino_arrocero: 'wheat' });
+  });
+  it('cada sector comprador tiene un ícono propio', () => {
+    expect(new Set(Object.values(SECTOR_ICON)).size).toBe(Object.keys(SECTOR_ICON).length);
+    expect(SECTOR_ICON.central_biomasa).toBe('zap');
+  });
+});
+
+describe('generatorPinSpec (rombo)', () => {
+  it('normal: rombo de 16 px del tono del material, sin anillo ni etiqueta', () => {
+    expect(generatorPinSpec('aserrin', idle)).toMatchObject({ size: 16, fill: MATERIAL_COLORS.aserrin, ring: false, label: false });
+  });
+  it('elegida: 21 px, anillo esmeralda y etiqueta, arriba de todo', () => {
+    const s = generatorPinSpec('aserrin', { selected: true, hot: false });
+    expect(s).toMatchObject({ size: 21, ring: true, label: true });
+    expect(s.zIndexOffset).toBeGreaterThan(generatorPinSpec('aserrin', idle).zIndexOffset);
+  });
+});
+
+describe('buyerPinSpec (punto)', () => {
+  it('la forma cambia con el estado, así no depende solo del color', () => {
+    expect(buyerPinSpec('verde', idle).shape).toBe('fill');
+    expect(buyerPinSpec('amarillo', idle).shape).toBe('ring');
+    expect(buyerPinSpec('rojo', idle).shape).toBe('hollow');
+    expect(buyerPinSpec(undefined, idle).shape).toBe('muted');
+  });
+  it('evaluado: 16 px con el tono del semáforo; "no compra" más chico', () => {
+    expect(buyerPinSpec('rojo', idle)).toMatchObject({ size: 16, color: PIN_BORDER.rojo });
+    expect(buyerPinSpec(undefined, idle).size).toBeLessThan(16);
+  });
+  it('elegido: 21 px, anillo esmeralda y etiqueta, arriba', () => {
+    const s = buyerPinSpec('verde', { selected: true, hot: false });
+    expect(s).toMatchObject({ size: 21, ring: true, label: true });
+    expect(s.zIndexOffset).toBeGreaterThan(buyerPinSpec('verde', idle).zIndexOffset);
+  });
+  it('resaltado desde el ranking: sube sin volverse elegido', () => {
+    const h = buyerPinSpec('verde', { selected: false, hot: true });
+    expect(h).toMatchObject({ hot: true, ring: false });
+    expect(h.zIndexOffset).toBeGreaterThan(buyerPinSpec('verde', idle).zIndexOffset);
+  });
+});
+
+describe('HTML de los pines', () => {
+  it('planta: data-marker, ícono SVG y área táctil ≥ 24 px', () => {
+    const { html, width, height } = generatorPinHtml(generatorPinSpec('chips', idle), 'wheat', 'gen-x');
+    expect(html).toContain('data-marker="gen-x"');
+    expect(html).toContain('<svg');
+    expect(Math.min(width, height)).toBeGreaterThanOrEqual(24);
+  });
+  it('comprador: data-marker, data-light y un ícono de sector chiquito', () => {
+    const { html, width } = buyerPinHtml(buyerPinSpec('amarillo', idle), 'zap', 'buyer-y', 'amarillo');
+    expect(html).toContain('data-marker="buyer-y"');
+    expect(html).toContain('data-light="amarillo"');
+    expect(html.match(/<svg/g)?.length).toBe(1);
+    expect(html).toContain('width="9"');
+    expect(width).toBeGreaterThanOrEqual(24);
+  });
+  it('escapa los atributos', () => {
+    expect(buyerPinHtml(buyerPinSpec('verde', idle), 'zap', 'buyer-"x', 'verde').html).not.toContain('buyer-"x');
+  });
+});

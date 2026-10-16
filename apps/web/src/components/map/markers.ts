@@ -1,0 +1,196 @@
+// Lógica pura de los pines del mapa (sin Leaflet ni React): colores, íconos, tamaños y su HTML.
+// Leaflet no lee clases de Tailwind para estos valores: los hex son espejo de los tokens de src/index.css.
+import type { BuyerSector, GeneratorKind, MaterialId } from '@mapa/core/data';
+import type { TrafficLight } from '@mapa/core/viability';
+
+export const MAP_COLORS = {
+  ink: '#0d1110', // --color-canvas: íconos oscuros sobre los discos de color
+  selection: '#8fb8a0', // --color-selection (salvia): anillo, halo, círculo y ruta
+  surface: '#e8ece9', // contorno claro: los pines se leen sobre el satelital
+} as const;
+
+/** Semáforo apagado: salvia / ámbar / coral (--color-ok/warn/bad); gris para "no compra". */
+export const LIGHT_COLORS = {
+  verde: '#8fb8a0',
+  amarillo: '#c9a86a',
+  rojo: '#c98b78',
+  sinEvaluar: '#9aa5a0',
+} as const;
+
+/** Tono del punto del comprador: el mismo del semáforo (el contorno blanco lo separa del satelital). */
+export const PIN_BORDER = LIGHT_COLORS;
+
+/**
+ * Tono de la gota de cada planta (ícono blanco encima, ≥ 4,3:1). Medidos con ΔE2000: ≥ 14,9 entre sí con visión
+ * normal y con deuteranopia, protanopia y tritanopia simuladas, y ≥ 17 contra el semáforo, el acento y la tinta.
+ */
+export const MATERIAL_COLORS: Record<MaterialId, string> = {
+  aserrin: '#6f4fa0',
+  chips: '#287a78',
+  costaneros: '#5a3826',
+  cascarilla: '#8a7a24',
+};
+
+export const MATERIAL_LABELS: Record<MaterialId, string> = {
+  aserrin: 'Aserrín',
+  chips: 'Chips',
+  costaneros: 'Costaneros',
+  cascarilla: 'Cascarilla',
+};
+
+export const GENERATOR_KIND_LABELS: Record<GeneratorKind, string> = {
+  aserradero: 'Aserradero',
+  foresto_industria: 'Foresto-industria',
+  molino_arrocero: 'Molino arrocero',
+};
+
+/** Mismo vocabulario que el panel (LIGHT_TEXT). */
+export const LIGHT_LABELS: Record<TrafficLight | 'sinEvaluar', string> = {
+  verde: 'Cierra',
+  amarillo: 'Justo',
+  rojo: 'No cierra',
+  sinEvaluar: 'No compra este material',
+};
+
+/**
+ * Trazos de lucide (ISC, https://lucide.dev) copiados para armar el HTML del pin sin renderizar React.
+ * Mismo dibujo que los componentes de lucide-react que usa el panel.
+ */
+export const ICON_PATHS = {
+  'tree-pine':
+    '<path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/>',
+  wheat:
+    '<path d="M2 22 16 8"/><path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z"/><path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>',
+  zap: '<path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/>',
+  leaf: '<path d="M11 20a10 10 0 0010-10 25.9 25.9 0 00-1.04-7.281 1 1 0 00-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0011 20"/><path d="M2 21a5 5 0 012.911-4.544C7.613 15.212 8.351 15.24 11 13"/>',
+  citrus:
+    '<path d="M21.66 17.67a1.08 1.08 0 0 1-.04 1.6A12 12 0 0 1 4.73 2.38a1.1 1.1 0 0 1 1.61-.04z"/><path d="M19.65 15.66A8 8 0 0 1 8.35 4.34"/><path d="m14 10-5.5 5.5"/><path d="M14 17.85V10H6.15"/>',
+  warehouse:
+    '<path d="M18 21V10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v11"/><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 1.132-1.803l7.95-3.974a2 2 0 0 1 1.837 0l7.948 3.974A2 2 0 0 1 22 8z"/><path d="M6 13h12"/><path d="M6 17h12"/>',
+  beef: '<path d="M16.4 13.7A6.5 6.5 0 1 0 6.28 6.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3"/><path d="m18.5 6 1.754 3.5a6.48 6.48 0 0 1-1.854 8.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5"/><circle cx="12.5" cy="8.5" r="2.5"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  bang: '<path d="M12 5v9"/><path d="M12 19v.01"/>',
+} as const;
+
+export type PinIcon = keyof typeof ICON_PATHS;
+
+export const GENERATOR_KIND_ICON: Record<GeneratorKind, PinIcon> = {
+  aserradero: 'tree-pine',
+  foresto_industria: 'tree-pine',
+  molino_arrocero: 'wheat',
+};
+
+export const SECTOR_ICON: Record<BuyerSector, PinIcon> = {
+  central_biomasa: 'zap',
+  yerbatera: 'leaf',
+  citricola: 'citrus',
+  secadero_granos: 'warehouse',
+  frigorifico: 'beef',
+};
+
+
+export function lightColor(light: TrafficLight | undefined): string {
+  return light ? LIGHT_COLORS[light] : LIGHT_COLORS.sinEvaluar;
+}
+
+export interface PinState {
+  selected: boolean;
+  /** Resaltado desde el ranking (hover o foco en la fila). */
+  hot: boolean;
+}
+
+/** Área táctil mínima (WCAG 2.5.8). */
+const HIT = 24;
+const RING = `0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 0 0 10px rgb(143 184 160 / 0.18)`;
+const SOFT = '0 1px 3px rgb(0 0 0 / 0.6)';
+
+function svgIcon(icon: PinIcon, size: number, color: string, strokeWidth: number): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${ICON_PATHS[icon]}</svg>`;
+}
+
+function attr(v: string): string {
+  return v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+
+export interface GeneratorPinSpec {
+  size: number;
+  fill: string;
+  ring: boolean;
+  label: boolean;
+  hot: boolean;
+  zIndexOffset: number;
+}
+
+export function generatorPinSpec(materialId: MaterialId, { selected, hot }: PinState): GeneratorPinSpec {
+  return {
+    size: selected ? 21 : 16,
+    fill: MATERIAL_COLORS[materialId],
+    ring: selected,
+    label: selected,
+    hot,
+    zIndexOffset: selected ? 2000 : hot ? 1500 : 400,
+  };
+}
+
+function wrap(box: number, inner: string, attrs: string, extraStyle = ''): string {
+  return `<div class="pin-body" ${attrs} style="position:relative;display:flex;align-items:center;justify-content:center;width:${box}px;height:${box}px;${extraStyle}">${inner}</div>`;
+}
+
+/** Rombo del tono del material con un ícono blanco chiquito (árbol o trigo) sin rotar. */
+export function generatorPinHtml(spec: GeneratorPinSpec, icon: PinIcon, marker: string): { html: string; width: number; height: number } {
+  // El rombo es un cuadrado rotado: su diagonal ocupa ~1,41 × el lado.
+  const side = Math.round(spec.size / Math.SQRT2 + 3);
+  const box = Math.max(HIT, spec.size + 10);
+  const shadow = spec.ring ? RING : `0 0 0 1.5px ${MAP_COLORS.surface}, ${SOFT}`;
+  const diamond = `<span style="position:absolute;width:${side}px;height:${side}px;background:${spec.fill};border-radius:3px;transform:rotate(45deg);box-shadow:${shadow}"></span>`;
+  const glyph = `<span style="position:relative">${svgIcon(icon, spec.ring ? 11 : 9, '#e8ece9', 2.5)}</span>`;
+  return { html: wrap(box, diamond + glyph, `data-marker="${attr(marker)}"`), width: box, height: box };
+}
+
+/** verde = relleno · amarillo = anillo grueso con centro blanco · rojo = hueco con borde · no compra = gris chico. */
+export type BuyerShape = 'fill' | 'ring' | 'hollow' | 'muted';
+const SHAPES: Record<TrafficLight, BuyerShape> = { verde: 'fill', amarillo: 'ring', rojo: 'hollow' };
+
+export interface BuyerPinSpec {
+  size: number;
+  shape: BuyerShape;
+  color: string;
+  ring: boolean;
+  label: boolean;
+  hot: boolean;
+  zIndexOffset: number;
+}
+
+export function buyerPinSpec(light: TrafficLight | undefined, { selected, hot }: PinState): BuyerPinSpec {
+  return {
+    size: light ? (selected ? 21 : 16) : selected ? 16 : 13,
+    shape: light ? SHAPES[light] : 'muted',
+    color: PIN_BORDER[light ?? 'sinEvaluar'],
+    ring: selected,
+    label: selected,
+    hot,
+    zIndexOffset: selected ? 1800 : hot ? 1500 : light ? 300 : 0,
+  };
+}
+
+/** Punto con la forma del semáforo y el ícono del sector (oscuro sobre el relleno menta, claro sobre el centro oscuro). */
+export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, light: string): { html: string; width: number; height: number } {
+  const s = spec.size;
+  const box = Math.max(HIT, s + 10);
+  const outline = spec.ring ? RING : `0 0 0 1.5px ${MAP_COLORS.surface}, ${SOFT}`;
+  const styles: Record<BuyerShape, string> = {
+    fill: `background:${spec.color}`,
+    ring: `background:${MAP_COLORS.ink};border:3px solid ${spec.color}`,
+    hollow: `background:${MAP_COLORS.ink};border:2px solid ${spec.color}`,
+    muted: `background:${MAP_COLORS.ink};border:1.5px dashed ${spec.color}`,
+  };
+  const iconColor = spec.shape === 'fill' ? MAP_COLORS.ink : spec.shape === 'muted' ? '#9aa5a0' : '#e8ece9';
+  const iconSize = spec.ring ? 11 : spec.shape === 'muted' ? 7 : 9;
+  const dot = `<span style="display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:${s}px;height:${s}px;border-radius:9999px;${styles[spec.shape]};box-shadow:${outline}">${svgIcon(icon, iconSize, iconColor, 2.5)}</span>`;
+  return {
+    html: wrap(box, dot, `data-marker="${attr(marker)}" data-light="${attr(light)}"`, spec.shape === 'muted' && !spec.ring ? 'opacity:0.55;' : ''),
+    width: box,
+    height: box,
+  };
+}
