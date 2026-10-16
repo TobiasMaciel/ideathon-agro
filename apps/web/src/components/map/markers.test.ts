@@ -97,6 +97,21 @@ describe('HTML de los pines', () => {
     expect(html).toContain('width="9"');
     expect(width).toBeGreaterThanOrEqual(24);
   });
+  it('"no compra" se atenúa poco (opacidad 0,75) para que el contorno siga en ≥ 3:1', () => {
+    const { html } = buyerPinHtml(buyerPinSpec(undefined, idle), 'zap', 'buyer-m', 'none');
+    expect(html).toContain('opacity:0.75');
+  });
+  it('publicación: contorno punteado y data-origin; curado: sin punteado', () => {
+    const pub = buyerPinHtml(buyerPinSpec('verde', idle, true), 'zap', 'buyer-pub-1', 'verde').html;
+    expect(pub).toContain('data-origin="publicacion"');
+    expect(pub).toContain('dashed');
+    const cur = buyerPinHtml(buyerPinSpec('verde', idle), 'zap', 'buyer-x', 'verde').html;
+    expect(cur).not.toContain('data-origin="publicacion"');
+    expect(cur).not.toContain('dashed');
+    const gen = generatorPinHtml(generatorPinSpec('aserrin', idle, true), 'tree-pine', 'gen-pub-1').html;
+    expect(gen).toContain('data-origin="publicacion"');
+    expect(gen).toContain('dashed');
+  });
   it('escapa los atributos', () => {
     expect(buyerPinHtml(buyerPinSpec('verde', idle), 'zap', 'buyer-"x', 'verde').html).not.toContain('buyer-"x');
   });

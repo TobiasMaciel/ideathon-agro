@@ -4,6 +4,7 @@ import type { Alternative, Buyer } from '@mapa/core/data';
 import { formatArs, formatKm, formatNumber, formatPct, formatTons } from '@mapa/core/format';
 import type { TrafficLight, ViabilityResult } from '@mapa/core/viability';
 import { cn } from '@/lib/utils';
+import { PublishedMeta } from '../listing/ListingInfo';
 import { DistanceBar, MarginBar } from './Charts';
 import Light, { LIGHT_TEXT } from './Light';
 import { SECTOR_SINGULAR } from './labels';
@@ -35,7 +36,7 @@ function usePrevious(id: string, value: number): number | null {
 }
 
 /** La respuesta: card con el comprador elegido, el estado arriba a la derecha y la escala del margen. */
-export function Answer({ buyer, alternative, result, threshold }: Props & { threshold: number }) {
+export function Answer({ buyer, alternative, result, threshold, contact }: Props & { threshold: number; contact?: React.ReactNode }) {
   const s = result.buyerSavingsPerMonth;
   const buyerPays = !result.buyerBenefits && result.sellerLight !== 'rojo';
   const from = usePrevious(buyer.id, result.marginPct);
@@ -50,7 +51,8 @@ export function Answer({ buyer, alternative, result, threshold }: Props & { thre
       </div>
       <p className="mt-1 text-heading text-pretty text-fg">{buyer.name}</p>
       <p className="mt-0.5 font-mono text-caption text-fg-muted uppercase tabular-nums">
-        {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality} · {formatKm(result.distanceKm)} por ruta
+        {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}
+        {formatKm(result.distanceKm)} por ruta
       </p>
       <div className="mt-2.5 flex items-end justify-between gap-3">
         <div>
@@ -77,6 +79,7 @@ export function Answer({ buyer, alternative, result, threshold }: Props & { thre
           </span>
         </p>
       )}
+      {contact && <div className="mt-3 border-t border-line pt-2.5">{contact}</div>}
     </div>
   );
 }
@@ -105,8 +108,9 @@ export default function MatchDetail({ buyer, alternative, result, radiusKm, thre
         </div>
         <h2 className="mt-1 text-title text-pretty text-fg">{buyer.name}</h2>
         <p className="mt-0.5 font-mono text-caption text-fg-muted uppercase tabular-nums">
-          {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality} · usa {altName(alternative)}
+          {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}usa {altName(alternative)}
         </p>
+        {buyer.origin === 'publicacion' && <PublishedMeta entity={buyer} className="mt-1.5" />}
       </header>
       <div>
         <MarginBar value={result.marginPct} from={null} threshold={threshold} light={result.light} />

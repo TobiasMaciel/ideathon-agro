@@ -48,7 +48,7 @@ export default function GeneratorPicker({ generators, materials, selectedId, onS
             <span className="block text-title text-pretty text-fg">{selected?.name ?? 'Elegí tu planta'}</span>
             {selected && (
               <span className="mt-0.5 block font-mono text-caption text-fg-muted uppercase tabular-nums">
-                {GENERATOR_KIND_LABELS[selected.kind]} · {materialName(selected.materialId)} · {selected.locality} ·{' '}
+                {GENERATOR_KIND_LABELS[selected.kind]} · {materialName(selected.materialId)} · {selected.locality ? `${selected.locality} · ` : ''}
                 <span className="whitespace-nowrap">{formatNumber(selected.tonsPerMonth.value)} t/mes</span>
               </span>
             )}
@@ -84,7 +84,9 @@ export default function GeneratorPicker({ generators, materials, selectedId, onS
                       <span className="min-w-0 flex-1">
                         <span className="block font-medium text-pretty">{g.name}</span>
                         <span className="block text-caption text-fg-muted tabular-nums">
-                          {g.locality} · {formatNumber(g.tonsPerMonth.value)} t/mes
+                          {g.locality ? `${g.locality} · ` : ''}
+                          {formatNumber(g.tonsPerMonth.value)} t/mes
+                          {g.origin === 'publicacion' && <span className="font-mono text-fg-subtle uppercase"> · Sin verificar</span>}
                         </span>
                       </span>
                     </CommandItem>

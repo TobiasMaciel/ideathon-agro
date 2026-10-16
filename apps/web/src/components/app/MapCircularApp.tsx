@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { Suspense, createContext, lazy, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { Plus } from 'lucide-react';
 import ClientMap from '../map/ClientMap';
-import type { CatalogResponse } from '@mapa/core/api';
-import type { Material, Generator } from '@mapa/core/data';
+import type { CatalogResponse, ListingCreatedResponse } from '@mapa/core/api';
+import type { Buyer, Material, Generator } from '@mapa/core/data';
 import { assumptionValues, availableStates, rankBuyers, viableRadiusMapKm, type RankedBuyer } from '@mapa/core/match';
 import { formatArs, formatNumber, formatTons } from '@mapa/core/format';
 import type { MaterialState, TrafficLight } from '@mapa/core/viability';
@@ -19,7 +20,13 @@ import StateSelector from '../panel/StateSelector';
 import KpiStrip, { type Kpi } from '../panel/KpiStrip';
 import type { StateStat } from '../panel/StateSelector';
 import { initialState, reducer, type AppState } from './state';
+import { insertListing, selectionAfterCreate } from '../listing/after-create';
+import { inNea, type LatLng } from '../listing/form';
+import ListingInfo from '../listing/ListingInfo';
 import { useCatalog } from './useCatalog';
+
+// El formulario (y el Select de Radix) se carga recién al tocar "Publicar".
+const PublishDialog = lazy(() => import('../listing/PublishDialog'));
 
 const DEFAULT_GENERATOR = 'molinos-ala-mercedes';
 const TITLE = 'Mapa Circular NEA — ¿Cierra el negocio?';
@@ -50,6 +57,54 @@ function BrandPill() {
       </span>
       <span className="text-small font-semibold tracking-tight text-fg">Circular NEA</span>
     </div>
+  );
+}
+
+/** Pastilla de acción principal: abre el formulario de publicación. */
+function PublishButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      data-testid="publish-open"
+      onClick={onClick}
+      className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-selection-solid pr-3.5 pl-3 text-small font-semibold text-on-accent shadow-overlay transition-colors duration-120 ease-out hover:bg-selection focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection"
+    >
+      <Plus size={16} strokeWidth={2.5} aria-hidden="true" />
+      Publicar
+    </button>
+  );
+}
+
+/** Aviso breve y discreto (live region siempre montada para que el lector lo anuncie). */
+function Notice({ text, wide }: { text: string | null; wide: boolean }) {
+  return (
+    <div
+      className="pointer-events-none absolute left-0 z-[1050] flex justify-center px-3"
+      style={wide ? { right: PANEL_W + 16, bottom: 24 } : { right: 0, bottom: SHEET_PEEK + 12 }}
+    >
+      <p
+        role="status"
+        data-testid="notice"
+        className={text ? 'rounded-lg border border-selection bg-surface px-3.5 py-2 text-small font-medium text-fg shadow-overlay' : 'sr-only'}
+      >
+        {text}
+      </p>
+    </div>
+  );
+}
+
+/** Contacto o "Sin datos de contacto · Ver fuente". En mobile, ir a Fuentes también agranda la hoja. */
+function EntityContact({ entity, onShowSources, className }: { entity: Generator | Buyer; onShowSources: () => void; className?: string }) {
+  const expand = useContext(SheetContext);
+  return (
+    <ListingInfo
+      entity={entity}
+      className={className}
+      onShowSources={() => {
+        onShowSources();
+        expand();
+      }}
+    />
   );
 }
 
@@ -203,7 +258,9 @@ function derive(catalog: CatalogResponse, generator: Generator, material: Materi
   return { states, state, buyers, ranking, lights, mapKm, roadKm: mapKm * values.routeFactor, values };
 }
 
-function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) {
+type PublishMode = 'closed' | 'form' | 'picking';
+
+function Loaded({ catalog, wide, onListingCreated }: { catalog: CatalogResponse; wide: boolean; onListingCreated: (created: ListingCreatedResponse) => void }) {
   const [app, dispatch] = useReducer(
     reducer,
     catalog.generators.some((g) => g.id === DEFAULT_GENERATOR) ? DEFAULT_GENERATOR : (catalog.generators[0]?.id ?? ''),
@@ -212,6 +269,26 @@ function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) 
   const [showFilters, setShowFilters] = useState(false);
   const [hotBuyerId, setHotBuyerId] = useState<string | null>(null);
   const [tab, setTab] = useState('compradores');
+  const [publishMode, setPublishMode] = useState<PublishMode>('closed');
+  /** Una vez abierto, el formulario queda montado (oculto) para no perder el borrador. */
+  const [publishLoaded, setPublishLoaded] = useState(false);
+  const [returningFromPick, setReturningFromPick] = useState(false);
+  const [pickedLocation, setPickedLocation] = useState<LatLng | null>(null);
+  const [pickMessage, setPickMessage] = useState<string | null>(null);
+  const [focus, setFocus] = useState<{ key: number; points: [number, number][] } | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!notice) return;
+    const t = window.setTimeout(() => setNotice(null), 5000);
+    return () => window.clearTimeout(t);
+  }, [notice]);
+
+  const cancelPick = useCallback(() => {
+    setPickMessage(null);
+    setReturningFromPick(true);
+    setPublishMode('form');
+  }, []);
 
   const generator = catalog.generators.find((g) => g.id === app.selectedGeneratorId);
   const material = catalog.materials.find((m) => m.id === generator?.materialId);
@@ -226,7 +303,7 @@ function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) 
     }
   }, [catalog, generator, material, app]);
 
-  const insets = wide ? { top: 0, right: PANEL_W + 16, bottom: 0, left: 0 } : { top: 48, right: 0, bottom: SHEET_PEEK, left: 0 };
+  const insets = wide ? { top: 0, right: PANEL_W + 16, bottom: 0, left: 0 } : { top: 180, right: 0, bottom: SHEET_PEEK, left: 0 };
 
   if (!generator || !material || !derived) {
     return (
@@ -289,6 +366,40 @@ function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) 
     },
   ];
   const edited = Object.keys(app.overrides).length > 0;
+  const picking = publishMode === 'picking';
+
+  const handlePick = (ll: LatLng) => {
+    if (!inNea(ll)) {
+      setPickMessage('Ese punto queda fuera del NEA. Tocá un punto dentro de la región.');
+      return;
+    }
+    setPickedLocation(ll);
+    setPickMessage(null);
+    setReturningFromPick(true);
+    setPublishMode('form');
+  };
+
+  const handleCreated = (created: ListingCreatedResponse) => {
+    onListingCreated(created);
+    const next = insertListing(catalog, created);
+    const sel = selectionAfterCreate(next, generator.id, created);
+    const g = next.generators.find((x) => x.id === sel.generatorId);
+    const m = next.materials.find((x) => x.id === g?.materialId);
+    if (sel.generatorId !== generator.id || created.kind === 'oferta') {
+      dispatch({ type: 'selectGenerator', id: sel.generatorId, availableStates: m ? availableStates(m) : ['suelto'] });
+    }
+    if (created.kind === 'demanda') {
+      const b = created.listing as Buyer;
+      if (app.sectors.length > 0 && !app.sectors.includes(b.sector)) dispatch({ type: 'clearFilters' });
+      if (sel.buyerId) dispatch({ type: 'selectBuyer', id: sel.buyerId });
+      setTab('compradores');
+      if (g) setFocus({ key: Date.now(), points: [[g.location.lat, g.location.lng], [b.location.lat, b.location.lng]] });
+    }
+    setPickedLocation(null);
+    setReturningFromPick(false);
+    setPublishMode('closed');
+    setNotice(created.kind === 'oferta' ? 'Publicación creada. Ya es tu planta en el mapa.' : 'Publicación creada. Ya aparece entre los compradores.');
+  };
 
   return (
     <>
@@ -306,25 +417,69 @@ function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) 
           onHoverBuyer={setHotBuyerId}
           insets={insets}
           wide={wide}
+          picking={picking}
+          onPick={handlePick}
+          onCancelPick={cancelPick}
+          pickMessage={pickMessage}
+          draftPin={publishMode !== 'closed' ? pickedLocation : null}
+          focus={focus}
         />
       </div>
 
-      <div
-        className={wide ? 'absolute top-3 left-3 z-[1000] flex items-start gap-2' : 'absolute inset-x-0 top-14 z-[1000] overflow-x-auto px-3 pb-2 [scrollbar-width:none]'}
-        style={wide ? { right: PANEL_W + 40 } : undefined}
-      >
-        {wide && <BrandPill />}
-        <KpiStrip items={kpis} compact={!wide} className={wide ? '' : 'snap-x'} />
-      </div>
+      {!picking && (
+        <div className={wide ? 'absolute top-3 left-3 z-[1000] flex items-start gap-2' : 'absolute inset-x-0 top-3 z-[1000] space-y-2 px-3'} style={wide ? { right: PANEL_W + 40 } : undefined}>
+          <div className="flex items-center gap-2">
+            <BrandPill />
+            <PublishButton
+              onClick={() => {
+                setPublishLoaded(true);
+                setPublishMode('form');
+              }}
+            />
+          </div>
+          <KpiStrip items={kpis} compact={!wide} />
+        </div>
+      )}
+
+      {publishLoaded && (
+        <Suspense fallback={null}>
+          <PublishDialog
+            open={publishMode === 'form'}
+            onOpenChange={(open) => {
+              setPublishMode(open ? 'form' : 'closed');
+              if (!open) setReturningFromPick(false);
+            }}
+            materials={catalog.materials}
+            location={pickedLocation}
+            onLocationChange={setPickedLocation}
+            onRequestPick={() => {
+              setPickMessage(null);
+              setPublishMode('picking');
+            }}
+            returningFromPick={returningFromPick}
+            onCreated={handleCreated}
+          />
+        </Suspense>
+      )}
+      <Notice text={notice} wide={wide} />
 
       <PanelShell wide={wide}>
         {/* Bloque fijo: dónde estoy y la respuesta. */}
         <div className="space-y-3 border-b border-border px-4 pt-3 pb-4">
-          <GeneratorPicker generators={catalog.generators} materials={catalog.materials} selectedId={generator.id} onSelect={handleSelectGenerator} />
+          <div>
+            <GeneratorPicker generators={catalog.generators} materials={catalog.materials} selectedId={generator.id} onSelect={handleSelectGenerator} />
+            <EntityContact entity={generator} onShowSources={() => setTab('fuentes')} className="mt-1" />
+          </div>
           <StateSelector value={d.state} available={d.states} materialName={material.name} stats={stats} onChange={(s) => dispatch({ type: 'setState', state: s })} />
           <RadiusSummary roadKm={d.roadKm} mapKm={d.mapKm} />
           {selected ? (
-            <Answer buyer={selected.buyer} alternative={selectedAlternative} result={selected.result} threshold={d.values.greenThreshold} />
+            <Answer
+              buyer={selected.buyer}
+              alternative={selectedAlternative}
+              result={selected.result}
+              threshold={d.values.greenThreshold}
+              contact={<EntityContact entity={selected.buyer} onShowSources={() => setTab('fuentes')} />}
+            />
           ) : (
             <p className="rounded-lg border border-dashed border-line-strong px-3 py-2.5 text-small text-fg-muted">Ningún comprador compra este material.</p>
           )}
@@ -406,13 +561,13 @@ function Loaded({ catalog, wide }: { catalog: CatalogResponse; wide: boolean }) 
 }
 
 export default function MapCircularApp() {
-  const { state, retry } = useCatalog();
+  const { state, retry, addListing } = useCatalog();
   const wide = useWide();
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-background">
       <h1 className="sr-only">{TITLE}</h1>
       {state.status === 'ready' ? (
-        <Loaded catalog={state.catalog} wide={wide} />
+        <Loaded catalog={state.catalog} wide={wide} onListingCreated={addListing} />
       ) : (
         <>
           <Skeleton className="absolute inset-0 rounded-none" />
@@ -425,7 +580,7 @@ export default function MapCircularApp() {
           </PanelShell>
         </>
       )}
-      {!wide && (
+      {!wide && state.status !== 'ready' && (
         <div className="absolute top-3 left-3 z-[1000]">
           <BrandPill />
         </div>

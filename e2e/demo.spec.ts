@@ -22,8 +22,9 @@ async function openAssumptions(page: Page) {
 test("guion de la demo: del suelto al pellet", async ({ page }) => {
   await test.step("carga con marcadores", async () => {
     await open(page);
-    await expect(page.locator('[data-testid="map"] [data-marker^="gen-"]')).toHaveCount(13);
-    await expect(page.locator('[data-testid="map"] [data-marker^="buyer-"]')).toHaveCount(10);
+    // Solo los curados: las publicaciones de otros tests (data-origin="publicacion") pueden estar en el mapa.
+    await expect(page.locator('[data-testid="map"] [data-marker^="gen-"]:not([data-origin="publicacion"])')).toHaveCount(13);
+    await expect(page.locator('[data-testid="map"] [data-marker^="buyer-"]:not([data-origin="publicacion"])')).toHaveCount(10);
   });
 
   let sueltoKm = 0;

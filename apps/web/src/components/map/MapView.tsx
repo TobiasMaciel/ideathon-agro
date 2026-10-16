@@ -1,10 +1,11 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { AttributionControl, Circle, MapContainer, Marker, Polyline, ScaleControl, TileLayer, Tooltip, ZoomControl, useMap } from 'react-leaflet';
+import { AttributionControl, Circle, MapContainer, Marker, Polyline, ScaleControl, TileLayer, Tooltip, ZoomControl, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Beef, ChevronDown, Citrus, Leaf, Warehouse, Zap, type LucideIcon } from 'lucide-react';
+import { Beef, ChevronDown, Citrus, Crosshair, Leaf, Warehouse, Zap, type LucideIcon } from 'lucide-react';
 import type { Buyer, BuyerSector, Generator, MaterialId } from '@mapa/core/data';
 import type { TrafficLight } from '@mapa/core/viability';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { MapViewProps } from './types';
 import {
@@ -86,12 +87,14 @@ function labelOnAdd(label: string) {
 }
 
 function GeneratorPin({ g, selected, onSelect }: { g: Generator; selected: boolean; onSelect: (id: string) => void }) {
-  const spec = generatorPinSpec(g.materialId, { selected, hot: false });
+  const published = g.origin === 'publicacion';
+  const spec = generatorPinSpec(g.materialId, { selected, hot: false }, published);
   const icon = useMemo(() => {
-    const { html, width, height } = generatorPinHtml(generatorPinSpec(g.materialId, { selected, hot: false }), GENERATOR_KIND_ICON[g.kind], `gen-${g.id}`);
+    const { html, width, height } = generatorPinHtml(generatorPinSpec(g.materialId, { selected, hot: false }, published), GENERATOR_KIND_ICON[g.kind], `gen-${g.id}`);
     return L.divIcon({ className: 'pin', html, iconSize: [width, height], iconAnchor: [width / 2, height / 2], tooltipAnchor: [0, -height / 2 + 4] });
-  }, [g.id, g.kind, g.materialId, selected]);
-  const label = `${g.name} · ${g.locality} — ${GENERATOR_KIND_LABELS[g.kind]}, ${MATERIAL_LABELS[g.materialId].toLowerCase()}`;
+  }, [g.id, g.kind, g.materialId, selected, published]);
+  const place = g.locality ? ` · ${g.locality}` : '';
+  const label = `${g.name}${place} — ${GENERATOR_KIND_LABELS[g.kind]}, ${MATERIAL_LABELS[g.materialId].toLowerCase()}${published ? ' (publicación sin verificar)' : ''}`;
   return (
     <Marker
       position={[g.location.lat, g.location.lng]}
@@ -127,9 +130,10 @@ function BuyerPin({
   onSelect: (id: string) => void;
   onHover: (id: string | null) => void;
 }) {
-  const spec = buyerPinSpec(light, { selected, hot });
+  const published = b.origin === 'publicacion';
+  const spec = buyerPinSpec(light, { selected, hot }, published);
   const icon = useMemo(() => {
-    const { html, width: box } = buyerPinHtml(buyerPinSpec(light, { selected, hot }), SECTOR_ICON[b.sector], `buyer-${b.id}`, light ?? 'none');
+    const { html, width: box } = buyerPinHtml(buyerPinSpec(light, { selected, hot }, published), SECTOR_ICON[b.sector], `buyer-${b.id}`, light ?? 'none');
     return L.divIcon({
       className: `pin${hot ? ' pin-hot' : ''}`,
       html,
@@ -137,9 +141,10 @@ function BuyerPin({
       iconAnchor: [box / 2, box / 2],
       tooltipAnchor: [0, -box / 2 + 4],
     });
-  }, [b.id, b.sector, light, selected, hot]);
+  }, [b.id, b.sector, light, selected, hot, published]);
   const status = LIGHT_LABELS[light ?? 'sinEvaluar'];
-  const label = `${b.name} · ${b.locality} — ${status}`;
+  const place = b.locality ? ` · ${b.locality}` : '';
+  const label = `${b.name}${place} — ${status}${published ? ' (publicación sin verificar)' : ''}`;
   return (
     <Marker
       position={[b.location.lat, b.location.lng]}
@@ -165,6 +170,106 @@ function BuyerPin({
   );
 }
 
+/* ---------- Publicar: marcar en el mapa ---------- */
+
+/** En modo marcado, el click en el mapa devuelve la coordenada; el contenedor lleva la clase `picking` (cursor en cruz). */
+function PickLayer({ picking, onPick }: { picking: boolean; onPick?: (ll: { lat: number; lng: number }) => void }) {
+  const map = useMapEvents({
+    click: (e) => {
+      if (picking) onPick?.({ lat: e.latlng.lat, lng: e.latlng.lng });
+    },
+  });
+  useEffect(() => {
+    const el = map.getContainer();
+    el.classList.toggle('picking', picking);
+    return () => el.classList.remove('picking');
+  }, [map, picking]);
+  return null;
+}
+
+/** Encuadra los puntos pedidos, una vez por `key` (p. ej. planta + comprador recién publicado). */
+function FocusPoints({ focus, insets }: { focus: MapViewProps['focus']; insets: Insets }) {
+  const map = useMap();
+  const latest = useRef({ focus, insets });
+  useEffect(() => {
+    latest.current = { focus, insets };
+  });
+  const key = focus?.key;
+  useEffect(() => {
+    const pts = latest.current.focus?.points;
+    if (key === undefined || !pts || pts.length === 0) return;
+    if (pts.length === 1) {
+      const zoom = Math.max(map.getZoom(), 9);
+      if (reducedMotion()) map.setView(pts[0], zoom, { animate: false });
+      else map.flyTo(pts[0], zoom, { duration: FLY_SECONDS });
+      return;
+    }
+    safeFitBounds(map, L.latLngBounds(pts).pad(0.15), latest.current.insets);
+  }, [map, key]);
+  return null;
+}
+
+const DRAFT_ICON = L.divIcon({
+  className: 'pin',
+  html: `<div class="pin-body" data-testid="draft-pin" style="position:relative;display:flex;align-items:center;justify-content:center;width:28px;height:28px"><span style="width:18px;height:18px;border-radius:9999px;background:${MAP_COLORS.selection};box-shadow:0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 1px 6px rgb(0 0 0 / 0.6)"></span><span style="position:absolute;width:6px;height:6px;border-radius:9999px;background:${MAP_COLORS.ink}"></span></div>`,
+  iconSize: [28, 28],
+  iconAnchor: [14, 14],
+});
+
+/** Banner del modo marcado: instrucción (o error), "Usar el centro" (para teclado) y "Cancelar". Esc también cancela. */
+function PickBanner({
+  map,
+  message,
+  onPick,
+  onCancel,
+}: {
+  map: L.Map | null;
+  message: string | null;
+  onPick?: (ll: { lat: number; lng: number }) => void;
+  onCancel?: () => void;
+}) {
+  const cancelRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    cancelRef.current?.focus();
+  }, []);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onCancel?.();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onCancel]);
+  return (
+    <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex justify-center">
+      <div
+        data-testid="pick-banner"
+        className="pointer-events-auto flex max-w-full flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-selection bg-surface/95 py-2 pr-2 pl-3.5 shadow-overlay backdrop-blur-md"
+      >
+        <Crosshair size={16} aria-hidden="true" className="shrink-0 text-selection" />
+        <p role="status" className={cn('min-w-0 flex-1 text-small font-medium text-pretty', message ? 'text-warn' : 'text-fg')}>
+          {message ?? 'Tocá el mapa para ubicar tu establecimiento'}
+        </p>
+        <div className="flex gap-1.5">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => {
+              const c = map?.getCenter();
+              if (c) onPick?.({ lat: c.lat, lng: c.lng });
+            }}
+            className="h-8 px-2.5 text-small text-fg-muted"
+          >
+            Usar el centro
+          </Button>
+          <Button ref={cancelRef} type="button" variant="outline" data-testid="pick-cancel" onClick={onCancel} className="h-8 px-3 text-small">
+            Cancelar
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Leyenda: los mismos pines (mismo HTML), en tamaño normal ---------- */
 
 function PinSample({ html }: { html: string }) {
@@ -186,7 +291,7 @@ function Legend({ wide }: { wide: boolean }) {
   const [open, setOpen] = useState(false);
   const contentId = useId();
   return (
-    <div className={cn('absolute z-[1000] flex flex-col gap-1.5', wide ? 'bottom-16 left-3 items-start' : 'top-[7.75rem] right-3 items-end')}>
+    <div className={cn('absolute z-[1000] flex flex-col gap-1.5', wide ? 'bottom-16 left-3 items-start' : 'top-[11.25rem] left-3 items-start')}>
       {!wide && (
         <button
           type="button"
@@ -249,6 +354,13 @@ function Legend({ wide }: { wide: boolean }) {
             })}
           </ul>
         </div>
+        <div>
+          <p className="mb-1.5 text-overline text-fg-muted uppercase">Publicaciones</p>
+          <p className="flex items-center gap-2">
+            <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle, true), fill: MAP_COLORS.ink }, 'tree-pine', 'legend').html} />
+            Contorno punteado: publicada por un usuario, sin verificar
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -267,7 +379,14 @@ export default function MapView({
   onHoverBuyer,
   insets,
   wide,
+  picking = false,
+  onPick,
+  onCancelPick,
+  pickMessage = null,
+  draftPin = null,
+  focus = null,
 }: MapViewProps) {
+  const [map, setMap] = useState<L.Map | null>(null);
   const radiusKm = safeRadiusKm(rawRadiusKm);
   const selGen = generators.find((g) => g.id === selectedGeneratorId) ?? null;
   const selBuyer = buyers.find((b) => b.id === selectedBuyerId) ?? null;
@@ -275,7 +394,7 @@ export default function MapView({
 
   return (
     <div data-testid="map" className="relative h-full w-full">
-      <MapContainer center={CENTER} zoom={7} scrollWheelZoom zoomControl={false} attributionControl={false} className="h-full w-full">
+      <MapContainer ref={setMap} center={CENTER} zoom={7} scrollWheelZoom zoomControl={false} attributionControl={false} className="h-full w-full">
         {/* Base oscura y plana (Esri World Dark Gray Canvas, sin API key) + capa de nombres encima.
             Alternativas: CARTO Dark Matter (hoy pide API key) o Esri World Imagery (satelital). */}
         <TileLayer
@@ -329,9 +448,13 @@ export default function MapView({
         {generators.map((g) => (
           <GeneratorPin key={g.id} g={g} selected={g.id === selectedGeneratorId} onSelect={onSelectGenerator} />
         ))}
+        {draftPin && <Marker position={[draftPin.lat, draftPin.lng]} icon={DRAFT_ICON} interactive={false} keyboard={false} zIndexOffset={3000} />}
         <FlyToSelection lat={genCenter?.[0] ?? null} lng={genCenter?.[1] ?? null} radiusKm={radiusKm} insets={insets} />
+        <FocusPoints focus={focus} insets={insets} />
+        <PickLayer picking={picking} onPick={onPick} />
       </MapContainer>
-      <Legend wide={wide} />
+      {picking && <PickBanner map={map} message={pickMessage} onPick={onPick} onCancel={onCancelPick} />}
+      {!picking && <Legend wide={wide} />}
     </div>
   );
 }

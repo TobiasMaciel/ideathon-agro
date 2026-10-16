@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { CatalogResponse } from '@mapa/core/api';
+import type { CatalogResponse, ListingCreatedResponse } from '@mapa/core/api';
+import { insertListing } from '../listing/after-create';
 
 export type CatalogState =
   | { status: 'loading' }
   | { status: 'error'; message: string }
   | { status: 'ready'; catalog: CatalogResponse };
 
-export function useCatalog(): { state: CatalogState; retry: () => void } {
+export function useCatalog(): { state: CatalogState; retry: () => void; addListing: (created: ListingCreatedResponse) => void } {
   const [state, setState] = useState<CatalogState>({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
 
@@ -30,5 +31,10 @@ export function useCatalog(): { state: CatalogState; retry: () => void } {
     setAttempt((n) => n + 1);
   }, []);
 
-  return { state, retry };
+  /** Suma al catálogo la publicación recién creada (sin volver a pedir todo). */
+  const addListing = useCallback((created: ListingCreatedResponse) => {
+    setState((s) => (s.status === 'ready' ? { status: 'ready', catalog: insertListing(s.catalog, created) } : s));
+  }, []);
+
+  return { state, retry, addListing };
 }

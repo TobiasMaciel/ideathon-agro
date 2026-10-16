@@ -34,6 +34,7 @@ function listJoin(items: string[]): string {
 export default function StateSelector({ value, available, materialName, stats, onChange }: Props) {
   const labelId = useId();
   const noteId = useId();
+  const statId = useId();
   const missing = ORDER.filter((s) => !available.includes(s));
   const note = missing.length
     ? `${listJoin(missing.map((s) => LABELS[s]))} no disponible${missing.length > 1 ? 's' : ''} para ${materialName.toLowerCase()}`
@@ -70,6 +71,9 @@ export default function StateSelector({ value, available, materialName, stats, o
         {ORDER.map((s) => {
           const ok = available.includes(s);
           const st = stats[s];
+          // Nombre accesible corto (el estado); las cifras van como descripción.
+          const kmId = `${statId}-${s}-km`;
+          const closesId = `${statId}-${s}-closes`;
           return (
             <ToggleGroupItem
               key={s}
@@ -77,12 +81,17 @@ export default function StateSelector({ value, available, materialName, stats, o
               disabled={!ok}
               tabIndex={s === value ? 0 : -1}
               data-testid={`state-${s}`}
+              aria-label={LABELS[s]}
+              aria-describedby={`${kmId} ${closesId}`}
               title={ok ? undefined : `No disponible para ${materialName.toLowerCase()}`}
               className="flex h-auto min-w-0 flex-col items-start gap-0.5 rounded-md border border-line bg-surface px-2.5 py-2 text-left whitespace-normal transition-colors duration-120 ease-out hover:border-line-strong hover:bg-surface-subtle focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection disabled:opacity-100 data-[state=on]:border-selection data-[state=on]:bg-selection-subtle"
             >
-              <span className="eyebrow">{ok && st ? formatKm(st.radiusKm) : '—'}</span>
+              <span id={kmId} className="eyebrow">
+                {ok && st ? <><span className="sr-only">Radio viable: </span>{formatKm(st.radiusKm)}</> : '—'}
+              </span>
               <span className={cn('text-body font-semibold', ok ? 'text-fg' : 'text-fg-subtle line-through decoration-1')}>{LABELS[s]}</span>
               <span
+                id={closesId}
                 className={cn(
                   'font-mono text-caption font-medium uppercase tabular-nums',
                   !ok || !st ? 'text-fg-subtle' : st.closes > 0 ? 'text-ok' : 'text-bad',

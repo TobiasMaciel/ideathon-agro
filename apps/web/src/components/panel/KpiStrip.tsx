@@ -7,14 +7,14 @@ export interface Kpi {
   tone?: 'ok' | 'bad';
 }
 
-/** Franja de KPIs flotante sobre el mapa: label mono arriba, cifra grande, sublabel chico abajo. */
+/** Franja de KPIs flotante sobre el mapa: label mono arriba, cifra grande, sublabel chico abajo. En mobile, grilla 2×2. */
 export default function KpiStrip({ items, className, compact = false }: { items: Kpi[]; className?: string; compact?: boolean }) {
   return (
-    <ul aria-label="Resumen" className={cn('flex gap-2', className)}>
+    <ul aria-label="Resumen" className={cn(compact ? 'grid grid-cols-2 gap-1.5' : 'flex gap-2', className)}>
       {items.map((k) => (
         <li
           key={k.label}
-          className={cn('shrink-0 snap-start rounded-lg border border-line bg-surface/90 shadow-overlay backdrop-blur-md', compact ? 'px-2.5 py-1.5' : 'max-w-52 min-w-36 px-3 py-2')}
+          className={cn('rounded-lg border border-line bg-surface/90 shadow-overlay backdrop-blur-md', compact ? 'min-w-0 px-2.5 py-1.5' : 'max-w-52 min-w-36 shrink-0 px-3 py-2')}
         >
           <p className="eyebrow whitespace-nowrap">{k.label}</p>
           <p

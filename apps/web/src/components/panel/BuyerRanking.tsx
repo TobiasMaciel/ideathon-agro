@@ -5,6 +5,7 @@ import type { TrafficLight } from '@mapa/core/viability';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { SECTOR_SINGULAR } from './labels';
+import { PublishedMeta } from '../listing/ListingInfo';
 import Light from './Light';
 import { ars } from './num';
 
@@ -78,8 +79,10 @@ export default function BuyerRanking({ ranking, selectedBuyerId, onSelect, hotBu
               <span className="min-w-0 flex-1">
                 <span className="block text-body font-medium text-pretty text-fg">{buyer.name}</span>
                 <span className="mt-0.5 block font-mono text-caption text-fg-subtle uppercase tabular-nums">
-                  {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality} · <span className="whitespace-nowrap">{formatKm(result.distanceKm)}</span>
+                  {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}
+                  <span className="whitespace-nowrap">{formatKm(result.distanceKm)}</span>
                 </span>
+                {buyer.origin === 'publicacion' && <PublishedMeta entity={buyer} className="mt-1" />}
                 {result.buyerBenefits ? (
                   <span className="mt-1 flex items-start gap-1 text-caption text-fg-muted">
                     <CircleCheck size={12} strokeWidth={2.5} aria-hidden="true" className="mt-0.5 shrink-0 text-ok" />

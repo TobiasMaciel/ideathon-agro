@@ -104,6 +104,18 @@ export interface PinState {
 const HIT = 24;
 const RING = `0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 0 0 10px rgb(143 184 160 / 0.18)`;
 const SOFT = '0 1px 3px rgb(0 0 0 / 0.6)';
+/** Publicación sin verificar: contorno claro punteado separado del pin (en vez del contorno sólido). */
+const DASHED = `outline:1.5px dashed ${MAP_COLORS.surface};outline-offset:2px`;
+
+/** Contorno del pin: anillo si está elegido; si no, sólido (curado) o punteado (publicación). */
+function outlineStyle(ring: boolean, published: boolean): string {
+  if (ring) return `box-shadow:${RING}`;
+  return published ? `box-shadow:${SOFT};${DASHED}` : `box-shadow:0 0 0 1.5px ${MAP_COLORS.surface}, ${SOFT}`;
+}
+
+function originAttr(published: boolean): string {
+  return published ? ' data-origin="publicacion"' : '';
+}
 
 function svgIcon(icon: PinIcon, size: number, color: string, strokeWidth: number): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">${ICON_PATHS[icon]}</svg>`;
@@ -119,11 +131,14 @@ export interface GeneratorPinSpec {
   ring: boolean;
   label: boolean;
   hot: boolean;
+  /** Publicación abierta (sin verificar): contorno punteado. */
+  published: boolean;
   zIndexOffset: number;
 }
 
-export function generatorPinSpec(materialId: MaterialId, { selected, hot }: PinState): GeneratorPinSpec {
+export function generatorPinSpec(materialId: MaterialId, { selected, hot }: PinState, published = false): GeneratorPinSpec {
   return {
+    published,
     size: selected ? 21 : 16,
     fill: MATERIAL_COLORS[materialId],
     ring: selected,
@@ -142,10 +157,9 @@ export function generatorPinHtml(spec: GeneratorPinSpec, icon: PinIcon, marker: 
   // El rombo es un cuadrado rotado: su diagonal ocupa ~1,41 × el lado.
   const side = Math.round(spec.size / Math.SQRT2 + 3);
   const box = Math.max(HIT, spec.size + 10);
-  const shadow = spec.ring ? RING : `0 0 0 1.5px ${MAP_COLORS.surface}, ${SOFT}`;
-  const diamond = `<span style="position:absolute;width:${side}px;height:${side}px;background:${spec.fill};border-radius:3px;transform:rotate(45deg);box-shadow:${shadow}"></span>`;
+  const diamond = `<span style="position:absolute;width:${side}px;height:${side}px;background:${spec.fill};border-radius:3px;transform:rotate(45deg);${outlineStyle(spec.ring, spec.published)}"></span>`;
   const glyph = `<span style="position:relative">${svgIcon(icon, spec.ring ? 11 : 9, '#e8ece9', 2.5)}</span>`;
-  return { html: wrap(box, diamond + glyph, `data-marker="${attr(marker)}"`), width: box, height: box };
+  return { html: wrap(box, diamond + glyph, `data-marker="${attr(marker)}"${originAttr(spec.published)}`), width: box, height: box };
 }
 
 /** verde = relleno · amarillo = anillo grueso con centro blanco · rojo = hueco con borde · no compra = gris chico. */
@@ -159,11 +173,14 @@ export interface BuyerPinSpec {
   ring: boolean;
   label: boolean;
   hot: boolean;
+  /** Publicación abierta (sin verificar): contorno punteado. */
+  published: boolean;
   zIndexOffset: number;
 }
 
-export function buyerPinSpec(light: TrafficLight | undefined, { selected, hot }: PinState): BuyerPinSpec {
+export function buyerPinSpec(light: TrafficLight | undefined, { selected, hot }: PinState, published = false): BuyerPinSpec {
   return {
+    published,
     size: light ? (selected ? 21 : 16) : selected ? 16 : 13,
     shape: light ? SHAPES[light] : 'muted',
     color: PIN_BORDER[light ?? 'sinEvaluar'],
@@ -178,7 +195,6 @@ export function buyerPinSpec(light: TrafficLight | undefined, { selected, hot }:
 export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, light: string): { html: string; width: number; height: number } {
   const s = spec.size;
   const box = Math.max(HIT, s + 10);
-  const outline = spec.ring ? RING : `0 0 0 1.5px ${MAP_COLORS.surface}, ${SOFT}`;
   const styles: Record<BuyerShape, string> = {
     fill: `background:${spec.color}`,
     ring: `background:${MAP_COLORS.ink};border:3px solid ${spec.color}`,
@@ -187,9 +203,12 @@ export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, 
   };
   const iconColor = spec.shape === 'fill' ? MAP_COLORS.ink : spec.shape === 'muted' ? '#9aa5a0' : '#e8ece9';
   const iconSize = spec.ring ? 11 : spec.shape === 'muted' ? 7 : 9;
-  const dot = `<span style="display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:${s}px;height:${s}px;border-radius:9999px;${styles[spec.shape]};box-shadow:${outline}">${svgIcon(icon, iconSize, iconColor, 2.5)}</span>`;
+  const dot = `<span style="display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:${s}px;height:${s}px;border-radius:9999px;${styles[spec.shape]};${outlineStyle(spec.ring, spec.published)}">${svgIcon(icon, iconSize, iconColor, 2.5)}</span>`;
   return {
-    html: wrap(box, dot, `data-marker="${attr(marker)}" data-light="${attr(light)}"`, spec.shape === 'muted' && !spec.ring ? 'opacity:0.55;' : ''),
+    html: wrap(box, dot, `data-marker="${attr(marker)}" data-light="${attr(light)}"${originAttr(spec.published)}`,
+      // Atenuado, pero con el contorno claro en ≥ 3:1 sobre el mapa (0,55 daba ~2,9:1).
+      spec.shape === 'muted' && !spec.ring ? 'opacity:0.75;' : '',
+    ),
     width: box,
     height: box,
   };

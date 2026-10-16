@@ -26,4 +26,14 @@ export interface MapViewProps {
   insets: { top: number; right: number; bottom: number; left: number };
   /** Desktop: leyenda y atribución abajo a la izquierda. Mobile: arriba a la derecha (abajo está el drawer). */
   wide: boolean;
+  /** Modo "marcar en el mapa" para una publicación: cursor en cruz, banner y el click devuelve la coordenada. */
+  picking?: boolean;
+  onPick?: (ll: { lat: number; lng: number }) => void;
+  onCancelPick?: () => void;
+  /** Mensaje del banner de marcado (p. ej. "fuera del NEA"); null = instrucción normal. */
+  pickMessage?: string | null;
+  /** Pin provisorio de la publicación en curso. */
+  draftPin?: { lat: number; lng: number } | null;
+  /** Encuadra estos puntos cuando cambia `key` (p. ej. al crear una demanda: planta + comprador). */
+  focus?: { key: number; points: [number, number][] } | null;
 }

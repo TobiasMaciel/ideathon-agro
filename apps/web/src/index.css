@@ -25,7 +25,7 @@
   --color-line-strong: #5e6b65;      /* borde de inputs: 3,0:1 sobre card */
   --color-fg: #e8ece9;               /* 14,9:1 sobre card */
   --color-fg-muted: #9aa5a0;         /* 7,0:1 */
-  --color-fg-subtle: #84908b;        /* labels: 5,4:1 card, 5,0:1 elevado */
+  --color-fg-subtle: #8c9893;        /* labels: 6,0:1 card, 5,5:1 elevado, 5,0:1 fila elegida */
   --color-faint: #4a5751;            /* solo decorativo */
 
   /* Acento: verde salvia apagado = activo, selección, positivo, links (terroso, sin brillo) */
@@ -249,4 +249,28 @@
 }
 .leaflet-container.leaflet-container .leaflet-tooltip-top.pin-label::before {
   border-top-color: var(--color-selection);
+}
+
+/* Publicar: modo "marcar en el mapa". Cursor en cruz y los pines dejan pasar el click al mapa. */
+.leaflet-container.leaflet-container.picking,
+.leaflet-container.leaflet-container.picking.leaflet-grab,
+.leaflet-container.leaflet-container.picking .leaflet-interactive {
+  cursor: crosshair;
+}
+.leaflet-container.picking .leaflet-marker-icon {
+  pointer-events: none;
+}
+
+/* Mobile: marca, "Publicar" y la grilla 2×2 de KPIs ocupan arriba; atribución y escala van debajo, a la derecha. */
+@media (max-width: 1023px) {
+  .leaflet-container .leaflet-top.leaflet-right {
+    top: 176px;
+  }
+  .leaflet-container.leaflet-container .leaflet-control-attribution {
+    max-width: 200px;
+    border-radius: 6px 0 0 6px;
+  }
+  .leaflet-container.picking .leaflet-top.leaflet-right {
+    top: 100px;
+  }
 }
