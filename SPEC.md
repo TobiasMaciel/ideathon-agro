@@ -60,7 +60,7 @@ Decisiones del usuario (16/10/2026): el mapa es un **punto en común** donde ven
 
 ## Modelo de cálculo (B1 / B2)
 
-Funciones puras en `src/lib/viability/`, sin I/O y con tests unitarios.
+Funciones puras en `packages/core/src/domain/viability/`, sin I/O y con tests unitarios.
 
 ```
 carga_t      = min(cap_peso_t, cap_volumen_m3 × densidad_t_m3[estado])
@@ -93,6 +93,8 @@ Los parámetros (densidades, capacidades del camión, costo por km, precios, PCI
 ## Arquitectura (v2: front y back separados)
 
 Monorepo con **npm workspaces**. El front y el back son dos apps independientes que comparten un paquete de dominio.
+
+Estructura por capas, reglas de dependencia y flujo de un request: [docs/architecture.md](docs/architecture.md). Decisiones y sus motivos: [docs/adr/](docs/adr/README.md).
 
 ```
 apps/
@@ -150,24 +152,16 @@ Estética minimalista y limpia, definida en `docs/design.md` con las skills `min
 
 ## Code Style
 
-TypeScript estricto. Lógica de dominio en funciones puras con nombres de dominio en español. La UI no calcula: solo llama a `lib/viability`.
+TypeScript estricto. Lógica de dominio en funciones puras. La UI no calcula: solo llama a `@mapa/core/viability`. Ejemplo del estilo: `packages/core/src/domain/viability/index.ts`.
 
-```ts
-// src/lib/viability/freight.ts
-export type MaterialState = 'suelto' | 'compactado' | 'pellet';
-
-export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
-  return Math.min(truck.maxTons, truck.volumeM3 * densityTPerM3);
-}
-```
-
-- Componentes en PascalCase, funciones en camelCase y archivos en kebab-case.
+- Identificadores en inglés; literales de dominio (`suelto`, `compactado`, `pellet`, textos de la UI) en español.
+- Componentes en PascalCase (`PascalCase.tsx`), funciones en camelCase y el resto de los archivos en kebab-case (`kebab-case.ts`).
 - Los montos se muestran en ARS, con la fecha del supuesto visible.
 - Ningún número aparece en la UI sin su etiqueta `real` o `estimado` y acceso a su fuente.
 
 ## Testing Strategy
 
-- **Unitarios (Vitest), obligatorios:** todo `src/lib/viability/`: carga del camión, viajes, flete, margen, semáforo (bordes en 0% y 15%), radio máximo y ahorro del comprador. Objetivo de cobertura: ≥ 90% en `lib/viability`.
+- **Unitarios (Vitest), obligatorios:** todo `packages/core/src/domain/viability/`: carga del camión, viajes, flete, margen, semáforo (bordes en 0% y 15%), radio máximo y ahorro del comprador. Objetivo de cobertura: ≥ 90% en `domain/viability`.
 - **API:** tests de las rutas con un DataSource fake (forma de la respuesta y errores); tests de integración de la base contra PGlite.
 - **E2E (Playwright):** un test que recorre el guion de la demo (elige el aserradero, ve compradores, cambia suelto a pellet, el semáforo pasa a verde).
 - Escribir los tests primero para la lógica de cálculo (skill `test-driven-development`).

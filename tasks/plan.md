@@ -1,36 +1,32 @@
-# Plan — Mapa Circular NEA (MVP)
+# Plan vigente — Mapa Circular NEA
 
-Spec: [SPEC.md](../SPEC.md) · Tareas: [todo.md](todo.md). Orquestador: sesión principal. Trabajadores: subagentes de `AGENTS.md`. Alcance: desarrollo local, sin deploy.
+Spec: [SPEC.md](../SPEC.md) · Tareas: [todo.md](todo.md) · Arquitectura objetivo y migración: [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md) · Estructura: [docs/architecture.md](../docs/architecture.md)
 
-## Componentes y dependencias
+> Nota: la v1 de este plan (Next.js + OpenNext + Supabase) fue reemplazada por la v2: monorepo con `apps/web` (Vite + React), `apps/api` (Hono sobre Cloudflare Workers) y `packages/{core,db}` (Postgres con Drizzle). El detalle histórico de la v1 sigue en `tasks/todo.md`, marcado como histórico.
 
-```
-T1 scaffold ─┬─> T3 lib/viability (TDD) ─┬─> T6 UI mapa (A1, A3, B2) ─┐
-             │                           └─> T7 UI calculadora (B1) ──┼─> T8 e2e + README deploy ─> T9 review
-T2 datos ────┴─> T4 data + SQL + seed ───> T5 API + repositorio ──────┘
-```
+## Estado
 
-## Tareas
+- v2 (monorepo, base con Drizzle, rediseño con shadcn) y publicaciones abiertas (F1, F2): ver `tasks/todo.md`.
+- F3 (modo claro) y F4 (notificaciones de match): ver `tasks/todo.md`.
+- V6 (limpieza con clean architecture): se ejecuta al final, siguiendo [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md).
 
-- [x] **T1 Scaffold** (implementer) — Next.js + OpenNext Cloudflare + Tailwind + Vitest + Playwright + Supabase client.
-  - Verify: lint, typecheck, test, build, e2e smoke, preview.
-- [x] **T2 Investigación de datos** (4 × researcher, paralelo) — precios, flete y física, generadores, compradores; todo con fuente.
-- [x] **T3 Modelo de cálculo** (implementer, TDD) — `src/lib/viability/`: carga, viajes, distancia, flete, acondicionamiento, margen, semáforo, radio máximo, ahorro del comprador.
-  - Verify: `npm test` con cobertura ≥ 90 % en `lib/viability`.
-- [x] **T4 Datos y base** (orquestador + implementer) — `src/data/*.ts` con fuente y etiqueta; migración SQL con RLS solo lectura; `scripts/gen-seed.ts` → `supabase/seed.sql`.
-  - Verify: tests de integridad de datos (todo tiene fuente, etiqueta, coordenadas dentro de NEA); seed generado.
-- [x] **T5 API** (implementer) — `GET /api/catalog`, `/api/generators`, `/api/buyers` y `POST /api/viability`; repositorio Supabase con fallback a `src/data`.
-  - Verify: tests de rutas con Supabase mockeado y sin env.
-- [x] **T6 UI mapa** (implementer) — Leaflet client-only, capas de oferta y demanda, filtros, círculo de radio B2.
-- [x] **T7 UI calculadora** (implementer) — panel con selector de estado, desglose etiquetado, semáforo, supuestos editables, ahorro del comprador.
-- [x] **T8 E2E y documentación** (implementer + doc-writer) — Playwright del guion de la demo; README con deploy a Cloudflare y push a Supabase.
-- [x] **T9 Review** (code-reviewer + security-auditor + test-engineer en paralelo) — el orquestador sintetiza y corrige.
+## Fases de V6
+
+| Fase | Qué |
+|---|---|
+| 0 | Higiene: documentación, `.gitignore`, `tsconfig.json`, script `verify`, dependencias. |
+| 1 | `packages/core`: dominio, puertos y contratos. |
+| 2 | `packages/db`: mappers y repositorios Postgres que reciben la conexión. |
+| 3 | `apps/api`: configuración, adaptadores, composición, casos de uso y rutas finas. |
+| 4 | `apps/web`: cliente HTTP único, solo escritorio, `shared/` y `features/*`. |
+| 5 | Reglas de capas en ESLint, ADRs y documentación de arquitectura. |
+
+Cada paso deja todo verde (`npm run verify` y `npm run test:e2e`) y es un commit en español, sin coautor.
 
 ## Riesgos
 
 | Riesgo | Mitigación |
 |---|---|
-| OpenNext preview falla en Windows | Documentar y validar con `next build`; deploy desde CI o WSL |
-| Datos públicos insuficientes (precios locales) | Usar el dato regional más cercano con fecha y marcarlo `estimado` con su derivación |
-| Guion de la demo no se cumple con datos reales | Elegir los casos de la demo a partir de los datos (generador y compradores reales que muestren el contraste suelto vs pellet); no forzar números |
-| Leaflet + SSR | Cargar el mapa con `dynamic(..., { ssr: false })` |
+| Datos públicos insuficientes (precios locales) | Usar el dato regional más cercano con fecha y marcarlo `estimado` con su derivación. |
+| Refactor que rompe comportamiento | Un paso por commit, con `verify` y e2e en verde antes de seguir. |
+| Cambios paralelos sobre `core/package.json` o `contracts` | Coordinar los pasos 3.5 y 4.3 del plan de V6. |

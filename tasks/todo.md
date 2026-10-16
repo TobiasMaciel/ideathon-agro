@@ -7,6 +7,8 @@ Leyenda: `[ ]` pendiente · `[~]` en curso · `[x]` hecho
 
 ---
 
+> **Histórico:** v1 con Next.js y Supabase, reemplazada por la v2 (ver más abajo). Las tareas T1–T9 se conservan como registro y ya no describen el stack vigente.
+
 ## T1 · Scaffold del proyecto — implementer
 - [x] Next.js (App Router, TS, Tailwind, ESLint, `src/`, alias `@/*`)
 - [x] `@opennextjs/cloudflare` + `wrangler.jsonc` (solo configuración, sin deploy)

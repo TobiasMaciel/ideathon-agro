@@ -11,6 +11,8 @@ Proyecto: **ideathon-agro** — Desafío 03 · Del subproducto al mercado (casca
 
 ## 1. Harness de skills (addyosmani/agent-skills)
 
+- **Referencia obligatoria antes de tocar código:** `docs/architecture.md` (capas, reglas de dependencia y dónde vive cada cosa). Convenciones y checklist de PR en `docs/contributing.md`.
+
 Instalado desde https://github.com/addyosmani/agent-skills (commit `aeac41d`).
 
 - Skills: `.claude/skills/` (Claude Code) y `.agents/skills/` (Gemini CLI). Mismo contenido.
