@@ -263,7 +263,7 @@ Notas:
 │   └── db/               Postgres: esquema Drizzle, migraciones, seed y repositorios
 ├── e2e/                  Tests Playwright contra web y API juntas
 ├── docs/                 Arquitectura, ADRs, guía de contribución, diseño e investigación
-├── scripts/              Utilidades del entorno de agentes de IA
+├── .agents/scripts/      Utilidades del entorno de agentes de IA
 ├── tasks/                Plan y lista de tareas del proyecto
 ├── SPEC.md               Especificación del producto
 ├── AGENTS.md             Reglas para agentes de IA (CLAUDE.md y GEMINI.md lo importan)

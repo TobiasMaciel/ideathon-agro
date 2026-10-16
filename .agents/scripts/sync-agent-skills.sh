@@ -4,7 +4,7 @@
 set -euo pipefail
 
 REF="${1:-main}"
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
@@ -33,6 +33,6 @@ cp "$SRC"/.gemini/commands/*.toml .gemini/commands/
 
 # Personas upstream -> fuente compartida, luego regenerar subagentes de ambos CLIs
 cp "$SRC"/agents/*.md .agents/agents/
-node scripts/build-agents.mjs
+node .agents/scripts/build-agents.mjs
 
 echo "agent-skills sincronizado en $(cd "$SRC" && git rev-parse --short HEAD). Actualizá el commit en AGENTS.md."

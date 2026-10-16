@@ -3,13 +3,13 @@
 // a partir de una única fuente: .agents/agents/*.md (frontmatter name/description + cuerpo).
 // Modelo, herramientas y skills de cada rol se configuran en ROLES.
 //
-// Uso: node scripts/build-agents.mjs
+// Uso: node .agents/scripts/build-agents.mjs
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SRC = join(ROOT, '.agents', 'agents');
 
 // Modelos de los trabajadores. El orquestador (sesión principal) se configura en

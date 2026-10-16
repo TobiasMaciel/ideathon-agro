@@ -19,7 +19,7 @@ Instalado desde https://github.com/addyosmani/agent-skills (commit `aeac41d`).
 - Checklists de referencia: `.claude/references/` y `.agents/references/`.
 - Comandos del ciclo de vida: `/spec` → `/planning` → `/build` → `/test` → `/review` → `/code-simplify` → `/ship`
   (+ `/constraints`, `/webperf`, `/orchestrate`).
-- Para actualizar: `bash scripts/sync-agent-skills.sh`.
+- Para actualizar: `bash .agents/scripts/sync-agent-skills.sh`.
 
 Si una skill aplica a la tarea (aunque sea dudoso), **usala**. No implementes "rápido" salteando la skill.
 
@@ -40,7 +40,7 @@ Si una skill aplica a la tarea (aunque sea dudoso), **usala**. No implementes "r
 | Rediseño de pantallas existentes | `redesign-existing-projects` |
 | Landing / páginas públicas | `design-taste-frontend` (no aplica a dashboards ni pantallas de app) |
 
-Skills de UI de terceros: [jakubkrehel/skills](https://github.com/jakubkrehel/skills) (`4c66b1f`, MIT) y [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) (`f624f37`, MIT). `scripts/sync-agent-skills.sh` no las toca.
+Skills de UI de terceros: [jakubkrehel/skills](https://github.com/jakubkrehel/skills) (`4c66b1f`, MIT) y [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) (`f624f37`, MIT). `.agents/scripts/sync-agent-skills.sh` no las toca.
 
 ---
 
