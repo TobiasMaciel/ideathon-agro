@@ -176,7 +176,7 @@ export function extractCover(md) {
   const skipHr = end < lines.length && RE.hr.test(lines[end]) ? 1 : 0;
 
   const full = strip(lines[h1].replace(/^#\s+/, ''));
-  const prefix = full.match(/^Circular NEA\s*[—–:-]\s*/);
+  const prefix = full.match(/^Circular NEA\s*[—–:·-]\s*/);
   const cover = { title: prefix ? full.slice(prefix[0].length) : full, fullTitle: full, subtitle: [], team: null, date: null, notes: [] };
   for (const raw of meta) {
     const l = strip(raw);
@@ -236,7 +236,7 @@ ${fontFace('Geist Mono', 'geist-mono-latin-ext-wght-normal.woff2', latinExt)}
   @top-left { content: "Circular NEA"; font: 600 8.5pt "Geist", sans-serif; color: #141a17; padding-left: 17pt;
     background: url("${iconUri}") no-repeat left center / 12pt 12pt; vertical-align: middle; }
   @top-right { content: ${cssString(headerTitle)}; font: 400 8.5pt "Geist", sans-serif; color: #5f6a65; vertical-align: middle; }
-  @bottom-left { content: "Ideathon NEA Tech 2026"; font: 400 7.5pt "Geist Mono", monospace; letter-spacing: .06em; color: #5f6a65; text-transform: uppercase; }
+  @bottom-left { content: ${cssString(cover?.team && !/^\[/.test(cover.team) ? `Ideathon NEA Tech 2026 · ${cover.team}` : "Ideathon NEA Tech 2026")}; font: 400 7.5pt "Geist Mono", monospace; letter-spacing: .06em; color: #5f6a65; text-transform: uppercase; }
   @bottom-right { content: counter(page) " / " counter(pages); font: 400 7.5pt "Geist Mono", monospace; color: #5f6a65; }
 }
 ${cover ? '@page :first { @top-left { content: none; background: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }' : ''}

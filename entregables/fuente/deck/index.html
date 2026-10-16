@@ -186,7 +186,8 @@ h2 .soft { color: var(--subtle); }
 .mid .label { font-size: 20px; }
 .mid .num { display: block; font-size: 44px; line-height: 1.1; margin-top: 8px; white-space: nowrap; }
 .mid .num .arrow { width: .7em; }
-.mid .save .num { font-size: 60px; }
+.mid .save .num { font-size: 52px; }
+.mid .note { margin-top: 12px; font-size: 24px; line-height: 1.35; color: var(--muted); }
 .key-foot { margin-top: auto; font-size: 30px; line-height: 1.35; max-width: 1640px; }
 .key-foot b { font-weight: 600; }
 
@@ -244,13 +245,13 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
 .tech .label { font-size: 20px; color: var(--sage); }
 
 /* ---------- 12 · Negocio ---------- */
-.biz { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.biz .card { padding: 44px 40px; display: flex; flex-direction: column; }
+.biz { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.biz .card { padding: 36px 40px; display: flex; flex-direction: column; }
 .biz .label { color: var(--sage); }
 .biz h3 { margin-top: 20px; font-size: 42px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
-.biz p { margin-top: 22px; margin-bottom: 32px; font-size: 28px; line-height: 1.4; color: var(--muted); }
-.biz .who { margin-top: auto; padding-top: 28px; border-top: 1px solid var(--line); font-size: 24px; line-height: 1.4; color: var(--fg); }
-.biz-foot { margin-top: 40px; font-size: 28px; color: var(--muted); }
+.biz p { margin-top: 18px; margin-bottom: 24px; font-size: 28px; line-height: 1.4; color: var(--muted); }
+.biz .who { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--line); font-size: 24px; line-height: 1.4; color: var(--fg); }
+.biz-foot { margin-top: 28px; font-size: 26px; line-height: 1.4; color: var(--muted); }
 .biz-foot b { color: var(--fg); font-weight: 600; }
 
 /* ---------- 13 · Supuestos y piloto ---------- */
@@ -267,13 +268,17 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
 /* ---------- 14 · Cierre ---------- */
 .close { justify-content: center; }
 .close .logo { width: 96px; height: 96px; margin-bottom: 56px; }
-.close blockquote { margin: 0; font-size: 92px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; max-width: 1560px; text-wrap: balance; }
+.close blockquote { margin: 0; font-size: 80px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; max-width: 1560px; text-wrap: balance; }
 .close blockquote span { color: var(--sage-solid); }
-.close .ask { margin-top: 48px; font-size: 36px; line-height: 1.35; color: var(--muted); }
+.close .ask { margin-top: 40px; font-size: 36px; line-height: 1.35; color: var(--muted); }
 .close .ask b { color: var(--fg); font-weight: 600; }
-.close .links { margin-top: 72px; display: flex; gap: 96px; }
+.close .links { margin-top: 56px; display: flex; gap: 72px; align-items: center; }
 .close .links div { display: grid; gap: 10px; }
 .close .links .val { font-size: 32px; font-weight: 500; }
+.close .links .demo { font-size: 40px; font-weight: 600; letter-spacing: -0.015em; color: var(--sage); }
+.close .qr { width: 200px; height: 200px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.close .ia { margin-top: 48px; max-width: 1560px; font-size: 24px; line-height: 1.45; color: var(--muted); border-top: 1px solid var(--line); padding-top: 24px; }
+.close .ia b { color: var(--fg); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -287,7 +292,7 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
     <div class="meta">
       <p class="label">Ideathon NEA Tech 2026 · Desafío 03</p>
       <p class="label">Del subproducto al mercado</p>
-      <p class="team">[Equipo]</p>
+      <p class="team">Equipo 13</p>
     </div>
   </div>
   <img class="hero" src="img/03-pellet.jpg" alt="Circular NEA: mapa de Corrientes con el radio viable del pellet de cascarilla">
@@ -317,7 +322,7 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
   </div>
   <p class="callout"><span class="label">Y además</span><span>Solo en el parque foresto-industrial de Santa Rosa se estimaban 200.000 t/año de residuos de aserradero que se queman.</span></p>
   <div class="foot">
-    <p class="src">Fuentes: Bichos de Campo (producción de arroz 2025/26) · CONICET (inventario forestal 2019) · El Inversor Energético (proyecto Genergiabio) · Estimación propia: ~714.000 t de arroz × 20–22 % de cascarilla</p>
+    <p class="src">Fuentes: Bichos de Campo (producción de arroz 2025/26) · CONICET (inventario forestal 2019) · El Inversor Energético (proyecto Genergiabio) · Estimación propia: ~714.000 t de arroz × 20 a 22 % de cascarilla</p>
     <span class="pg">02 / 14</span>
   </div>
 </section>
@@ -406,35 +411,35 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
   </div>
   <img class="shot sol-shot" src="img/01-inicio.jpg" alt="Pantalla de inicio de Circular NEA en modo claro">
   <div class="foot">
-    <p class="src">Captura real de la app · Molinos Ala (Adecoagro), Mercedes</p>
+    <p class="src">Captura real de la app · Demo: ideathon-agro-9u3t-flax.vercel.app</p>
     <span class="pg">05 / 14</span>
   </div>
 </section>
 
 <!-- 6 · El momento clave -->
 <section class="slide">
-  <p class="eyebrow">El momento clave · <b>Molinos Ala (Mercedes)</b> <svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> <b>Frigorífico Duhalde (Curuzú Cuatiá, 88 km)</b></p>
+  <p class="eyebrow">El momento clave · <b>ejemplo del modelo con supuestos estimados</b></p>
   <img class="mark" src="img/icon.svg" alt="">
   <h2>Pelletizar cambia el mapa</h2>
   <div class="key">
     <figure>
       <span class="pill bad"><span class="dot"></span>Suelto · No cierra</span>
-      <img class="shot" src="img/02-suelto.jpg" alt="Cascarilla suelta: radio viable de 25 km, Duhalde en rojo">
-      <figcaption>El círculo apenas rodea a Mercedes. Duhalde queda afuera, en rojo.</figcaption>
+      <img class="shot" src="img/02-suelto.jpg" alt="Cascarilla suelta: radio viable de 25 km, el comprador queda afuera en rojo">
+      <figcaption>Suelta, el círculo apenas rodea al molino. El comprador queda afuera, en rojo.</figcaption>
     </figure>
     <div class="mid">
       <div class="row"><span class="label">Radio viable por ruta</span><span class="num"><span class="bad">25</span><svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ok">310 km</span></span></div>
-      <div class="row"><span class="label">Margen del molino</span><span class="num"><span class="bad">−281,5 %</span><br><svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ok">+23,1 %</span></span></div>
-      <div class="row save"><span class="label">Ahorro del frigorífico frente al GLP</span><span class="num ok">$15 M<small style="font-size:28px; letter-spacing:-0.01em; font-weight:500; color: var(--muted)"> /mes</small></span></div>
+      <div class="row"><span class="label">Con pellet</span><span class="num">~12 veces<br><small style="font-family: var(--sans); font-size:28px; letter-spacing:-0.01em; font-weight:500; color: var(--muted)">más radio viable</small></span></div>
+      <div class="row save"><span class="label">Semáforo</span><span class="num"><span class="bad">Rojo</span><svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ok">verde</span></span><p class="note">El comprador ve cuánto ahorra frente a su combustible actual.</p></div>
     </div>
     <figure>
       <span class="pill ok"><span class="dot"></span>Pellet · Cierra</span>
-      <img class="shot" src="img/03-pellet.jpg" alt="Pellet: radio viable de 310 km, Duhalde en verde">
-      <figcaption>Mismo molino, mismo comprador: el radio crece más de 12 veces y Duhalde pasa a verde.</figcaption>
+      <img class="shot" src="img/03-pellet.jpg" alt="Pellet: radio viable de 310 km, el comprador pasa a verde">
+      <figcaption>Mismo molino, mismo comprador: el radio crece unas 12 veces y el semáforo pasa a verde.</figcaption>
     </figure>
   </div>
   <div class="foot">
-    <p class="src">Cálculo de la app con los supuestos por defecto: flete FETRA abril 2026, GLP febrero 2026, precios de pellet y cascarilla estimados</p>
+    <p class="src">Ejemplo del modelo con supuestos estimados: flete FETRA abril 2026, GLP febrero 2026, precios de pellet y cascarilla estimados. No son resultados de las empresas de la captura.</p>
     <span class="pg">06 / 14</span>
   </div>
 </section>
@@ -463,7 +468,7 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
     </div>
   </div>
   <div class="foot">
-    <p class="src">Capturas reales de la app con publicaciones de ejemplo</p>
+    <p class="src">Capturas reales de la app · “Molino Ejemplo” es una publicación de prueba cargada para mostrar el flujo</p>
     <span class="pg">07 / 14</span>
   </div>
 </section>
@@ -537,10 +542,8 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
       <p><b>10 % de ~140.000 t/año</b> de cascarilla (estimación propia). <b>1 t de pellet reemplaza ~305 kg de GLP</b> por energía útil. <b>~0,9 t de CO<sub>2</sub> evitadas por t de pellet</b> (GLP: ~3,0 kg CO<sub>2</sub>/kg, IPCC 2006). Supone que todo el pellet reemplaza GLP: es un orden de magnitud, no una proyección.</p>
     </div>
     <div class="card one">
-      <p class="label">Un solo match</p>
-      <p>Molinos Ala <svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Frigorífico Duhalde</p>
-      <span class="num">~540 t CO<sub style="font-size:.6em">2</sub>/año</span>
-      <p>~180 t/año de GLP sustituidas</p>
+      <p class="label">Qué valida el piloto</p>
+      <p>Los volúmenes y la demanda de cada empresa son estimados. El piloto los reemplaza por <b>datos reales</b> de generadores y compradores.</p>
     </div>
   </div>
   <div class="foot">
@@ -553,7 +556,7 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
 <section class="slide">
   <p class="eyebrow">Tecnología y por qué</p>
   <img class="mark" src="img/icon.svg" alt="">
-  <h2>Ya está construido, y hecho para crecer</h2>
+  <h2>La tecnología suma cuando resuelve el problema</h2>
   <div class="tech">
     <div class="card">
       <p class="label">Web · React, Vite, Tailwind, shadcn/ui, Leaflet</p>
@@ -661,11 +664,13 @@ table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-f
   <blockquote>Que un residuo deje de ser un costo y se vuelva un ingreso, <span>con números que lo demuestren.</span></blockquote>
   <p class="ask">Lo que pedimos: <b>cinco aserraderos y dos molinos</b> para el piloto.</p>
   <div class="links">
-    <div><p class="label">Demo</p><p class="val">[Enlace a la demo]</p></div>
-    <div><p class="label">Equipo y contacto</p><p class="val">[Equipo / contacto]</p></div>
+    <img class="qr" src="img/qr-demo.png" alt="Código QR de la demo">
+    <div><p class="label">Probala ahora</p><p class="demo">ideathon-agro-9u3t-flax.vercel.app</p></div>
+    <div><p class="label">Equipo</p><p class="val">Equipo 13</p></div>
   </div>
+  <p class="ia"><b>Uso de IA:</b> Idea, problema y funcionalidades: Equipo 13. Programación con asistencia de IA (Claude Code) bajo dirección del equipo. Sin datos simulados: datos reales con fuente y estimaciones marcadas. Componentes previos: no aplica (no reutilizamos desarrollos propios anteriores).</p>
   <div class="foot">
-    <p class="src">Desarrollado por el equipo con asistencia de IA en la programación</p>
+    <p class="src">Demo: https://ideathon-agro-9u3t-flax.vercel.app/</p>
     <span class="pg">14 / 14</span>
   </div>
 </section>

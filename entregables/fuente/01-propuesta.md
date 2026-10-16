@@ -1,8 +1,8 @@
-# Circular NEA — Propuesta
+# Circular NEA · Propuesta
 
 **Ideathon NEA Tech 2026 · Desafío 03: Del subproducto al mercado**
 
-[Equipo]
+Equipo 13
 
 16 de octubre de 2026
 
@@ -10,9 +10,9 @@
 
 ## 1. Resumen
 
-- **Problema:** Corrientes genera cada año decenas de miles de toneladas de cascarilla de arroz y residuos de aserradero, y gran parte se quema o se tira. No es que no tengan usos: el que tiene el residuo no sabe quién lo compra, cuánto vale ni si el flete se come la ganancia.
-- **Solución:** Circular NEA es un mapa de oferta y demanda de biomasa del NEA que, para cada par vendedor–comprador, responde una pregunta: **¿cierra el negocio?** Muestra el margen después del flete, un semáforo y cuánto ahorra el comprador.
-- **Resultado clave:** la cascarilla suelta de Molinos Ala (Mercedes) solo es viable hasta unos 25 km por ruta. Pelletizada llega a unos **310 km, más de 12 veces más lejos**, y el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km) pasa de rojo a verde: margen de ~23 % para el molino y **ahorro de ~$15 millones por mes frente al GLP** para el frigorífico (cálculo de la app con supuestos estimados y con fuente).
+- **Problema:** Corrientes genera cada año decenas de miles de toneladas de cascarilla de arroz y residuos de aserradero, y gran parte se quema o se tira. Usos hay. Lo que pasa es que el que tiene el residuo no sabe quién lo compra, cuánto vale ni si el flete se come la ganancia.
+- **Solución:** Circular NEA es un mapa de oferta y demanda de biomasa del NEA. Para cada par de vendedor y comprador responde una pregunta: **¿cierra el negocio?** Muestra el margen después del flete, un semáforo y cuánto ahorra el comprador.
+- **Resultado clave del modelo:** con los supuestos del prototipo (precios estimados y flete de referencia 2026), la cascarilla de arroz suelta es viable solo hasta unos 25 km por ruta; pelletizada, hasta unos **310 km, más de 12 veces más lejos**. La razón es física: suelta pesa 108 kg/m³ y el camión se llena de aire antes que de peso. Los volúmenes, precios y demandas de cada empresa son estimaciones y deben validarse con cada una.
 - **A quién sirve:** aserraderos pyme y molinos arroceros (generadores), industrias que hoy queman GLP o leña (compradores) y el Gobierno de Corrientes.
 - **Siguiente paso:** un piloto de 30 a 60 días con 5 aserraderos de Santa Rosa y 2 molinos arroceros, con precios reales y un ensayo de laboratorio en INTI o INTA.
 
@@ -26,20 +26,20 @@
 |---|---|---|
 | Participación de Corrientes en el arroz nacional, campaña 2025/26 | 48,5 % (1.ª provincia arrocera) | [Bichos de Campo](https://bichosdecampo.com/se-confirma-la-retraccion-del-arroz-tras-perder-un-12-de-area-sembrada-la-produccion-cayo-14-en-la-campana-2025-26/) |
 | Arroz cáscara de Corrientes | ≈ 714.000 t | Estimado: 48,5 % de 1.471.673 t nacionales |
-| Cascarilla sobre el peso del grano | 20–22 % | [USAT](https://repositorio.usat.edu.pe/bitstreams/4ecdc174-33fa-45ee-bfbf-e62161c771ed/download) |
-| Cascarilla de origen correntino | ≈ 140.000–157.000 t/año | Estimado: 714.000 t × 20–22 % |
+| Cascarilla sobre el peso del grano | 20 a 22 % | [USAT](https://repositorio.usat.edu.pe/bitstreams/4ecdc174-33fa-45ee-bfbf-e62161c771ed/download) |
+| Cascarilla de origen correntino | ≈ 140.000 a 157.000 t/año | Estimado: 714.000 t × 20 a 22 % |
 | Superficie forestada de Corrientes | 516.771 ha (1.ª provincia del país) | [CONICET](https://ri.conicet.gov.ar/handle/11336/162643) |
 | Residuos de aserradero en el parque foresto-industrial de Santa Rosa "que actualmente se queman" | ≈ 200.000 t/año (proyección de 2017) | [El Inversor Energético](https://www.elinversorenergetico.com/?p=16526) |
 | Densidad aparente de la cascarilla suelta | 108 kg/m³ | [Dyna, UNAL](https://revistas.unal.edu.co/index.php/dyna) |
 
-Una aclaración honesta: la cascarilla queda donde se descascara el arroz, no donde se cosecha. En 2016 Entre Ríos molía el 79 % del arroz del país y Corrientes solo el 2 % ([BCR](https://www.bcr.com.ar/es/print/pdf/node/71619), dato viejo). Parte de la cascarilla del arroz correntino puede terminar fuera de la provincia; actualizar ese dato es parte del piloto.
+Una aclaración: la cascarilla queda donde se descascara el arroz, no donde se cosecha. En 2016 Entre Ríos molía el 79 % del arroz del país y Corrientes solo el 2 % ([BCR](https://www.bcr.com.ar/es/print/pdf/node/71619), dato viejo). Parte de la cascarilla del arroz correntino puede terminar fuera de la provincia. Actualizar ese dato es parte del piloto.
 
 ### 2.2 Por qué hoy se quema o se tira
 
-Los usos existen y están probados en la región: energía (FRESA en Virasoro cubre más del 20 % del consumo eléctrico de Corrientes con biomasa forestal), pellets (Acon Timber produce 10.000 t/mes en Virasoro), sílice amorfa (UNL-CONICET y Risiera), sustratos para viveros (INTA Bella Vista). Lo que falta es otra cosa:
+Los usos existen y están probados en la región: energía (FRESA en Virasoro cubre más del 20 % del consumo eléctrico de Corrientes con biomasa forestal), pellets (Acon Timber produce 10.000 t/mes en Virasoro), sílice amorfa (UNL-CONICET y Risiera) y sustratos para viveros (INTA Bella Vista). Lo que falta es otra cosa:
 
 1. **Información.** No hay un inventario público y actualizado de cuánto residuo genera cada planta ni de quién podría comprarlo. Los compradores chicos (frigoríficos, secaderos, citrícolas) no se enteran de que la oferta existe.
-2. **Flete.** La cascarilla suelta pesa 108 kg/m³: un camión se llena de aire antes que de peso. Más allá de 25–50 km, el transporte de residuos agrícolas suele dejar de ser rentable ([BioEnergy Consult](https://www.bioenergyconsult.com/biomass-transportation/)).
+2. **Flete.** La cascarilla suelta pesa 108 kg/m³: un camión se llena de aire antes que de peso. Más allá de 25 a 50 km, el transporte de residuos agrícolas suele dejar de ser rentable ([BioEnergy Consult](https://www.bioenergyconsult.com/biomass-transportation/)).
 3. **Confianza.** Sin ficha técnica (humedad, cenizas, poder calorífico) el comprador no se arriesga, y cada operación se negocia de cero.
 4. **Escala.** Un aserradero pyme solo no llena un camión ni firma un contrato de suministro anual.
 
@@ -53,6 +53,14 @@ Los usos existen y están probados en la región: energía (FRESA en Virasoro cu
 
 ### 2.4 Evidencia y fuentes consultadas
 
+Partimos de las fuentes sugeridas en la Guía para participantes de la Ideathon NEA Tech 2026 y las ampliamos con fuentes públicas sobre producción, flete, precios y empresas de la región.
+
+Fuentes de la guía que usamos:
+
+- INTA Bella Vista, sustratos: [INTA](https://repositorio.inta.gob.ar/handle/20.500.12123/19224)
+- Proyecto Bioeconomía del Norte Argentino: [INTA](https://repositorio.inta.gob.ar/handle/20.500.12123/8662)
+- PROBIOMASA / WISDOM: [Argentina.gob.ar](https://www.argentina.gob.ar/node/130645)
+
 Contexto del problema:
 
 - Producción de arroz 2025/26: [Bichos de Campo](https://bichosdecampo.com/se-confirma-la-retraccion-del-arroz-tras-perder-un-12-de-area-sembrada-la-produccion-cayo-14-en-la-campana-2025-26/)
@@ -62,7 +70,6 @@ Contexto del problema:
 - Residuos de aserradero en Santa Rosa: [El Inversor Energético](https://www.elinversorenergetico.com/?p=16526)
 - FRESA, biomasa en Virasoro: [Bichos de Campo](https://bichosdecampo.com/nada-se-pierde-todo-se-transforma-en-corrientes-hay-una-fabrica-de-energia-entre-los-bosques-que-convierte-los-residuos-forestales-en-electricidad-para-abastecer-al-20-de-la-provincia/)
 - Acon Timber, pellets: [Bichos de Campo](https://bichosdecampo.com/pellet-de-aserrin-y-viruta-en-las-empresas-lacteas-el-enorme-aserradero-acon-timber-produce-10-mil-toneladas-mensuales-y-los-ofrece-como-combustible-alternativo-para-las-calderas/)
-- INTA Bella Vista, sustratos: [INTA](https://repositorio.inta.gob.ar/handle/20.500.12123/19224)
 - Transporte de biomasa: [BioEnergy Consult](https://www.bioenergyconsult.com/biomass-transportation/)
 
 Parámetros técnicos y precios del modelo:
@@ -97,9 +104,9 @@ Una aplicación web donde quien genera residuos de madera o arroz y quien puede 
 - **Radio viable.** Un círculo en el mapa muestra hasta dónde conviene mandar el material, y cambia al pasar de suelto a compactado o pellet.
 - **Ahorro del comprador** frente al GLP o la leña que usa hoy, comparado por energía útil (poder calorífico × eficiencia de caldera).
 - **Publicaciones abiertas.** Cualquiera publica una oferta ("Vendo") o una demanda ("Compro") en un minuto, sin crear cuenta. Entra al cálculo como cualquier otro punto, marcada "sin verificar".
-- **Contacto al click.** "Ver contacto" muestra el teléfono o email de quien publicó, con un enlace de WhatsApp con mensaje armado. Para las empresas del mapa, solo su contacto corporativo público (hoy 6 empresas lo tienen).
-- **Avisos de match.** Al publicar, la app muestra los negocios que cierran; una campanita avisa cuando aparecen nuevos para tus publicaciones.
-- **Supuestos editables** (costo del camión, precios, factor de ruta) para simular escenarios propios.
+- **Contacto al click.** "Ver contacto" muestra el teléfono o email de quien publicó, con un enlace de WhatsApp con el mensaje armado. Para las empresas del mapa, solo su contacto corporativo público (hoy 6 empresas lo tienen).
+- **Avisos de match.** Al publicar, la app muestra los negocios que cierran. Una campanita avisa cuando aparecen nuevos para tus publicaciones.
+- **Supuestos editables** (costo del camión, precios, factor de ruta) para probar escenarios propios.
 - **Transparencia.** Cada número lleva su etiqueta "real" o "estimado" y el enlace a su fuente, visibles en la pestaña Fuentes.
 
 ### 3.2 Hoy vs. con Circular NEA
@@ -114,31 +121,33 @@ Una aplicación web donde quien genera residuos de madera o arroz y quien puede 
 | Confiar en los números | Cada parte trae los suyos | Cada dato con fuente y etiqueta real / estimado |
 | Información para el Estado | Estudios dispersos y difíciles de acceder (WISDOM 2018) | Base georreferenciada de oferta y demanda |
 
-### 3.3 Por qué no es una bolsa de avisos
+### 3.3 Qué aprendimos de otras bolsas de residuos
 
-Las experiencias internacionales muestran que publicar residuos no alcanza:
+Las experiencias de otros países muestran que publicar residuos no alcanza:
 
-- La **Bolsa de Resíduos de Brasil** reunió más de 6.300 empresas que publicaban residuos, pero solo informaba, sin intervenir en la venta, y ofrecía poco valor.
+- La **Bolsa de Resíduos de Brasil** reunió más de 6.300 empresas que publicaban residuos, pero solo informaba, no intervenía en la venta y ofrecía poco valor.
 - **Excess Materials Exchange** (Países Bajos) pasó de catálogo de materiales a matchmaking con **valuación económica de cada match**, y cobra suscripción por eso.
 - El **NISP** del Reino Unido mostró que la facilitación humana pesa: el software tiene que ayudar a quien arma el negocio, no reemplazarlo.
 
-Circular NEA toma esos aprendizajes: **valúa cada match**, explica con física real del flete (densidad, humedad, carga por camión) por qué un negocio cierra o no, y **muestra cuándo no conviene**. Por ejemplo, para una yerbatera que quema leña barata el pellet da "no le conviene al comprador". El pellet le gana al GLP, no a la leña barata, y la app lo dice.
+Circular NEA toma esos aprendizajes. **Valúa cada match**, explica con la física real del flete (densidad, humedad, carga por camión) por qué un negocio cierra o no, y **muestra cuándo no conviene**. Por ejemplo, para una yerbatera que quema leña barata el pellet da "no le conviene al comprador". El pellet le gana al GLP, no a la leña barata, y la app lo dice.
 
 ---
 
-## 4. Demo / prototipo navegable
+## 4. Demo
 
-**[Enlace a la demo: completar]**
+**Enlace:** [https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/)
 
 Qué probar en 1 minuto:
 
-1. Abrir la app: arranca con **Molinos Ala (Mercedes)**, unas 1.615 t/mes de cascarilla de arroz (estimado).
-2. Con el material **suelto**, ver el radio viable (~25 km por ruta) y elegir el **Frigorífico Duhalde** (Curuzú Cuatiá): semáforo **rojo**, margen ≈ −280 %.
-3. Cambiar a **pellet**: el radio pasa a ~310 km, Duhalde se pone **verde** (margen ≈ +23 %) y aparece el ahorro del frigorífico, ≈ $15 M/mes frente al GLP.
-4. Elegir **UTE BV (Bella Vista)** y recorrer los tres estados: suelto rojo, compactado amarillo, pellet verde.
-5. Elegir una **yerbatera a leña** en pellet: "no le conviene al comprador".
-6. Publicar un "Vendo" de aserrín con un click en el mapa y tocar "Ver contacto".
-7. Abrir la pestaña **Fuentes** y ver de dónde sale cada número.
+1. Abrí la app: arranca con **Molinos Ala (Mercedes)**, unas 1.615 t/mes de cascarilla de arroz (estimado).
+2. Con el material **suelto**, mirá el radio viable (unos 25 km por ruta) y elegí un comprador lejano, por ejemplo un frigorífico en Curuzú Cuatiá: el semáforo queda en **rojo**.
+3. Cambiá a **pellet**: el radio pasa a unos 310 km, el mismo comprador se pone **verde** y aparece cuánto ahorraría frente a su combustible actual.
+4. Elegí **UTE BV (Bella Vista)** y recorré los tres estados: suelto rojo, compactado amarillo, pellet verde.
+5. Elegí una **yerbatera a leña** en pellet: "no le conviene al comprador".
+6. Publicá un "Vendo" de aserrín con un click en el mapa y tocá "Ver contacto".
+7. Abrí la pestaña **Fuentes** y fijate de dónde sale cada número.
+
+**Alternativa sin conexión:** video de la demo y capturas en el pitch deck.
 
 ---
 
@@ -154,7 +163,7 @@ Qué probar en 1 minuto:
 | Calidad | Vitest (unitarios), PGlite (base en memoria), Playwright (de punta a punta) | Las fórmulas tienen tests; el recorrido de la demo se prueba automáticamente |
 | Arquitectura | Clean architecture con reglas de dependencia verificadas | Se pueden sumar funciones (alertas, pool, logística) o cambiar de base sin reescribir |
 
-En síntesis: **costo de operación casi cero, rápido en conexiones lentas, sin atarse a proveedores y con un cálculo auditable**.
+Elegimos estas herramientas por cuatro razones: operar cuesta casi nada, anda rápido con conexiones lentas, no dependemos de un proveedor y cualquiera puede revisar el cálculo.
 
 ---
 
@@ -162,18 +171,11 @@ En síntesis: **costo de operación casi cero, rápido en conexiones lentas, sin
 
 ### 6.1 Económico
 
-Ejemplo Molinos Ala → Frigorífico Duhalde, con pellet de cascarilla (cálculo de la app, supuestos estimados con fuente):
+- **Para el generador:** un residuo que hoy es costo o pasivo pasa a ser un ingreso, y sabe de antemano hasta dónde le conviene vender según cómo lo procese.
+- **Para el comprador:** puede comparar el costo de su combustible actual (GLP o leña) con el del residuo puesto en su planta, antes de invertir en una caldera.
+- **Para la decisión de inversión:** la app muestra qué estado del material (suelto, compactado o pellet) hace viable cada destino. En el ejemplo del prototipo, pelletizar amplía unas 12 veces el radio viable.
 
-| Indicador | Valor por mes |
-|---|---|
-| Pellet de cascarilla que necesita el frigorífico para reemplazar su GLP | ≈ 49 t (estimado, orden de magnitud) |
-| Ingreso del molino por la venta | ≈ $8,4 M |
-| Margen neto del molino después de pelletizado y flete | ≈ $1,9 M (≈ 23 %) |
-| Ahorro del frigorífico frente al GLP | ≈ $15 M |
-
-- **Para el generador:** un residuo que hoy es costo o pasivo pasa a ser un ingreso.
-- **Para el comprador:** baja la factura de energía con un combustible local.
-- **Para la decisión de inversión:** la app muestra qué estado del material (suelto, compactado o pellet) hace viable cada destino.
+Los montos que muestra la app para cada par planta y comprador dependen de volúmenes, precios y demandas estimados; sirven para comparar alternativas, no como valores reales de esas empresas. El piloto (sección 8) los reemplaza por datos validados.
 
 ### 6.2 Ambiental (escenario ilustrativo, no promesa)
 
@@ -187,10 +189,9 @@ Base del cálculo (estimación):
 
 | Escenario | Cascarilla valorizada | GLP sustituido | CO₂ evitado |
 |---|---|---|---|
-| Un match (Duhalde, ≈ 15 t de GLP/mes) | ≈ 49 t/mes de pellet | ≈ 180 t/año | ≈ 540 t/año |
-| 10 % de la cascarilla de origen correntino | ≈ 14.000–15.700 t/año | ≈ 4.300–4.800 t/año | ≈ 12.600–14.100 t/año |
+| 10 % de la cascarilla de origen correntino | ≈ 14.000 a 15.700 t/año | ≈ 4.300 a 4.800 t/año | ≈ 12.600 a 14.100 t/año |
 
-El segundo escenario supone que todo ese pellet reemplaza GLP y que la masa de cascarilla y de pellet es similar (ambos con 8–10 % de humedad). Es un orden de magnitud para dimensionar la oportunidad, no una proyección.
+El segundo escenario supone que todo ese pellet reemplaza GLP y que la masa de cascarilla y de pellet es parecida (los dos con 8 a 10 % de humedad). Es un orden de magnitud para dimensionar la oportunidad, no una proyección.
 
 ### 6.3 Regional
 
@@ -203,11 +204,19 @@ El segundo escenario supone que todo ese pellet reemplaza GLP y que la masa de c
 
 ## 7. Supuestos y limitaciones
 
+### 7.1 Qué es real, qué es estimado y qué es simulado
+
+- **Real:** las empresas del mapa y sus ubicaciones (fuentes públicas y OpenStreetMap), los datos de producción publicados, los parámetros técnicos de la cascarilla y los combustibles, y los precios de referencia del GLP, la leña y el flete, cada uno con su fuente.
+- **Estimado:** lo que no tiene dato público, como los precios de pellet y briqueta, las toneladas de cada planta, la demanda de cada comprador y las distancias por ruta. En la app cada uno aparece marcado "estimado", con su cálculo y su fuente.
+- **Simulado:** **no hay datos simulados.** Las publicaciones de prueba que se vean en la demo son de ejemplo y aparecen marcadas "sin verificar".
+
+### 7.2 Detalle de supuestos y limitaciones
+
 | Tema | Supuesto o limitación | Cómo se resuelve |
 |---|---|---|
-| Precios de pellet, briqueta y cascarilla | **Estimados.** Pellet de madera ≈ USD 150/t a granel, tomado del precio europeo (EUR 400–430/t) ajustado a Argentina; pellet de cascarilla ≈ USD 110/t (75 % del de madera por su mayor ceniza); briqueta de cascarilla ≈ USD 71/t; cascarilla suelta ≈ USD 10/t (sin mercado formal). Costos de pelletizado y briqueteado: órdenes de magnitud de literatura. Dólar BNA $1.540 | Relevar precios reales en el piloto con AFOA y ACPA |
+| Precios de pellet, briqueta y cascarilla | **Estimados.** Pellet de madera ≈ USD 150/t a granel, tomado del precio europeo (EUR 400 a 430/t) ajustado a Argentina; pellet de cascarilla ≈ USD 110/t (75 % del de madera por su mayor ceniza); briqueta de cascarilla ≈ USD 71/t; cascarilla suelta ≈ USD 10/t (sin mercado formal). Costos de pelletizado y briqueteado: órdenes de magnitud de literatura. Dólar BNA $1.540 | Relevar precios reales en el piloto con AFOA y ACPA |
 | Precio del GLP | Garrafa de 45 kg en Misiones, febrero 2026 ($1.556/kg). El GLP industrial a granel puede ser más barato y reducir el ahorro | Pedir facturas reales a los compradores entrevistados |
-| Costo del flete | ≈ $2.900/km, estimado desde la tarifa FETRA de abril 2026 y contrastado con FADEEAC ($2.245–2.358/km) | Cotizar con fleteros de la zona |
+| Costo del flete | ≈ $2.900/km, estimado desde la tarifa FETRA de abril 2026 y contrastado con FADEEAC ($2.245 a 2.358/km) | Cotizar con fleteros de la zona |
 | Demanda de los compradores | **Orden de magnitud** estimado por sector (por ejemplo, 60 t/mes de biomasa para la caldera de un frigorífico mediano); el combustible actual de varios compradores es un supuesto por sector | Entrevistas a compradores |
 | Toneladas de los generadores | Estimadas desde la producción pública de cada empresa o, para pymes sin dato, desde un aserradero tipo (550 m³ de rollizo/mes) | Carga directa de cada empresa en el piloto |
 | Distancias | Línea recta × 1,3 (factor de ruta editable). No hay ruteo real | Integrar ruteo por camino |
@@ -226,11 +235,11 @@ El segundo escenario supone que todo ese pellet reemplaza GLP y que la masa de c
 
 | Semana | Acción | Entregable |
 |---|---|---|
-| 1–2 | Relevar **5 aserraderos del parque foresto-industrial de Santa Rosa** y **2 molinos arroceros** (Mercedes, Paso de los Libres): toneladas reales, estacionalidad, destino actual del residuo | Datos reales cargados en el mapa, reemplazando estimados |
-| 1–3 | Validar precios de cascarilla, aserrín, chips y pellet con cámaras del sector (**AFOA, ACPA**) y con fleteros | Supuestos de precio pasan de "estimado" a "real" |
-| 2–4 | **5 entrevistas a compradores que usan GLP** (frigoríficos, citrícolas, secaderos): consumo, precio pagado, disposición a cambiar de caldera | Demanda real y ahorro validado |
-| 3–6 | **1 ensayo de laboratorio** (INTI o INTA) sobre una muestra de cascarilla o aserrín: humedad, cenizas, poder calorífico | Primera ficha técnica con dato certificado |
-| 6–8 | Presentar resultados al Ministerio de Producción de Corrientes | Propuesta de tablero provincial |
+| 1 y 2 | Relevar **5 aserraderos del parque foresto-industrial de Santa Rosa** y **2 molinos arroceros** (Mercedes, Paso de los Libres): toneladas reales, estacionalidad, destino actual del residuo | Datos reales cargados en el mapa, en lugar de los estimados |
+| 1 a 3 | Validar precios de cascarilla, aserrín, chips y pellet con cámaras del sector (**AFOA, ACPA**) y con fleteros | Supuestos de precio pasan de "estimado" a "real" |
+| 2 a 4 | **5 entrevistas a compradores que usan GLP** (frigoríficos, citrícolas, secaderos): consumo, precio pagado, disposición a cambiar de caldera | Demanda real y ahorro validado |
+| 3 a 6 | **1 ensayo de laboratorio** (INTI o INTA) sobre una muestra de cascarilla o aserrín: humedad, cenizas, poder calorífico | Primera ficha técnica con dato certificado |
+| 6 a 8 | Presentar resultados al Ministerio de Producción de Corrientes | Propuesta de tablero provincial |
 
 **Criterio de éxito:**
 
@@ -264,10 +273,52 @@ El segundo escenario supone que todo ese pellet reemplaza GLP y que la masa de c
 
 ---
 
-## 10. Equipo
+## 10. Declaración de uso de IA, componentes previos y datos
 
-[Nombres e integrantes: completar]
+### 10.1 Autoría
+
+La identificación del problema, la investigación del desafío, la idea de producto, la definición y priorización de cada funcionalidad, y las decisiones de diseño y de negocio son del equipo.
+
+### 10.2 Uso de inteligencia artificial
+
+- **Programación.** Programamos con asistencia de IA (Claude Code, de Anthropic) bajo nuestra dirección. El equipo definió los requisitos y revisó y validó el resultado.
+- **Búsqueda de fuentes y redacción.** También usamos IA como apoyo para buscar fuentes públicas y para redactar y revisar textos. Cada dato lo contrastamos con su fuente y está citado.
+- **El producto no usa IA.** Circular NEA no incluye modelos de IA: el cálculo de viabilidad son fórmulas explícitas, con cada parámetro a la vista.
+
+### 10.3 Componentes previos
+
+**No aplica.** No reutilizamos componentes, código ni desarrollos propios hechos antes de la Ideathon: todo el proyecto se elaboró durante el evento.
+
+### 10.4 Herramientas y librerías de terceros
+
+El prototipo usa herramientas de código abierto y servicios públicos, según sus licencias:
+
+
+| Componente | Uso en el proyecto |
+|---|---|
+| React, Vite, Tailwind CSS, shadcn/ui, Radix, lucide | Interfaz web, estilos, componentes e íconos |
+| Leaflet y react-leaflet | Mapa interactivo |
+| Hono | API web |
+| Drizzle ORM | Acceso a la base PostgreSQL |
+| PGlite | Base PostgreSQL en memoria para tests |
+| Vitest y Playwright | Tests unitarios y de punta a punta |
+| Mapas base de Esri | Fondo cartográfico del mapa |
+| OpenStreetMap (Nominatim) | Coordenadas de las localidades |
+| Fuentes tipográficas Geist | Tipografía (licencia SIL Open Font License) |
+
+El código propio del proyecto se publica con licencia MIT.
+
+### 10.5 Datos
+
+- **No hay datos simulados.** Las empresas y sus ubicaciones son reales y salen de fuentes públicas y de OpenStreetMap.
+- **Valores sin dato público.** Están marcados "estimado", con su cálculo y su fuente visibles en la aplicación.
+- **Publicaciones de usuarios.** Se marcan "sin verificar": sus valores los declara quien publica. Las que se vean en la demo son de ejemplo.
+- **Contactos.** Solo se muestran contactos corporativos publicados por las propias empresas. Nunca contactos personales.
 
 ---
 
-*La declaración de uso de IA, componentes previos y datos se presenta como documento independiente.*
+## 11. Equipo
+
+Equipo 13 · Ideathon NEA Tech 2026
+
+Corrientes, 16 de octubre de 2026
