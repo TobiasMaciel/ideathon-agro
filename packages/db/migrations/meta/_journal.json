@@ -36,6 +36,13 @@
       "when": 1792159188167,
       "tag": "0004_contacts",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792176707256,
+      "tag": "0005_rls_policies",
+      "breakpoints": true
     }
   ]
 }
