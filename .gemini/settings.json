@@ -1,0 +1,11 @@
+{
+  "model": {
+    "name": "gemini-3-pro-preview"
+  },
+  "skills": {
+    "enabled": true
+  },
+  "experimental": {
+    "enableAgents": true
+  }
+}
