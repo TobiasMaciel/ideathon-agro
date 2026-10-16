@@ -1,0 +1,846 @@
+{
+  "id": "e122112c-30ba-42d0-9416-e9be206bce08",
+  "prevId": "fbec9bb7-4838-455e-8893-1386bb62d1d9",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.alternatives": {
+      "name": "alternatives",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit": {
+          "name": "unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_per_unit": {
+          "name": "price_per_unit",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lhv_mj_per_unit": {
+          "name": "lhv_mj_per_unit",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "efficiency": {
+          "name": "efficiency",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "biomass_efficiency": {
+          "name": "biomass_efficiency",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "alternatives_price_check": {
+          "name": "alternatives_price_check",
+          "value": "\"alternatives\".\"price_per_unit\" > 0"
+        },
+        "alternatives_lhv_check": {
+          "name": "alternatives_lhv_check",
+          "value": "\"alternatives\".\"lhv_mj_per_unit\" > 0"
+        },
+        "alternatives_efficiency_check": {
+          "name": "alternatives_efficiency_check",
+          "value": "\"alternatives\".\"efficiency\" > 0 and \"alternatives\".\"efficiency\" <= 1"
+        },
+        "alternatives_biomass_efficiency_check": {
+          "name": "alternatives_biomass_efficiency_check",
+          "value": "\"alternatives\".\"biomass_efficiency\" > 0 and \"alternatives\".\"biomass_efficiency\" <= 1"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.assumptions": {
+      "name": "assumptions",
+      "schema": "",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit": {
+          "name": "unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tag": {
+          "name": "tag",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_ids": {
+          "name": "source_ids",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "assumptions_tag_check": {
+          "name": "assumptions_tag_check",
+          "value": "\"assumptions\".\"tag\" in ('real', 'estimado')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.buyers": {
+      "name": "buyers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sector": {
+          "name": "sector",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locality": {
+          "name": "locality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lat": {
+          "name": "lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lng": {
+          "name": "lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_note": {
+          "name": "location_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "current_alternative": {
+          "name": "current_alternative",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "demand_tons_per_month": {
+          "name": "demand_tons_per_month",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepts": {
+          "name": "accepts",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "source_ids": {
+          "name": "source_ids",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {
+        "buyers_current_alternative_idx": {
+          "name": "buyers_current_alternative_idx",
+          "columns": [
+            {
+              "expression": "current_alternative",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "buyers_current_alternative_alternatives_id_fk": {
+          "name": "buyers_current_alternative_alternatives_id_fk",
+          "tableFrom": "buyers",
+          "tableTo": "alternatives",
+          "columnsFrom": [
+            "current_alternative"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "buyers_sector_check": {
+          "name": "buyers_sector_check",
+          "value": "\"buyers\".\"sector\" in ('yerbatera', 'central_biomasa', 'citricola', 'secadero_granos', 'frigorifico')"
+        },
+        "buyers_lat_check": {
+          "name": "buyers_lat_check",
+          "value": "\"buyers\".\"lat\" between -90 and 90"
+        },
+        "buyers_lng_check": {
+          "name": "buyers_lng_check",
+          "value": "\"buyers\".\"lng\" between -180 and 180"
+        },
+        "buyers_demand_check": {
+          "name": "buyers_demand_check",
+          "value": "\"buyers\".\"demand_tons_per_month\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.generators": {
+      "name": "generators",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locality": {
+          "name": "locality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lat": {
+          "name": "lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lng": {
+          "name": "lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_note": {
+          "name": "location_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "material_id": {
+          "name": "material_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tons_per_month": {
+          "name": "tons_per_month",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seasonality": {
+          "name": "seasonality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_ids": {
+          "name": "source_ids",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {
+        "generators_material_id_idx": {
+          "name": "generators_material_id_idx",
+          "columns": [
+            {
+              "expression": "material_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "generators_material_id_materials_id_fk": {
+          "name": "generators_material_id_materials_id_fk",
+          "tableFrom": "generators",
+          "tableTo": "materials",
+          "columnsFrom": [
+            "material_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "generators_kind_check": {
+          "name": "generators_kind_check",
+          "value": "\"generators\".\"kind\" in ('aserradero', 'molino_arrocero', 'foresto_industria')"
+        },
+        "generators_lat_check": {
+          "name": "generators_lat_check",
+          "value": "\"generators\".\"lat\" between -90 and 90"
+        },
+        "generators_lng_check": {
+          "name": "generators_lng_check",
+          "value": "\"generators\".\"lng\" between -180 and 180"
+        },
+        "generators_tons_check": {
+          "name": "generators_tons_check",
+          "value": "\"generators\".\"tons_per_month\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.listings": {
+      "name": "listings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locality": {
+          "name": "locality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lat": {
+          "name": "lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lng": {
+          "name": "lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "material_id": {
+          "name": "material_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tons_per_month": {
+          "name": "tons_per_month",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moisture": {
+          "name": "moisture",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seasonality": {
+          "name": "seasonality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_alternative": {
+          "name": "current_alternative",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sector": {
+          "name": "sector",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_name": {
+          "name": "contact_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_phone": {
+          "name": "contact_phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_email": {
+          "name": "contact_email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "verified": {
+          "name": "verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "ip_hash": {
+          "name": "ip_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "listings_created_at_idx": {
+          "name": "listings_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "listings_material_id_materials_id_fk": {
+          "name": "listings_material_id_materials_id_fk",
+          "tableFrom": "listings",
+          "tableTo": "materials",
+          "columnsFrom": [
+            "material_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "listings_current_alternative_alternatives_id_fk": {
+          "name": "listings_current_alternative_alternatives_id_fk",
+          "tableFrom": "listings",
+          "tableTo": "alternatives",
+          "columnsFrom": [
+            "current_alternative"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "listings_kind_check": {
+          "name": "listings_kind_check",
+          "value": "\"listings\".\"kind\" in ('oferta', 'demanda')"
+        },
+        "listings_name_check": {
+          "name": "listings_name_check",
+          "value": "char_length(\"listings\".\"name\") between 2 and 80 and \"listings\".\"name\" !~ '[[:cntrl:]]'"
+        },
+        "listings_locality_check": {
+          "name": "listings_locality_check",
+          "value": "\"listings\".\"locality\" is null or char_length(\"listings\".\"locality\") <= 60"
+        },
+        "listings_lat_check": {
+          "name": "listings_lat_check",
+          "value": "\"listings\".\"lat\" between -31.5 and -25.5"
+        },
+        "listings_lng_check": {
+          "name": "listings_lng_check",
+          "value": "\"listings\".\"lng\" between -60.5 and -53"
+        },
+        "listings_tons_check": {
+          "name": "listings_tons_check",
+          "value": "\"listings\".\"tons_per_month\" between 1 and 100000"
+        },
+        "listings_moisture_check": {
+          "name": "listings_moisture_check",
+          "value": "\"listings\".\"moisture\" is null or \"listings\".\"moisture\" between 0 and 0.7"
+        },
+        "listings_seasonality_check": {
+          "name": "listings_seasonality_check",
+          "value": "\"listings\".\"seasonality\" is null or char_length(\"listings\".\"seasonality\") <= 60"
+        },
+        "listings_sector_check": {
+          "name": "listings_sector_check",
+          "value": "\"listings\".\"sector\" is null or \"listings\".\"sector\" in ('yerbatera', 'central_biomasa', 'citricola', 'secadero_granos', 'frigorifico')"
+        },
+        "listings_demand_fields_check": {
+          "name": "listings_demand_fields_check",
+          "value": "\"listings\".\"kind\" = 'oferta' or (\"listings\".\"current_alternative\" is not null and \"listings\".\"sector\" is not null)"
+        },
+        "listings_contact_name_check": {
+          "name": "listings_contact_name_check",
+          "value": "\"listings\".\"contact_name\" is null or char_length(\"listings\".\"contact_name\") <= 60"
+        },
+        "listings_contact_phone_check": {
+          "name": "listings_contact_phone_check",
+          "value": "\"listings\".\"contact_phone\" is null or \"listings\".\"contact_phone\" ~ '^[0-9 +()-]{8,20}$'"
+        },
+        "listings_contact_email_check": {
+          "name": "listings_contact_email_check",
+          "value": "\"listings\".\"contact_email\" is null or (char_length(\"listings\".\"contact_email\") <= 120 and \"listings\".\"contact_email\" ~ '^[^[:space:]@]+@[^[:space:]@]+[.][^[:space:]@]+$')"
+        },
+        "listings_contact_required_check": {
+          "name": "listings_contact_required_check",
+          "value": "\"listings\".\"contact_phone\" is not null or \"listings\".\"contact_email\" is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.material_states": {
+      "name": "material_states",
+      "schema": "",
+      "columns": {
+        "material_id": {
+          "name": "material_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bulk_density_t_per_m3": {
+          "name": "bulk_density_t_per_m3",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moisture": {
+          "name": "moisture",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lhv_mj_per_kg": {
+          "name": "lhv_mj_per_kg",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_per_ton": {
+          "name": "price_per_ton",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "conditioning_cost_per_ton": {
+          "name": "conditioning_cost_per_ton",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "material_states_material_id_materials_id_fk": {
+          "name": "material_states_material_id_materials_id_fk",
+          "tableFrom": "material_states",
+          "tableTo": "materials",
+          "columnsFrom": [
+            "material_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "material_states_material_id_state_pk": {
+          "name": "material_states_material_id_state_pk",
+          "columns": [
+            "material_id",
+            "state"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "material_states_state_check": {
+          "name": "material_states_state_check",
+          "value": "\"material_states\".\"state\" in ('suelto', 'compactado', 'pellet')"
+        },
+        "material_states_bulk_density_check": {
+          "name": "material_states_bulk_density_check",
+          "value": "\"material_states\".\"bulk_density_t_per_m3\" > 0"
+        },
+        "material_states_moisture_check": {
+          "name": "material_states_moisture_check",
+          "value": "\"material_states\".\"moisture\" >= 0 and \"material_states\".\"moisture\" < 1"
+        },
+        "material_states_lhv_check": {
+          "name": "material_states_lhv_check",
+          "value": "\"material_states\".\"lhv_mj_per_kg\" > 0"
+        },
+        "material_states_price_check": {
+          "name": "material_states_price_check",
+          "value": "\"material_states\".\"price_per_ton\" >= 0"
+        },
+        "material_states_conditioning_check": {
+          "name": "material_states_conditioning_check",
+          "value": "\"material_states\".\"conditioning_cost_per_ton\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.materials": {
+      "name": "materials",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_moisture": {
+          "name": "raw_moisture",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "materials_raw_moisture_check": {
+          "name": "materials_raw_moisture_check",
+          "value": "\"materials\".\"raw_moisture\" >= 0 and \"materials\".\"raw_moisture\" < 1"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sources": {
+      "name": "sources",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "sources_url_check": {
+          "name": "sources_url_check",
+          "value": "\"sources\".\"url\" ~ '^https?://'"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

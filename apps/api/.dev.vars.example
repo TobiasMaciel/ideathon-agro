@@ -1,0 +1,9 @@
+# Copiar a .dev.vars (no se commitea).
+# Opcional: sin DATABASE_URL (o vacío) la API usa los datos locales de @mapa/core.
+# Usuario de la API: lee todo y solo inserta en listings (ver packages/db/README.md):
+#   CREATE ROLE mapa_api_login LOGIN PASSWORD '...' IN ROLE mapa_api;
+# En producción: pooler o Hyperdrive, y la URL como secret (`wrangler secret put DATABASE_URL`).
+# DATABASE_URL=postgres://mapa_api_login:cambiar-esto@localhost:5432/mapa
+DATABASE_URL=
+# Sal para hashear la IP de quien publica (en producción: `wrangler secret put IP_SALT`).
+IP_SALT=

@@ -1,0 +1,24 @@
+{
+  "name": "@mapa/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./viability": "./src/viability/index.ts",
+    "./match": "./src/match/index.ts",
+    "./overrides": "./src/overrides.ts",
+    "./format": "./src/format.ts",
+    "./data": "./src/data/index.ts",
+    "./api": "./src/api/types.ts",
+    "./listings": "./src/listings.ts",
+    "./db": "./src/db/rows.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
+  }
+}

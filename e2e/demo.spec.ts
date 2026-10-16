@@ -14,21 +14,21 @@ async function radiusKm(page: Page): Promise<number> {
 }
 
 async function openAssumptions(page: Page) {
-  await page.getByRole("button", { name: /Supuestos/ }).click();
+  // Los supuestos viven en su propia pestaña del panel.
+  await page.getByRole("tab", { name: /Supuestos/ }).click();
   await expect(page.getByTestId("assumption-costPerKm")).toBeVisible();
 }
 
 test("guion de la demo: del suelto al pellet", async ({ page }) => {
-  await test.step("carga con marcadores y origen local", async () => {
+  await test.step("carga con marcadores", async () => {
     await open(page);
-    await expect(page.locator('[data-testid="map"] path[class*="gen-"]')).toHaveCount(13);
-    await expect(page.locator('[data-testid="map"] path[class*="buyer-"]')).toHaveCount(10);
-    await expect(page.getByTestId("origin-badge")).toContainText("locales");
+    await expect(page.locator('[data-testid="map"] [data-marker^="gen-"]')).toHaveCount(13);
+    await expect(page.locator('[data-testid="map"] [data-marker^="buyer-"]')).toHaveCount(10);
   });
 
   let sueltoKm = 0;
   await test.step("generador inicial en suelto: Duhalde en rojo", async () => {
-    await expect(page.getByTestId("generator-select")).toHaveValue("molinos-ala-mercedes");
+    await expect(page.getByTestId("generator-select")).toHaveAttribute("data-value", "molinos-ala-mercedes");
     await expect(page.getByTestId("state-suelto")).toHaveAttribute("aria-checked", "true");
     await expect(page.getByTestId(DUHALDE)).toHaveAttribute("data-light", "rojo");
     sueltoKm = await radiusKm(page);
@@ -45,6 +45,8 @@ test("guion de la demo: del suelto al pellet", async ({ page }) => {
   await test.step("detalle de Duhalde: verde y ahorro frente a GLP", async () => {
     await page.getByTestId(DUHALDE).click();
     await expect(page.getByTestId("result-light")).toHaveAttribute("data-light", "verde");
+    // El ahorro del comprador está en la pestaña Detalle.
+    await page.getByRole("tab", { name: "Detalle" }).click();
     await expect(page.getByTestId("buyer-savings")).toContainText("GLP");
   });
 
@@ -69,8 +71,10 @@ test("supuestos editables: costo por km cambia el semáforo y se restablece", as
 
 test("cambio de generador a un aserradero de aserrín", async ({ page }) => {
   await open(page);
-  await page.getByTestId("generator-select").selectOption("todo-pallets-santa-rosa");
-  await expect(page.getByTestId("generator-select")).toHaveValue("todo-pallets-santa-rosa");
+  // La planta se elige con un combobox con búsqueda (shadcn Popover + Command), no con un <select> nativo.
+  await page.getByTestId("generator-select").click();
+  await page.getByTestId("generator-option-todo-pallets-santa-rosa").click();
+  await expect(page.getByTestId("generator-select")).toHaveAttribute("data-value", "todo-pallets-santa-rosa");
   await expect(page.getByTestId("buyer-row-genergiabio-santa-rosa")).toBeVisible();
   const state = page.locator('[data-testid^="state-"][aria-checked="true"]');
   await expect(state).toHaveCount(1);

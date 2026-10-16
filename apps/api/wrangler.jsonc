@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mapa-circular-nea-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // Orígenes web permitidos por CORS (lista separada por comas). En producción, la URL de la web.
+    "ALLOWED_ORIGINS": "http://localhost:5173"
+  }
+}
