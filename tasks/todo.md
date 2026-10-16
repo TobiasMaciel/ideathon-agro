@@ -120,12 +120,20 @@ Leyenda: `[ ]` pendiente · `[~]` en curso · `[x]` hecho
 ## F3 · Modo claro
 - [ ] Tema claro además del oscuro (tokens equivalentes, contraste AA), selector en la UI que respeta la preferencia del sistema y se recuerda, mapa base claro (Esri Light Gray Canvas) en modo claro — implementer, después de F1 front
 
+## F4 · Notificaciones de match (sin servicios externos) — después de F3
+- [ ] Matches al publicar: lista de los que te cierran (margen, distancia, Ver contacto) al terminar de publicar
+- [ ] "Mis publicaciones" recordadas en el navegador (sin cuenta)
+- [ ] Campanita: matches nuevos para mis publicaciones desde la última visita; consulta de novedades cada ~20 s; marcar como leídas
+- [ ] e2e: publicar una demanda en un contexto y ver la campanita encenderse en otro
+- Fuera de alcance (roadmap del pitch): email y WhatsApp automáticos (requieren proveedor externo)
+
 ## V5 · Cierre — e2e, README, review y commits
 - [ ] e2e y README actualizados a la nueva estructura
 - [ ] Review (code-reviewer) del monorepo y del rediseño
 - [ ] Commits agrupados en español, sin coautor
 
 ## V6 · Limpieza final con clean architecture — AL FINAL DE TODO (pedido del usuario)
+Plan detallado: [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md) (auditoría del 16/10/2026).
 - [ ] Auditar el repo: código muerto, archivos sueltos, dependencias sin uso, configs duplicadas, nombres inconsistentes
 - [ ] Capas claras por workspace: dominio (entidades y reglas puras en `packages/core`), casos de uso (aplicación), adaptadores (Postgres/Drizzle, HTTP con Hono, UI React) e infraestructura; dependencias que apunten solo hacia el dominio
 - [ ] API: rutas finas → casos de uso → puertos (repositorios) implementados por adaptadores (memoria y Postgres)

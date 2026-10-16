@@ -77,15 +77,6 @@ npm run db:studio     # abre Drizzle Studio sobre DATABASE_URL
 
 Detalle de roles y pooling en [packages/db/README.md](packages/db/README.md).
 
-## Guion de la demo (2 minutos)
-
-1. La app abre con **Molinos Ala (Mercedes)**: cascarilla de arroz, unas 1.615 t/mes.
-2. Con la cascarilla **suelta**, el camión se llena de aire: el radio viable es de ~25 km por ruta. El **Frigorífico Duhalde** (Curuzú Cuatiá, ~88 km) queda en rojo.
-3. Se pasa a **pellet**: el radio sube a ~310 km y Duhalde pasa a verde, con un ahorro de ≈ $15 M/mes frente al GLP.
-4. **UTE BV** muestra los tres colores según el estado del material.
-5. Una yerbatera que hoy quema leña barata queda en "no le conviene al comprador": el modelo no promete lo que no cierra.
-6. Se **publica una oferta** en vivo desde el mapa y se ve su contacto al hacer click en "Ver contacto".
-
 ## Arquitectura
 
 Monorepo con npm workspaces. Front y back son apps separadas que comparten un paquete de dominio.
