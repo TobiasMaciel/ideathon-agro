@@ -32,6 +32,11 @@ Si una skill aplica a la tarea (aunque sea dudoso), **usala**. No implementes "r
 | UI | `frontend-ui-engineering` |
 | Seguridad | `security-and-hardening` |
 | Release | `shipping-and-launch` |
+| Estética y pulido de UI | `minimalist-ui` (dirección visual), `better-ui` (superficies, íconos, motion), `better-layout`, `better-typography`, `better-colors`, `better-accessibility`, `better-writing`; revisión integral: `better-interface` |
+| Rediseño de pantallas existentes | `redesign-existing-projects` |
+| Landing / páginas públicas | `design-taste-frontend` (no aplica a dashboards ni pantallas de app) |
+
+Skills de UI de terceros: [jakubkrehel/skills](https://github.com/jakubkrehel/skills) (`4c66b1f`, MIT) y [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) (`f624f37`, MIT). `scripts/sync-agent-skills.sh` no las toca.
 
 ---
 
@@ -115,13 +120,3 @@ No delegues si la tarea es trivial (≤ ~2 archivos, cambio obvio): hacerlo dire
 
 Buenos briefs: rutas exactas, criterios medibles, ejemplos de entrada/salida, qué está fuera de alcance.
 Malos briefs: "mejorá el código", "arreglá el bug" sin reproducción, "fijate qué hace falta".
-
-<!-- BEGIN:nextjs-agent-rules -->
-
-## This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->

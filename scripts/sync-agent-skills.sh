@@ -12,11 +12,15 @@ git clone --quiet --depth 1 --branch "$REF" https://github.com/addyosmani/agent-
 SRC="$TMP/agent-skills"
 cd "$ROOT"
 
-# Skills y referencias (Claude lee .claude/, Gemini lee .agents/)
+# Skills y referencias (Claude lee .claude/, Gemini lee .agents/).
+# Solo se reemplazan las skills que vienen de agent-skills: las de UI (better-*, taste) se conservan.
 for base in .claude .agents; do
-  rm -rf "$base/skills" "$base/references"
   mkdir -p "$base/skills" "$base/references"
-  cp -r "$SRC"/skills/* "$base/skills/"
+  for dir in "$SRC"/skills/*/; do
+    name="$(basename "$dir")"
+    rm -rf "${base:?}/skills/${name:?}"
+    cp -r "$dir" "$base/skills/$name"
+  done
   cp "$SRC"/references/*.md "$base/references/"
 done
 
