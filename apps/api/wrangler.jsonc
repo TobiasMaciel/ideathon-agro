@@ -6,6 +6,6 @@
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
     // Orígenes web permitidos por CORS (lista separada por comas). En producción, la URL de la web.
-    "ALLOWED_ORIGINS": "http://localhost:5173"
+    "ALLOWED_ORIGINS": "https://ideathon-agro-9u3t-flax.vercel.app,http://localhost:5173"
   }
 }
