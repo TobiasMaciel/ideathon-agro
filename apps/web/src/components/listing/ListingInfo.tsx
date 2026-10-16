@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ExternalLink, Globe, Loader2, Mail, MessageCircle, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { getListingContact, type ContactInfo, type ContactVia } from './api';
+import { getListingContact, type ContactInfo, type ContactVia } from '@/api/interpret';
 import { publishedAgo } from './form';
 
 interface Entity {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { interpretContact, interpretCreate } from './api';
+import { interpretContact, interpretCreate } from './interpret';
 
 describe('interpretCreate', () => {
   it('201 devuelve la publicación creada', () => {

@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import { SECTOR_SINGULAR } from '../panel/labels';
-import { postListing } from './api';
+import { postListing } from '@/api/interpret';
 import { emptyDraft, inNea, mapServerDetails, validateDraft, type FieldErrors, type LatLng, type ListingDraft, type ListingField } from './form';
 
 const ALT_LABEL: Record<AlternativeId, string> = { glp: 'GLP', lena: 'Leña' };
