@@ -110,8 +110,25 @@ Leyenda: `[ ]` pendiente · `[~]` en curso · `[x]` hecho
 - [ ] Front: botón "Ver contacto" que revela los datos y abre WhatsApp
 - [~] Quitar de la UI el origen de datos y textos de entorno (look de producción)
 - [ ] e2e: publicar una oferta, verla en el mapa y en el ranking, y ver su contacto
+- [x] Contactos corporativos públicos (web, teléfono, email con fuente) para los establecimientos del seed; nada inventado ni personal
+- [x] Back: contacto de curados en `packages/core/src/data`, tabla/columnas en `packages/db` + seed, `GET /api/listings/:id/contact` responde también para curados
+
+## F2 · Contacto vía plataforma
+- [x] Curados sin contacto público → "Contactar a través de Circular NEA" con el WhatsApp/email del equipo (`PLATFORM_CONTACT_PHONE`, `PLATFORM_CONTACT_EMAIL`); nunca datos inventados de empresas
+- [ ] Cargar el WhatsApp y el email del equipo (pendiente del usuario)
+
+## F3 · Modo claro
+- [ ] Tema claro además del oscuro (tokens equivalentes, contraste AA), selector en la UI que respeta la preferencia del sistema y se recuerda, mapa base claro (Esri Light Gray Canvas) en modo claro — implementer, después de F1 front
 
 ## V5 · Cierre — e2e, README, review y commits
 - [ ] e2e y README actualizados a la nueva estructura
 - [ ] Review (code-reviewer) del monorepo y del rediseño
 - [ ] Commits agrupados en español, sin coautor
+
+## V6 · Limpieza final con clean architecture — AL FINAL DE TODO (pedido del usuario)
+- [ ] Auditar el repo: código muerto, archivos sueltos, dependencias sin uso, configs duplicadas, nombres inconsistentes
+- [ ] Capas claras por workspace: dominio (entidades y reglas puras en `packages/core`), casos de uso (aplicación), adaptadores (Postgres/Drizzle, HTTP con Hono, UI React) e infraestructura; dependencias que apunten solo hacia el dominio
+- [ ] API: rutas finas → casos de uso → puertos (repositorios) implementados por adaptadores (memoria y Postgres)
+- [ ] Web: separar UI de estado y de acceso a la API (cliente HTTP tipado, hooks por caso de uso)
+- [ ] Convenciones documentadas (estructura, nombres, cómo agregar una feature) y ADRs de las decisiones grandes en `docs/adr/`
+- [ ] Todo verde (typecheck, lint, tests, build, e2e) y commits agrupados en español, sin coautor
