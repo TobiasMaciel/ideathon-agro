@@ -1,0 +1,71 @@
+import type { Tagged } from './types';
+
+export type AssumptionKey =
+  | 'costPerKm'
+  | 'truckMaxTons'
+  | 'truckVolumeM3'
+  | 'routeFactor'
+  | 'greenThreshold'
+  | 'usdArs';
+
+export interface Assumption extends Tagged {
+  key: AssumptionKey;
+  label: string;
+  unit: string;
+}
+
+export const assumptions: Assumption[] = [
+  {
+    key: 'costPerKm',
+    label: 'Costo del camión por km recorrido',
+    unit: 'ARS/km',
+    value: 2_900,
+    tag: 'estimado',
+    sourceIds: ['fetra-2026-04', 'memo-costos-2026-07'],
+    note: 'FETRA abr-2026: $73.332/t × 31,5 t ÷ 800 km (ida y vuelta) ≈ $2.890/km; FADEEAC jul-2026: $2.245–2.358/km',
+  },
+  {
+    key: 'truckMaxTons',
+    label: 'Carga útil máxima del camión',
+    unit: 't',
+    value: 30,
+    tag: 'real',
+    sourceIds: ['ley-24449-pesos', 'agrofy-flete-2026-07'],
+    note: 'Ley 24.449: 45 t de peso bruto; camiones cerealeros cargan 30–32 t',
+  },
+  {
+    key: 'truckVolumeM3',
+    label: 'Volumen útil de la caja',
+    unit: 'm³',
+    value: 90,
+    tag: 'estimado',
+    sourceIds: [],
+    note: 'semirremolque volcador/jaula de gran volumen para chips y aserrín',
+  },
+  {
+    key: 'routeFactor',
+    label: 'Factor de corrección por ruta',
+    unit: '×',
+    value: 1.3,
+    tag: 'estimado',
+    sourceIds: [],
+    note: 'las rutas no son rectas: 100 km en línea recta ≈ 130 km de camino. Con 1 queda línea recta pura',
+  },
+  {
+    key: 'greenThreshold',
+    label: 'Margen mínimo para semáforo verde',
+    unit: '%',
+    value: 0.15,
+    tag: 'estimado',
+    sourceIds: [],
+    note: 'criterio del proyecto: verde ≥ 15%, amarillo 0–15%, rojo < 0',
+  },
+  {
+    key: 'usdArs',
+    label: 'Dólar oficial BNA (venta)',
+    unit: 'ARS/USD',
+    value: 1_540,
+    tag: 'real',
+    sourceIds: ['bna-2026-10'],
+  },
+];
