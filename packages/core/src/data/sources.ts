@@ -1,4 +1,4 @@
-import type { Source } from './types';
+import type { Source } from '../domain/catalog';
 
 export const sources: Source[] = [
   { id: 'fetra-2026-04', title: 'Tarifa orientativa FETRA: $73.332/t a 400 km (Bichos de Campo)', url: 'https://bichosdecampo.com/conflicto-latente-en-buenos-aires-se-intento-negociar-una-nueva-tarifa-referencial-de-fletes-de-granos-pero-no-hubo-acuerdo/', date: '2026-04-07' },

@@ -1,6 +1,7 @@
 # @mapa/db
 
-Capa de datos de Mapa Circular NEA: esquema Drizzle, migraciones SQL, seed y `DataSource` para la API.
+Capa de datos de Mapa Circular NEA: esquema Drizzle, migraciones SQL, seed y los adaptadores Postgres de los
+puertos de `@mapa/core/ports` (`createPgRepositories(db)` → `{ catalog, listings, contacts }`).
 Postgres estándar: solo hace falta `DATABASE_URL` (Docker, Neon, RDS, un servidor propio, etc.).
 
 ## Uso
@@ -32,6 +33,14 @@ CREATE ROLE mapa_api_login LOGIN PASSWORD 'cambiar-esto' IN ROLE mapa_api;
 
 Y en `apps/api/.dev.vars` (o como secret del Worker): `DATABASE_URL=postgres://mapa_api_login:cambiar-esto@host:5432/mapa`.
 Las migraciones y el seed se corren con el usuario dueño de las tablas (el seed no toca `listings`).
+
+## Estructura
+
+- `client.ts`: `createDb(url)` → `{ db, close }`. Quien abre la conexión la cierra: en la API, `composition.ts`
+  la abre por request y la cierra al terminar (con `executionCtx.waitUntil`).
+- `mappers/`: catálogo ⇄ filas SQL (`catalog-rows.ts`), publicaciones ⇄ fila (`listing-row.ts`), nombres de columnas.
+- `repositories/`: `pg-catalog-repository.ts`, `pg-listing-repository.ts`, `pg-contact-directory.ts`. Reciben una
+  conexión abierta (`AnyDb`), nunca una URL, e implementan los puertos con `satisfies`.
 
 ## Workers
 

@@ -10,7 +10,7 @@ if (!url) {
   process.exit(1);
 }
 
-const db = createDb(url);
+const { db, close } = createDb(url);
 try {
   await seedDatabase(db, { sources, materials, alternatives, assumptions, generators, buyers, contacts: curatedContacts });
   console.log(
@@ -18,5 +18,5 @@ try {
       `${assumptions.length} supuestos, ${generators.length} generadores, ${buyers.length} compradores, ${curatedContacts.length} contactos.`,
   );
 } finally {
-  await db.$client.end();
+  await close();
 }

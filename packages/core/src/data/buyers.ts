@@ -1,4 +1,4 @@
-import type { Buyer } from './types';
+import type { Buyer } from '../domain/catalog';
 
 // Coordenadas: centro de la localidad según OpenStreetMap Nominatim (16/10/2026).
 // demandTonsPerMonth está en t/mes del combustible ACTUAL del comprador (leña o GLP); el modelo la convierte por energía.

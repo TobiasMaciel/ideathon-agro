@@ -1,7 +1,15 @@
 import { sql } from 'drizzle-orm';
 import { boolean, check, doublePrecision, index, jsonb, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import type { AlternativeId, BuyerSector, DataLabel, GeneratorKind, MaterialId, MaterialState } from '@mapa/core/data';
-import type { Meta } from '@mapa/core/db';
+import type {
+  AlternativeId,
+  BuyerSector,
+  DataLabel,
+  GeneratorKind,
+  ListingKind,
+  MaterialId,
+  MaterialState,
+} from '@mapa/core/catalog';
+import type { Meta } from './mappers/catalog-rows';
 
 // Esquema de Mapa Circular NEA (Postgres estándar, sin dependencias de ningún proveedor).
 //
@@ -161,7 +169,7 @@ export const listings = pgTable(
   'listings',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    kind: text('kind').$type<'oferta' | 'demanda'>().notNull(),
+    kind: text('kind').$type<ListingKind>().notNull(),
     name: text('name').notNull(),
     locality: text('locality'),
     lat: doublePrecision('lat').notNull(),

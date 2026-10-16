@@ -1,10 +1,10 @@
 import { sources } from './sources';
 
-export * from './types';
+// Tipos del catálogo (re-exportados por compatibilidad; su lugar es domain/catalog).
+export type * from '../domain/catalog';
 export { sources } from './sources';
 export { materials, alternatives } from './materials';
 export { assumptions } from './assumptions';
-export type { Assumption, AssumptionKey } from './assumptions';
 export { generators } from './generators';
 export { buyers } from './buyers';
 export { curatedContacts } from './contacts';

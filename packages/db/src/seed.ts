@@ -1,14 +1,17 @@
-import type { DataSet } from '@mapa/core/db';
-import { toRows } from '@mapa/core/db';
+import type { Catalog, CuratedContact } from '@mapa/core/catalog';
 import type { AnyDb } from './client';
-import { toTsKeys } from './columns';
+import { toRows } from './mappers/catalog-rows';
+import { toTsKeys } from './mappers/columns';
 import * as t from './schema';
+
+/** Catálogo curado más sus contactos corporativos (los contactos no viajan en el catálogo). */
+export type SeedData = Catalog & { contacts?: CuratedContact[] };
 
 /**
  * Reemplaza el contenido de la base por `data`: en una sola transacción borra y reinserta, por lo que
  * es idempotente (correrlo dos veces deja el mismo estado) y nunca deja la base a medias.
  */
-export async function seedDatabase(db: AnyDb, data: DataSet): Promise<void> {
+export async function seedDatabase(db: AnyDb, data: SeedData): Promise<void> {
   const rows = toRows(data);
   const ins = (table: Parameters<typeof toTsKeys>[0], list: object[]) =>
     list.map((r) => toTsKeys(table, r as Record<string, unknown>));

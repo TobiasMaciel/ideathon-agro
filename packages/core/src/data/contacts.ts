@@ -1,4 +1,4 @@
-import type { CuratedContact } from './types';
+import type { CuratedContact } from '../domain/catalog';
 
 // Contactos corporativos públicos (páginas oficiales, relevadas 2026-10-16). Solo áreas o empresas:
 // nunca personas ni datos inventados. El resto de los establecimientos curados no tiene contacto.

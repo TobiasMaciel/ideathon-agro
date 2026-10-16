@@ -2,6 +2,7 @@
   "name": "@mapa/api",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port 8787",
@@ -12,7 +13,7 @@
   },
   "dependencies": {
     "@mapa/core": "*",
-    "@mapa/db": "^0.1.0",
+    "@mapa/db": "*",
     "hono": "^4.13.13"
   },
   "devDependencies": {

@@ -2,17 +2,19 @@
   "name": "@mapa/core",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./viability": "./src/viability/index.ts",
-    "./match": "./src/match/index.ts",
-    "./overrides": "./src/overrides.ts",
-    "./format": "./src/format.ts",
-    "./data": "./src/data/index.ts",
-    "./api": "./src/api/types.ts",
-    "./listings": "./src/listings.ts",
-    "./db": "./src/db/rows.ts"
+    "./catalog": "./src/domain/catalog.ts",
+    "./viability": "./src/domain/viability/index.ts",
+    "./match": "./src/domain/match/index.ts",
+    "./overrides": "./src/domain/assumptions/overrides.ts",
+    "./listings": "./src/domain/listings/index.ts",
+    "./contact": "./src/domain/contact/index.ts",
+    "./ports": "./src/ports/index.ts",
+    "./contracts": "./src/contracts/http.ts",
+    "./api": "./src/contracts/http.ts",
+    "./data": "./src/data/index.ts"
   },
   "scripts": {
     "test": "vitest run",

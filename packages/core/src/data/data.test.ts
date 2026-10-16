@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { fromRows, toRows, type DataSet } from '../db/rows';
 import { alternatives, assumptions, buyers, curatedContacts, generators, getSource, materials, sources } from './index';
-import type { Tagged } from './types';
-
-const data: DataSet = { sources, materials, alternatives, assumptions, generators, buyers };
+import type { Tagged } from '../domain/catalog';
 
 /** Todos los valores etiquetados con un nombre legible para los mensajes de error. */
 function allTagged(): { where: string; t: Tagged<unknown> }[] {
@@ -99,17 +96,6 @@ describe('integridad de src/data', () => {
       if (a.lhvMJPerUnit.value < 5 || a.lhvMJPerUnit.value > 50) bad.push(`${a.id}.lhv`);
     }
     expect(bad).toEqual([]);
-  });
-});
-
-describe('filas de la base', () => {
-  it('fromRows(toRows(data)) devuelve los mismos datos', () => {
-    expect(fromRows(toRows(data))).toEqual(data);
-  });
-
-  it('el round trip sobrevive a la serialización JSON (como al leer de la base)', () => {
-    const viaJson = JSON.parse(JSON.stringify(toRows(data)));
-    expect(fromRows(viaJson)).toEqual(data);
   });
 });
 

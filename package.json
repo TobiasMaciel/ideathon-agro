@@ -2,6 +2,7 @@
   "name": "mapa-circular-nea",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -18,6 +19,7 @@
     "lint": "eslint .",
     "test": "npm run test --workspaces --if-present",
     "test:e2e": "playwright test",
+    "verify": "npm run typecheck && npm run lint && npm test",
     "db:generate": "npm run generate -w @mapa/db",
     "db:migrate": "npm run migrate -w @mapa/db",
     "db:seed": "npm run seed -w @mapa/db",
@@ -32,7 +34,6 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.13.0",
-    "tsx": "^4.23.15",
     "typescript": "^5",
     "typescript-eslint": "^8.71.2"
   }

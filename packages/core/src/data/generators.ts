@@ -1,4 +1,4 @@
-import type { Generator, Tagged } from './types';
+import type { Generator, Tagged } from '../domain/catalog';
 
 // Coordenadas: centro de la localidad según OpenStreetMap Nominatim (16/10/2026).
 // Cuando hay varias empresas en la misma localidad se desplazan ~1 km solo para que no se superpongan en el mapa.

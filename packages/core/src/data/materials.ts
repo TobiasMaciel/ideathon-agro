@@ -1,4 +1,4 @@
-import type { Alternative, Material, Tagged } from './types';
+import type { Alternative, Material, Tagged } from '../domain/catalog';
 
 // PCI con humedad: PCI_h = PCI_seco × (1 − h) − 2,44 × h  (MJ/kg; 2,44 = calor latente del agua).
 // Madera seca ≈ 19 MJ/kg (Forest Research: chips 30% → 12,5 MJ/kg, consistente con la fórmula).

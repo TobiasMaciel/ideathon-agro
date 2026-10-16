@@ -1,6 +1,18 @@
-export { createDb, type AnyDb, type Db } from './client';
-export { createDbDataSource, loadDataSet, type DataSource } from './repository';
-export { seedDatabase } from './seed';
+import type { AnyDb } from './client';
+import { createPgCatalogRepository } from './repositories/pg-catalog-repository';
+import { createPgContactDirectory } from './repositories/pg-contact-directory';
+import { createPgListingRepository } from './repositories/pg-listing-repository';
+
+export { createDb, type AnyDb, type DbConnection } from './client';
+export { seedDatabase, type SeedData } from './seed';
 export * as schema from './schema';
-export { createDbListingSource, getListing, insertListing, loadListings } from './listings';
-export { createDbContactSource, getCuratedContact } from './contacts';
+export { createPgCatalogRepository, createPgContactDirectory, createPgListingRepository };
+
+/** Los tres repositorios Postgres sobre una misma conexión (que abre y cierra quien llama). */
+export function createPgRepositories(db: AnyDb) {
+  return {
+    catalog: createPgCatalogRepository(db),
+    listings: createPgListingRepository(db),
+    contacts: createPgContactDirectory(db),
+  };
+}

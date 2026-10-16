@@ -1,18 +1,4 @@
-import type { Tagged } from './types';
-
-export type AssumptionKey =
-  | 'costPerKm'
-  | 'truckMaxTons'
-  | 'truckVolumeM3'
-  | 'routeFactor'
-  | 'greenThreshold'
-  | 'usdArs';
-
-export interface Assumption extends Tagged {
-  key: AssumptionKey;
-  label: string;
-  unit: string;
-}
+import type { Assumption } from '../domain/catalog';
 
 export const assumptions: Assumption[] = [
   {
