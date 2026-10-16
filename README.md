@@ -19,17 +19,12 @@ y cada match dice si vender cierra después de pagar el flete.
 
 </div>
 
-<!--
-Capturas pendientes: generar docs/images/app-light.png y docs/images/app-dark.png (1440×900,
-Molinos Ala en pellet con Frigorífico Duhalde elegido) y descomentar este bloque.
-
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/app-dark.png">
     <img src="docs/images/app-light.png" alt="Circular NEA: mapa de Corrientes con Molinos Ala en pellet, el radio viable dibujado y el Frigorífico Duhalde en verde" width="900">
   </picture>
 </p>
--->
 
 ---
 
@@ -37,7 +32,7 @@ Molinos Ala en pellet con Frigorífico Duhalde elegido) y descomentar este bloqu
 
 - **Hay residuo de sobra.** Corrientes produjo el 48,5 % del arroz del país en 2025/26 ([Bichos de Campo](https://bichosdecampo.com/se-confirma-la-retraccion-del-arroz-tras-perder-un-12-de-area-sembrada-la-produccion-cayo-14-en-la-campana-2025-26/)), y la cascarilla es el 20–22 % del grano: unas 140.000–157.000 t/año (estimación propia).
 - **Mucho se quema.** Corrientes es la provincia más forestada del país, con 516.771 ha ([CONICET](https://ri.conicet.gov.ar/handle/11336/162643)). Solo en el parque foresto-industrial de Santa Rosa se estimaban 200.000 t/año de residuos de aserradero que se queman ([El Inversor Energético](https://www.elinversorenergetico.com/?p=16526)).
-- **El flete decide.** La cascarilla suelta pesa 108 kg/m³ ([Dyna, UNAL](https://revistas.unal.edu.co/index.php/dyna)): el camión se llena de aire antes que de peso. Con los supuestos del modelo, pelletizarla multiplica por más de 5 la distancia a la que la venta sigue cerrando.
+- **El flete decide.** La cascarilla suelta pesa 108 kg/m³ ([Dyna, UNAL](https://revistas.unal.edu.co/index.php/dyna)): el camión se llena de aire antes que de peso. Con los supuestos del modelo, pelletizarla multiplica por más de 12 la distancia (de ~25 km a ~310 km por ruta) a la que la venta sigue cerrando.
 
 ## Funcionalidades
 
