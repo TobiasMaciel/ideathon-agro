@@ -3,7 +3,9 @@
 Este archivo es la fuente única de reglas para cualquier agente que trabaje en este proyecto.
 `CLAUDE.md` y `GEMINI.md` lo importan y solo agregan lo específico de cada CLI.
 
-Proyecto: **ideathon-agro** — ver `desafio-03-subproductos.md` para el enunciado del desafío.
+Proyecto: **ideathon-agro** — Desafío 03 · Del subproducto al mercado (cascarilla de arroz y biomasa forestal).
+
+**Documento principal:** `docs/desafio.md` — enunciado, contexto e investigación del desafío. Es la fuente de verdad del proyecto: leelo antes de proponer o implementar algo, y respetá sus etiquetas de datos ([C], [P], [NV]).
 
 ---
 
