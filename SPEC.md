@@ -13,7 +13,7 @@
 3. La distancia es la **línea recta** entre origen y destino multiplicada por un **factor de corrección por ruta** (por defecto 1,3: las rutas no son rectas, 100 km en línea recta ≈ 130 km de camino). Es un supuesto editable; con 1 queda línea recta pura. Sin ruteo real.
 4. El mapa usa Leaflet con tiles de OpenStreetMap/CARTO, sin API key.
 5. Front y back son **dos apps separadas** (ver Arquitectura v2). La API corre en **Cloudflare Workers** (Hono) y la base es **PostgreSQL estándar** accedida con **Drizzle ORM**, sin depender de ningún proveedor (Docker local, Neon, Supabase, RDS…: solo cambia `DATABASE_URL`). Se entregan esquema, migraciones y seed listos; no se despliega nada.
-6. La demo se ve en la web y desde el celular (responsive), en español.
+6. **Solo web de escritorio** (1280 px o más), en español. Mobile fuera de alcance (decisión del usuario, 16/10/2026).
 7. Si falta `DATABASE_URL`, la API sirve los mismos datos desde `packages/core/src/data/` (fuente única de la que también sale el seed de la base), así la demo funciona antes de conectar la base.
 
 ---
@@ -53,6 +53,7 @@ Decisiones del usuario (16/10/2026): el mapa es un **punto en común** donde ven
 - **Qué se publica:** *Vendo* (oferta) o *Compro* (demanda), con material, toneladas por mes, ubicación (click en el mapa), localidad y nombre del establecimiento. Oferta: humedad y estacionalidad. Demanda: combustible actual (GLP o leña), su consumo mensual y el sector.
 - **Entra al cálculo** como cualquier generador o comprador: aparece en el ranking, en el radio y en el semáforo. Los valores declarados van con etiqueta `estimado` y nota "declarado por quien publicó, sin verificar".
 - **Contacto al hacer click:** quien publica deja WhatsApp/teléfono y/o email (al menos uno). El contacto **no** viaja en el catálogo: se pide con `GET /api/listings/:id/contact` al tocar "Ver contacto" (con límite por IP) e incluye un link de WhatsApp con mensaje armado. Los establecimientos curados (empresas reales) llevan solo su **contacto corporativo público** (sitio web, teléfono o email general publicados por la empresa o un directorio comercial), cada dato con su fuente; nunca contactos personales ni datos inventados. Si no hay dato público, no tienen contacto.
+- **Notificaciones de match (sin servicios externos):** al publicar se muestran los matches que cierran; una campanita avisa matches nuevos para las publicaciones propias (recordadas en el navegador), consultando novedades cada ~20 s. Email y WhatsApp automáticos quedan para el roadmap.
 - **Aspecto de producto en producción:** la UI no muestra el origen de los datos ni textos de entorno (local, demo, base); eso solo queda en `GET /api/health`.
 - **Persistencia:** con `DATABASE_URL`, tabla `listings` en Postgres (Drizzle). El rol de la API tiene `INSERT` solo en `listings`. Sin base, las publicaciones viven en memoria de la API (modo demo: se pierden al reiniciar).
 - **API:** `POST /api/listings` (validación estricta, tope de body, límites de texto y de coordenadas al NEA); `GET /api/catalog` incluye las publicaciones mezcladas con los datos curados, con `origin: 'publicacion'` y `verified: false`.
@@ -185,7 +186,7 @@ export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
 - [ ] Con los datos del seed, la cascarilla de Molinos Ala (Mercedes) suelta tiene un radio de ~25 km por ruta y da rojo para el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km); pelletizada el radio pasa a ~310 km y el mismo comprador da verde con ahorro frente al GLP.
 - [ ] Cada número de la UI muestra su etiqueta y su fuente, y los supuestos se pueden editar en la sesión.
 - [ ] `npm test`, `npm run typecheck`, `npm run lint` y el e2e pasan.
-- [ ] Se usa bien desde el celular (viewport de 375 px).
+- [ ] Se ve impecable en escritorio (1280–1920 px). Mobile fuera de alcance.
 
 ## Decisiones tomadas
 
