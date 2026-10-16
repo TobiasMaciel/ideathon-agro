@@ -344,9 +344,6 @@
 .leaflet-container.leaflet-container .leaflet-tooltip-top.pin-label::before {
   border-top-color: var(--color-selection);
 }
-.leaflet-container.leaflet-container .leaflet-tooltip-bottom.pin-label::before {
-  border-bottom-color: var(--color-selection);
-}
 
 /* Publicar: modo "marcar en el mapa". Cursor en cruz y los pines dejan pasar el click al mapa. */
 .leaflet-container.leaflet-container.picking,
@@ -356,18 +353,4 @@
 }
 .leaflet-container.picking .leaflet-marker-icon {
   pointer-events: none;
-}
-
-/* Mobile: marca, "Publicar" y la grilla 2×2 de KPIs ocupan arriba; atribución y escala van debajo, a la derecha. */
-@media (max-width: 1023px) {
-  .leaflet-container .leaflet-top.leaflet-right {
-    top: 176px;
-  }
-  .leaflet-container.leaflet-container .leaflet-control-attribution {
-    max-width: 200px;
-    border-radius: 6px 0 0 6px;
-  }
-  .leaflet-container.picking .leaflet-top.leaflet-right {
-    top: 100px;
-  }
 }

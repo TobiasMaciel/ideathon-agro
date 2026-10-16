@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import type { CatalogResponse } from '@mapa/core/api';
+import type { CatalogResponse } from '@mapa/core/contracts';
 import { alternatives, assumptions, buyers, generators, materials, sources, type Buyer, type Generator } from '@mapa/core/data';
-import { computeNotifications, loadSeen, markAllSeen, markSeen, saveSeen } from './inbox';
+import { computeNotifications, loadSeen, markAllSeen, markIdsSeen, markSeen, newMatchNotice, notificationId, saveSeen } from './inbox';
 import type { MyListing } from './my-listings';
-import type { KeyValueStorage } from './storage';
+import type { KeyValueStorage } from '@/shared/storage';
 
 const mercedes = generators.find((g) => g.id === 'molinos-ala-mercedes')!;
 const curuzu = buyers.find((b) => b.id === 'duhalde-curuzu')!;
@@ -62,9 +62,44 @@ describe('computeNotifications', () => {
     expect(computeNotifications({ myListings: mine, catalog, seen }).every((n) => !n.isNew)).toBe(true);
   });
 
+  it('"nuevo" se decide contra el createdAt del servidor de mi publicación, no contra el reloj del navegador', () => {
+    // El navegador guardó un createdAt adelantado (reloj corrido): la demanda del 12/10 igual es posterior a mi alta real (10/10).
+    const skewed: MyListing[] = [{ id: 'mia', kind: 'oferta', createdAt: '2026-10-20T00:00:00.000Z' }];
+    const n = computeNotifications({ myListings: skewed, catalog, seen: new Set() }).find((x) => x.id === 'mia:nueva');
+    expect(n?.type).toBe('nuevo-match');
+  });
+
   it('ignora publicaciones que ya no están en el catálogo', () => {
     const gone: MyListing[] = [{ id: 'borrada', kind: 'oferta', createdAt: '2026-10-10T00:00:00.000Z' }];
     expect(computeNotifications({ myListings: gone, catalog, seen: new Set() })).toEqual([]);
+  });
+});
+
+describe('notificationId y markIdsSeen', () => {
+  it('id estable mi-publicación:contraparte', () => {
+    expect(notificationId('mia', 'nueva')).toBe('mia:nueva');
+  });
+  it('al publicar, los matches ya mostrados quedan leídos y lo nuevo sigue sin leer', () => {
+    const s = memoryStorage();
+    const seen = markIdsSeen(['mia:vieja', 'mia:duhalde-curuzu'], new Set(), s);
+    const list = computeNotifications({ myListings: mine, catalog, seen });
+    expect(list.find((n) => n.id === 'mia:vieja')?.isNew).toBe(false);
+    expect(list.find((n) => n.id === 'mia:nueva')?.isNew).toBe(true);
+    expect(loadSeen(s).has('mia:vieja')).toBe(true);
+  });
+});
+
+describe('newMatchNotice', () => {
+  const list = computeNotifications({ myListings: mine, catalog, seen: new Set() });
+  it('avisa el match nuevo que trajo la última consulta', () => {
+    expect(newMatchNotice(list, { generators: [], buyers: ['nueva'] })).toMatch(/^Nuevo negocio compatible: Frigorífico Nuevo/);
+  });
+  it('sin contrapartes nuevas compatibles con mis publicaciones: null', () => {
+    expect(newMatchNotice(list, { generators: ['otra'], buyers: [] })).toBeNull();
+    expect(newMatchNotice([], { generators: [], buyers: ['nueva'] })).toBeNull();
+  });
+  it('varios a la vez: los cuenta', () => {
+    expect(newMatchNotice(list, { generators: [], buyers: ['nueva', 'vieja'] })).toBe('2 negocios compatibles nuevos para tus publicaciones');
   });
 });
 

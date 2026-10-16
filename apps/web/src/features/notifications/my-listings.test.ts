@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { forgetListing, loadMyListings, MAX_MY_LISTINGS, MY_LISTINGS_KEY, rememberListing } from './my-listings';
-import type { KeyValueStorage } from './storage';
+import type { KeyValueStorage } from '@/shared/storage';
 
 function memoryStorage(): KeyValueStorage {
   const m = new Map<string, string>();

@@ -1,10 +1,9 @@
 // "Mis publicaciones" en este navegador (sin cuenta), guardadas en localStorage.
-import { readJson, writeJson, type KeyValueStorage } from './storage';
+import type { ListingKind } from '@mapa/core/contracts';
+import { readJson, writeJson, type KeyValueStorage } from '@/shared/storage';
 
 export const MY_LISTINGS_KEY = 'circular-nea:my-listings:v1';
 export const MAX_MY_LISTINGS = 50;
-
-export type ListingKind = 'oferta' | 'demanda';
 
 export interface MyListing {
   id: string;

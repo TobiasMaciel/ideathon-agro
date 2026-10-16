@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { CatalogResponse } from '@mapa/core/api';
-import { createPoller, diffCatalog } from './poll';
+import type { CatalogResponse } from '@mapa/core/contracts';
+import { createPoller, diffCatalog, pollIntervalMs } from './poll';
 
 const cat = (g: string[], b: string[]) =>
   ({ generators: g.map((id) => ({ id })), buyers: b.map((id) => ({ id })) }) as unknown as CatalogResponse;
@@ -109,5 +109,19 @@ describe('createPoller', () => {
     hidden = false;
     await t.fire();
     expect(fetchCatalog).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('pollIntervalMs', () => {
+  it('por defecto, cada 20 s', () => {
+    expect(pollIntervalMs('')).toBe(20_000);
+    expect(pollIntervalMs('?otra=1')).toBe(20_000);
+  });
+  it('?pollMs= lo baja (para los e2e), con un mínimo de 500 ms', () => {
+    expect(pollIntervalMs('?pollMs=1000')).toBe(1000);
+    expect(pollIntervalMs('?pollMs=10')).toBe(500);
+  });
+  it('un valor que no es número se ignora', () => {
+    expect(pollIntervalMs('?pollMs=rapido')).toBe(20_000);
   });
 });

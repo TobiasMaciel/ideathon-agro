@@ -1,11 +1,11 @@
-import ErrorBoundary from './ErrorBoundary';
-import MapCircularApp from './components/app/MapCircularApp';
+import AppShell from './app/AppShell';
+import ErrorBoundary from './app/ErrorBoundary';
 
 export default function App() {
   return (
     <ErrorBoundary>
       <main className="flex flex-1 flex-col">
-        <MapCircularApp />
+        <AppShell />
       </main>
     </ErrorBoundary>
   );

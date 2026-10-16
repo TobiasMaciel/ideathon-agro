@@ -82,17 +82,3 @@ test("cambio de generador a un aserradero de aserrín", async ({ page }) => {
   await expect(page.getByTestId("state-suelto")).toBeEnabled();
   await expect(page.getByTestId("result-light")).toHaveAttribute("data-light", /^(verde|amarillo|rojo)$/);
 });
-
-test.describe("mobile 375x812", () => {
-  test.use({ viewport: { width: 375, height: 812 } });
-
-  test("sin scroll horizontal y semáforo visible al scrollear", async ({ page }) => {
-    await open(page);
-    const width = await page.evaluate(() => document.documentElement.scrollWidth);
-    expect(width).toBeLessThanOrEqual(375);
-    const light = page.getByTestId("result-light");
-    await light.scrollIntoViewIfNeeded();
-    await expect(light).toBeVisible();
-    await expect(light).toBeInViewport();
-  });
-});

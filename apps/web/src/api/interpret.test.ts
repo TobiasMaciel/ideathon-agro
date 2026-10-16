@@ -1,5 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { interpretContact, interpretCreate } from './api';
+import { interpretCatalog, interpretContact, interpretCreate } from './interpret';
+
+describe('interpretCatalog', () => {
+  it('200 con listas devuelve el catálogo', () => {
+    const body = { generators: [], buyers: [], materials: [], alternatives: [], assumptions: [], sources: [] };
+    expect(interpretCatalog(200, body)).toEqual({ ok: true, catalog: body });
+  });
+  it('otro status: mensaje con el código', () => {
+    expect(interpretCatalog(503, null)).toEqual({ ok: false, message: 'El servidor respondió 503' });
+  });
+  it('200 con un cuerpo que no es catálogo: error', () => {
+    expect(interpretCatalog(200, { error: 'x' })).toMatchObject({ ok: false });
+  });
+});
 
 describe('interpretCreate', () => {
   it('201 devuelve la publicación creada', () => {
@@ -36,16 +49,16 @@ describe('interpretContact', () => {
     expect(interpretContact(429, { error: 'Demasiadas consultas.' })).toEqual({ ok: false, kind: 'rate', message: 'Demasiadas consultas.' });
     expect(interpretContact(404, { error: 'No existe la publicación.' })).toEqual({ ok: false, kind: 'notfound', message: 'No existe la publicación.' });
   });
-  it('acepta campos opcionales de contacto corporativo: website, sourceUrl y sourceIds', () => {
+  it('acepta campos opcionales de contacto corporativo (website, sourceUrl) y descarta los que no están en el contrato', () => {
     const r = interpretContact(200, {
       email: 'info@empresa.com.ar',
       website: 'https://empresa.com.ar',
       sourceUrl: 'https://fuente.example.org/nota',
-      sourceIds: ['src-1', 2],
+      sourceIds: ['src-1'],
     });
     expect(r).toEqual({
       ok: true,
-      contact: { email: 'info@empresa.com.ar', website: 'https://empresa.com.ar', sourceUrl: 'https://fuente.example.org/nota', sourceIds: ['src-1'] },
+      contact: { email: 'info@empresa.com.ar', website: 'https://empresa.com.ar', sourceUrl: 'https://fuente.example.org/nota' },
     });
   });
   it('via: acepta empresa, publicacion y plataforma; descarta otro valor', () => {

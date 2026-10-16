@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { CatalogResponse } from '@mapa/core/api';
+import type { CatalogResponse } from '@mapa/core/contracts';
 import { alternatives, assumptions, buyers, generators, materials, sources, type Buyer, type Generator } from '@mapa/core/data';
 import { matchesForListing } from './matches';
 

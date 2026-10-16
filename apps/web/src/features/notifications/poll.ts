@@ -1,5 +1,5 @@
 // Polling del catálogo para avisar de publicaciones nuevas (lógica pura, timers inyectables).
-import type { CatalogResponse } from '@mapa/core/api';
+import type { CatalogResponse } from '@mapa/core/contracts';
 
 export interface CatalogDiff {
   generators: string[];
@@ -36,7 +36,7 @@ export function createPoller(opts: {
   clearTimeoutFn?: typeof clearTimeout;
 }): Poller {
   const { fetchCatalog, onChange, isHidden } = opts;
-  const intervalMs = opts.intervalMs ?? 20_000;
+  const intervalMs = opts.intervalMs ?? DEFAULT_POLL_MS;
   const setT = opts.setTimeoutFn ?? setTimeout;
   const clearT = opts.clearTimeoutFn ?? clearTimeout;
 
@@ -83,4 +83,17 @@ export function createPoller(opts: {
     },
     tick,
   };
+}
+
+export const DEFAULT_POLL_MS = 20_000;
+const MIN_POLL_MS = 500;
+
+/**
+ * Intervalo de consulta: 20 s. `?pollMs=<ms>` en la URL lo baja (lo usan los e2e para no esperar 20 s);
+ * mínimo 500 ms para no saturar la API.
+ */
+export function pollIntervalMs(search: string): number {
+  const raw = new URLSearchParams(search).get('pollMs');
+  const ms = raw === null ? NaN : Number(raw);
+  return Number.isFinite(ms) && ms > 0 ? Math.max(MIN_POLL_MS, ms) : DEFAULT_POLL_MS;
 }

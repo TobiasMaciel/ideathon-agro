@@ -1,6 +1,6 @@
 // Matches de una publicación (oferta o demanda) contra el catálogo, usando las funciones de @mapa/core/match.
-import type { CatalogResponse } from '@mapa/core/api';
-import type { Buyer, Generator } from '@mapa/core/data';
+import type { CatalogResponse } from '@mapa/core/contracts';
+import type { Buyer, Generator } from '@mapa/core/contracts';
 import { availableStates, evaluateMatch, type Overrides } from '@mapa/core/match';
 import type { MaterialState } from '@mapa/core/viability';
 
