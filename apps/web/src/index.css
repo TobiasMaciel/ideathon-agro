@@ -64,9 +64,28 @@
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
 }
 
+/*
+ * Escala por pantalla de escritorio: todo (texto, espaciados, panel) está en rem, así que alcanza con mover
+ * el tamaño base. 15 px en notebooks chicas o bajas, 16 px de 1280×800 en adelante, 18/20 px en 2K/4K.
+ */
+html {
+  font-size: 100%;
+}
+@media (max-width: 1279px), (max-height: 799px) {
+  html { font-size: 93.75%; }
+}
+@media (min-width: 2200px) and (min-height: 1200px) {
+  html { font-size: 112.5%; }
+}
+@media (min-width: 2500px) and (min-height: 1350px) {
+  html { font-size: 125%; }
+}
+
 /* Variables de shadcn/ui mapeadas a la paleta (valores del oscuro; el claro las redefine más abajo). */
 :root {
   color-scheme: dark;
+  /* Ancho del panel de la calculadora: crece con la pantalla, entre 22 y 28 rem. */
+  --panel-w: clamp(22rem, 23vw, 28rem);
   --background: #0d1110;
   --foreground: #e8ece9;
   --card: #131917;
@@ -323,7 +342,7 @@
 }
 /* La pastilla de marca y los KPIs ocupan la franja superior: el zoom va debajo. */
 .leaflet-container .leaflet-top.leaflet-left {
-  top: 52px;
+  top: 3.25rem;
 }
 
 /* Etiqueta siempre visible del pin elegido (planta y comprador). */

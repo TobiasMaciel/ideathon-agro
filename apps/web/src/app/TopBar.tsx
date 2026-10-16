@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react';
 import { KpiStrip, type Kpi } from '@/features/calculator';
 import BrandPill from './BrandPill';
-import { PANEL_W } from './layout';
+import { RIGHT_OF_PANEL } from './layout';
 
 /** Pastilla de acción principal: abre el formulario de publicación. */
 function PublishButton({ onClick }: { onClick: () => void }) {
@@ -21,13 +21,14 @@ function PublishButton({ onClick }: { onClick: () => void }) {
 /** Arriba a la izquierda, sobre el mapa: marca, "Publicar", lo que se pase como `actions` y los KPIs. */
 export default function TopBar({ kpis, onPublish, actions }: { kpis: Kpi[]; onPublish: () => void; actions?: React.ReactNode }) {
   return (
-    <div className="@container absolute top-3 left-3 z-[1000] flex items-start gap-2" style={{ right: PANEL_W + 40 }}>
+    <div className="@container absolute top-3 left-3 z-[1000] flex items-start gap-2" style={{ right: `calc(${RIGHT_OF_PANEL} + 1.5rem)` }}>
       <div className="flex shrink-0 items-center gap-2">
         <BrandPill />
         <PublishButton onClick={onPublish} />
         {actions}
       </div>
-      <KpiStrip items={kpis} />
+      {/* Si no entran en una fila, los KPIs bajan a una segunda (debajo de ellos mismos, no del zoom). */}
+      <KpiStrip items={kpis} className="min-w-0 flex-wrap" />
     </div>
   );
 }

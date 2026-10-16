@@ -45,7 +45,7 @@ export default function CalculatorPanel({ catalog, calc, generator, material, d,
   return (
     <>
       {/* Bloque fijo: dónde estoy y la respuesta. */}
-      <div className="space-y-3 border-b border-border px-4 pt-3 pb-4">
+      <div className="shrink-0 space-y-3 border-b border-border px-4 pt-3 pb-4">
         <div>
           <GeneratorPicker generators={catalog.generators} materials={catalog.materials} selectedId={generator.id} onSelect={(id) => selectGenerator(id)} />
           <ListingInfo entity={generator} onShowSources={showSources} className="mt-1" />
@@ -73,7 +73,8 @@ export default function CalculatorPanel({ catalog, calc, generator, material, d,
         )}
       </div>
 
-      <Tabs value={tab} onValueChange={(v) => onTabChange(v as PanelTab)} className="flex min-h-0 flex-1 flex-col gap-0">
+      {/* Altura mínima: en pantallas bajas el panel entero scrollea en vez de aplastar la lista. */}
+      <Tabs value={tab} onValueChange={(v) => onTabChange(v as PanelTab)} className="flex min-h-80 flex-1 flex-col gap-0">
         <TabsList className="mx-4 mt-3 grid h-9 w-auto shrink-0 grid-cols-4 rounded-lg bg-surface-subtle p-0.5">
           <TabsTrigger value="compradores" className={TAB_TRIGGER}>
             Compradores

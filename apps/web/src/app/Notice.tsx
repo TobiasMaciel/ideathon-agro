@@ -1,9 +1,9 @@
-import { PANEL_W } from './layout';
+import { RIGHT_OF_PANEL } from './layout';
 
 /** Aviso breve y discreto sobre el mapa (live region siempre montada para que el lector lo anuncie). */
 export default function Notice({ text }: { text: string | null }) {
   return (
-    <div className="pointer-events-none absolute left-0 z-[1050] flex justify-center px-3" style={{ right: PANEL_W + 16, bottom: 24 }}>
+    <div className="pointer-events-none absolute left-0 z-[1050] flex justify-center px-3" style={{ right: RIGHT_OF_PANEL, bottom: 24 }}>
       <p
         role="status"
         data-testid="notice"

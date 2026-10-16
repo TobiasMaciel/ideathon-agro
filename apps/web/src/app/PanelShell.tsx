@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PANEL_W } from './layout';
-
-/** Card flotante a la derecha con la calculadora. */
-export default function PanelShell({ children }: { children: React.ReactNode }) {
+/**
+ * Card flotante a la derecha con la calculadora. Ancho fluido (--panel-w); si la pantalla es baja
+ * y el contenido no entra, el panel entero scrollea.
+ */
+export default function PanelShell({ children, ref }: { children: React.ReactNode; ref?: React.Ref<HTMLElement> }) {
   return (
     <aside
+      ref={ref}
       aria-label="Calculadora"
-      className="absolute top-4 right-4 bottom-4 z-[1000] flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-overlay"
-      style={{ width: PANEL_W }}
+      className="absolute top-4 right-4 bottom-4 z-[1000] flex w-(--panel-w) flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-border bg-surface shadow-overlay"
     >
       {children}
     </aside>

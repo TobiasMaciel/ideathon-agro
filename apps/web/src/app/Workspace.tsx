@@ -8,7 +8,8 @@ import { NotificationBell, PublishMatches, pollIntervalMs, useCatalogPoll, useNo
 import Notice from './Notice';
 import PanelShell, { PanelError } from './PanelShell';
 import TopBar from './TopBar';
-import { MAP_FREE, MAP_INSETS } from './layout';
+import { MAP_FREE, mapInsets } from './layout';
+import { useElementWidth } from './use-element-width';
 import { useNotice } from './use-notice';
 
 // El formulario (y el Select de Radix) se carga recién al tocar "Publicar".
@@ -34,6 +35,7 @@ export default function Workspace({ catalog, onListingCreated, onCatalogUpdate }
   const [notice, setNotice] = useNotice();
   const [matches, setMatches] = useState<MatchItem[] | null>(null);
   const [pollMs] = useState(() => pollIntervalMs(window.location.search));
+  const [panelRef, panelWidth] = useElementWidth<HTMLElement>(400);
   const { app, dispatch, view, selectGenerator } = calc;
 
   useCatalogPoll(catalog, pollMs, (next, diff) => {
@@ -114,7 +116,7 @@ export default function Workspace({ catalog, onListingCreated, onCatalogUpdate }
           onSelectBuyer={(id) => dispatch({ type: 'selectBuyer', id })}
           hotBuyerId={hotBuyerId}
           onHoverBuyer={setHotBuyerId}
-          insets={MAP_INSETS}
+          insets={mapInsets(panelWidth)}
           picking={publish.picking}
           onPick={publish.pick}
           onCancelPick={publish.cancelPick}
@@ -153,7 +155,7 @@ export default function Workspace({ catalog, onListingCreated, onCatalogUpdate }
         </div>
       )}
 
-      <PanelShell>
+      <PanelShell ref={panelRef}>
         <CalculatorPanel
           catalog={catalog}
           calc={calc}
