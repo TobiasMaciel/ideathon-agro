@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { AttributionControl, Circle, MapContainer, Marker, Polyline, ScaleControl, TileLayer, Tooltip, ZoomControl, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,6 +6,7 @@ import { Beef, ChevronDown, Citrus, Crosshair, Leaf, Warehouse, Zap, type Lucide
 import type { Buyer, BuyerSector, Generator, MaterialId } from '@mapa/core/data';
 import type { TrafficLight } from '@mapa/core/viability';
 import { Button } from '@/components/ui/button';
+import { useTheme, type Theme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 import type { MapViewProps } from './types';
 import {
@@ -20,11 +21,19 @@ import {
   buyerPinSpec,
   generatorPinHtml,
   generatorPinSpec,
+  mergedLabelHost,
 } from './markers';
 
 const CENTER: [number, number] = [-28.6, -57.6];
 const MAX_RADIUS_KM = 1500;
 const FLY_SECONDS = 0.6;
+
+/** Esri Canvas (sin API key): base plana + capa de nombres, en gris oscuro o gris claro según el tema. */
+const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas';
+const TILES: Record<Theme, { base: string; labels: string }> = {
+  dark: { base: `${ESRI}/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, labels: `${ESRI}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}` },
+  light: { base: `${ESRI}/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}`, labels: `${ESRI}/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}` },
+};
 
 type Insets = MapViewProps['insets'];
 
@@ -86,12 +95,47 @@ function labelOnAdd(label: string) {
   };
 }
 
-function GeneratorPin({ g, selected, onSelect }: { g: Generator; selected: boolean; onSelect: (id: string) => void }) {
+/** Zoom actual del mapa (para medir distancias en pantalla); null hasta que el mapa existe. */
+function useZoom(map: L.Map | null): number | null {
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      map?.on('zoomend', cb);
+      return () => {
+        map?.off('zoomend', cb);
+      };
+    },
+    [map],
+  );
+  return useSyncExternalStore(subscribe, () => map?.getZoom() ?? null, () => null);
+}
+
+type LabelDir = 'top' | 'bottom';
+
+/**
+ * Etiqueta permanente del pin elegido. Arriba en desktop; abajo en mobile, donde arriba están los KPIs y la atribución.
+ * Abajo hay que correrla el alto del pin (el ancla de Leaflet está en su borde superior).
+ */
+function PinLabel({ text, dir, box }: { text: string; dir: LabelDir; box: number }) {
+  return (
+    <Tooltip key={`label-${dir}-${text}`} permanent direction={dir} offset={dir === 'bottom' ? [0, box - 8] : [0, 0]} className="pin-label">
+      {text}
+    </Tooltip>
+  );
+}
+
+/**
+ * Pin elegido: `label` es su etiqueta permanente (string) o null si otra etiqueta combinada la reemplaza
+ * (planta y comprador muy cerca: ver mergedLabelHost).
+ */
+function GeneratorPin({ g, selected, label: pinned, labelDir, onSelect }: { g: Generator; selected: boolean; label: string | null; labelDir: LabelDir; onSelect: (id: string) => void }) {
   const published = g.origin === 'publicacion';
   const spec = generatorPinSpec(g.materialId, { selected, hot: false }, published);
-  const icon = useMemo(() => {
+  const { icon, box } = useMemo(() => {
     const { html, width, height } = generatorPinHtml(generatorPinSpec(g.materialId, { selected, hot: false }, published), GENERATOR_KIND_ICON[g.kind], `gen-${g.id}`);
-    return L.divIcon({ className: 'pin', html, iconSize: [width, height], iconAnchor: [width / 2, height / 2], tooltipAnchor: [0, -height / 2 + 4] });
+    return {
+      icon: L.divIcon({ className: 'pin', html, iconSize: [width, height], iconAnchor: [width / 2, height / 2], tooltipAnchor: [0, -height / 2 + 4] }),
+      box: height,
+    };
   }, [g.id, g.kind, g.materialId, selected, published]);
   const place = g.locality ? ` · ${g.locality}` : '';
   const label = `${g.name}${place} — ${GENERATOR_KIND_LABELS[g.kind]}, ${MATERIAL_LABELS[g.materialId].toLowerCase()}${published ? ' (publicación sin verificar)' : ''}`;
@@ -102,10 +146,8 @@ function GeneratorPin({ g, selected, onSelect }: { g: Generator; selected: boole
       zIndexOffset={spec.zIndexOffset}
       eventHandlers={{ click: () => onSelect(g.id), add: labelOnAdd(label) }}
     >
-      {selected ? (
-        <Tooltip key="label" permanent direction="top" className="pin-label">
-          {g.name}
-        </Tooltip>
+      {selected && pinned !== null ? (
+        <PinLabel text={pinned} dir={labelDir} box={box} />
       ) : (
         <Tooltip key="hover" direction="top">
           {label}
@@ -119,6 +161,8 @@ function BuyerPin({
   b,
   light,
   selected,
+  label: pinned,
+  labelDir,
   hot,
   onSelect,
   onHover,
@@ -126,21 +170,24 @@ function BuyerPin({
   b: Buyer;
   light: TrafficLight | undefined;
   selected: boolean;
+  label: string | null;
+  labelDir: LabelDir;
   hot: boolean;
   onSelect: (id: string) => void;
   onHover: (id: string | null) => void;
 }) {
   const published = b.origin === 'publicacion';
   const spec = buyerPinSpec(light, { selected, hot }, published);
-  const icon = useMemo(() => {
+  const { icon, box } = useMemo(() => {
     const { html, width: box } = buyerPinHtml(buyerPinSpec(light, { selected, hot }, published), SECTOR_ICON[b.sector], `buyer-${b.id}`, light ?? 'none');
-    return L.divIcon({
+    const icon = L.divIcon({
       className: `pin${hot ? ' pin-hot' : ''}`,
       html,
       iconSize: [box, box],
       iconAnchor: [box / 2, box / 2],
       tooltipAnchor: [0, -box / 2 + 4],
     });
+    return { icon, box };
   }, [b.id, b.sector, light, selected, hot, published]);
   const status = LIGHT_LABELS[light ?? 'sinEvaluar'];
   const place = b.locality ? ` · ${b.locality}` : '';
@@ -157,10 +204,8 @@ function BuyerPin({
         add: labelOnAdd(label),
       }}
     >
-      {selected ? (
-        <Tooltip key="label" permanent direction="top" className="pin-label">
-          {b.name} · {status}
-        </Tooltip>
+      {selected && pinned !== null ? (
+        <PinLabel text={pinned} dir={labelDir} box={box} />
       ) : (
         <Tooltip key="hover" direction="top">
           {label}
@@ -211,7 +256,7 @@ function FocusPoints({ focus, insets }: { focus: MapViewProps['focus']; insets: 
 
 const DRAFT_ICON = L.divIcon({
   className: 'pin',
-  html: `<div class="pin-body" data-testid="draft-pin" style="position:relative;display:flex;align-items:center;justify-content:center;width:28px;height:28px"><span style="width:18px;height:18px;border-radius:9999px;background:${MAP_COLORS.selection};box-shadow:0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 1px 6px rgb(0 0 0 / 0.6)"></span><span style="position:absolute;width:6px;height:6px;border-radius:9999px;background:${MAP_COLORS.ink}"></span></div>`,
+  html: `<div class="pin-body" data-testid="draft-pin" style="position:relative;display:flex;align-items:center;justify-content:center;width:28px;height:28px"><span style="width:18px;height:18px;border-radius:9999px;background:${MAP_COLORS.selection};box-shadow:0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 1px 6px ${MAP_COLORS.shadow}"></span><span style="position:absolute;width:6px;height:6px;border-radius:9999px;background:${MAP_COLORS.ink}"></span></div>`,
   iconSize: [28, 28],
   iconAnchor: [14, 14],
 });
@@ -315,11 +360,11 @@ function Legend({ wide }: { wide: boolean }) {
           <p className="mb-1.5 text-overline text-fg-muted uppercase">Plantas</p>
           <ul className="space-y-1">
             <li className="flex items-center gap-2">
-              <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle), fill: MAP_COLORS.ink }, 'tree-pine', 'legend').html} />
+              <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle), fill: MAP_COLORS.neutral }, 'tree-pine', 'legend').html} />
               Aserradero o foresto-industria
             </li>
             <li className="flex items-center gap-2">
-              <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle), fill: MAP_COLORS.ink }, 'wheat', 'legend').html} />
+              <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle), fill: MAP_COLORS.neutral }, 'wheat', 'legend').html} />
               Molino arrocero
             </li>
           </ul>
@@ -357,7 +402,7 @@ function Legend({ wide }: { wide: boolean }) {
         <div>
           <p className="mb-1.5 text-overline text-fg-muted uppercase">Publicaciones</p>
           <p className="flex items-center gap-2">
-            <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle, true), fill: MAP_COLORS.ink }, 'tree-pine', 'legend').html} />
+            <PinSample html={generatorPinHtml({ ...generatorPinSpec('aserrin', idle, true), fill: MAP_COLORS.neutral }, 'tree-pine', 'legend').html} />
             Contorno punteado: publicada por un usuario, sin verificar
           </p>
         </div>
@@ -391,20 +436,35 @@ export default function MapView({
   const selGen = generators.find((g) => g.id === selectedGeneratorId) ?? null;
   const selBuyer = buyers.find((b) => b.id === selectedBuyerId) ?? null;
   const genCenter: [number, number] | null = selGen ? [selGen.location.lat, selGen.location.lng] : null;
+  const theme = useTheme();
+  const tiles = TILES[theme];
+
+  // Etiquetas permanentes: si la planta y el comprador elegidos se pisan en pantalla, una sola "Planta → Comprador".
+  const zoom = useZoom(map);
+  const labelDir: LabelDir = wide ? 'top' : 'bottom';
+  const buyerStatus = selBuyer ? LIGHT_LABELS[buyerLights[selBuyer.id] ?? 'sinEvaluar'] : '';
+  const host =
+    map && zoom !== null && selGen && selBuyer
+      ? mergedLabelHost(map.project([selGen.location.lat, selGen.location.lng], zoom), map.project([selBuyer.location.lat, selBuyer.location.lng], zoom), labelDir)
+      : null;
+  const combined = selGen && selBuyer ? `${selGen.name} → ${selBuyer.name} · ${buyerStatus}` : '';
+  const genLabel = host === null ? (selGen?.name ?? null) : host === 'gen' ? combined : null;
+  const buyerLabel = host === null ? (selBuyer ? `${selBuyer.name} · ${buyerStatus}` : null) : host === 'buyer' ? combined : null;
 
   return (
     <div data-testid="map" className="relative h-full w-full">
       <MapContainer ref={setMap} center={CENTER} zoom={7} scrollWheelZoom zoomControl={false} attributionControl={false} className="h-full w-full">
-        {/* Base oscura y plana (Esri World Dark Gray Canvas, sin API key) + capa de nombres encima.
-            Alternativas: CARTO Dark Matter (hoy pide API key) o Esri World Imagery (satelital). */}
+        {/* Base plana (Esri World Dark/Light Gray Canvas, sin API key) + capa de nombres encima. Cambiar `url`
+            hace setUrl en la capa: cambia los tiles sin rehacer el mapa ni perder la vista.
+            Alternativas: CARTO (hoy pide API key) o Esri World Imagery (satelital, descartado). */}
         <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          url={tiles.base}
           maxZoom={16}
           className="tiles-base"
           attribution="© Esri, HERE, Garmin, © OpenStreetMap contributors"
         />
         <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+          url={tiles.labels}
           maxZoom={16}
           className="tiles-labels"
         />
@@ -440,13 +500,15 @@ export default function MapView({
             b={b}
             light={buyerLights[b.id]}
             selected={b.id === selectedBuyerId}
+            label={b.id === selectedBuyerId ? buyerLabel : null}
+            labelDir={labelDir}
             hot={b.id === hotBuyerId}
             onSelect={onSelectBuyer}
             onHover={onHoverBuyer}
           />
         ))}
         {generators.map((g) => (
-          <GeneratorPin key={g.id} g={g} selected={g.id === selectedGeneratorId} onSelect={onSelectGenerator} />
+          <GeneratorPin key={g.id} g={g} selected={g.id === selectedGeneratorId} label={g.id === selectedGeneratorId ? genLabel : null} labelDir={labelDir} onSelect={onSelectGenerator} />
         ))}
         {draftPin && <Marker position={[draftPin.lat, draftPin.lng]} icon={DRAFT_ICON} interactive={false} keyboard={false} zIndexOffset={3000} />}
         <FlyToSelection lat={genCenter?.[0] ?? null} lng={genCenter?.[1] ?? null} radiusKm={radiusKm} insets={insets} />

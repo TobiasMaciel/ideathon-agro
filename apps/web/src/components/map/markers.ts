@@ -1,20 +1,26 @@
 // Lógica pura de los pines del mapa (sin Leaflet ni React): colores, íconos, tamaños y su HTML.
-// Leaflet no lee clases de Tailwind para estos valores: los hex son espejo de los tokens de src/index.css.
+// Leaflet no lee clases de Tailwind: el HTML usa las variables CSS de los tokens (src/index.css), así los pines
+// siguen al tema claro u oscuro sin rehacerse. Solo los tonos de material (iguales en ambos temas) van en hex.
 import type { BuyerSector, GeneratorKind, MaterialId } from '@mapa/core/data';
 import type { TrafficLight } from '@mapa/core/viability';
 
 export const MAP_COLORS = {
-  ink: '#0d1110', // --color-canvas: íconos oscuros sobre los discos de color
-  selection: '#8fb8a0', // --color-selection (salvia): anillo, halo, círculo y ruta
-  surface: '#e8ece9', // contorno claro: los pines se leen sobre el satelital
+  ink: 'var(--pin-center)', // centro de los pines huecos (tinta oscura en el tema oscuro, blanco en el claro)
+  onFill: 'var(--pin-on-fill)', // ícono sobre el disco relleno
+  glyph: 'var(--pin-glyph)', // ícono sobre el centro
+  selection: 'var(--color-selection)', // salvia: anillo, halo, borrador
+  surface: 'var(--pin-outline)', // contorno de los pines curados
+  dash: 'var(--pin-dash)', // contorno punteado de las publicaciones
+  neutral: 'var(--pin-neutral)', // rombo neutro de la leyenda
+  shadow: 'var(--pin-shadow)',
 } as const;
 
 /** Semáforo apagado: salvia / ámbar / coral (--color-ok/warn/bad); gris para "no compra". */
 export const LIGHT_COLORS = {
-  verde: '#8fb8a0',
-  amarillo: '#c9a86a',
-  rojo: '#c98b78',
-  sinEvaluar: '#9aa5a0',
+  verde: 'var(--color-ok)',
+  amarillo: 'var(--color-warn)',
+  rojo: 'var(--color-bad)',
+  sinEvaluar: 'var(--pin-muted)',
 } as const;
 
 /** Tono del punto del comprador: el mismo del semáforo (el contorno blanco lo separa del satelital). */
@@ -102,10 +108,10 @@ export interface PinState {
 
 /** Área táctil mínima (WCAG 2.5.8). */
 const HIT = 24;
-const RING = `0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 0 0 10px rgb(143 184 160 / 0.18)`;
-const SOFT = '0 1px 3px rgb(0 0 0 / 0.6)';
-/** Publicación sin verificar: contorno claro punteado separado del pin (en vez del contorno sólido). */
-const DASHED = `outline:1.5px dashed ${MAP_COLORS.surface};outline-offset:2px`;
+const RING = `0 0 0 2px ${MAP_COLORS.ink}, 0 0 0 4px ${MAP_COLORS.selection}, 0 0 0 10px color-mix(in srgb, ${MAP_COLORS.selection} 18%, transparent)`;
+const SOFT = `0 1px 3px ${MAP_COLORS.shadow}`;
+/** Publicación sin verificar: contorno punteado separado del pin (en vez del contorno sólido). */
+const DASHED = `outline:1.5px dashed ${MAP_COLORS.dash};outline-offset:2px`;
 
 /** Contorno del pin: anillo si está elegido; si no, sólido (curado) o punteado (publicación). */
 function outlineStyle(ring: boolean, published: boolean): string {
@@ -152,13 +158,16 @@ function wrap(box: number, inner: string, attrs: string, extraStyle = ''): strin
   return `<div class="pin-body" ${attrs} style="position:relative;display:flex;align-items:center;justify-content:center;width:${box}px;height:${box}px;${extraStyle}">${inner}</div>`;
 }
 
+/** Ícono claro sobre los tonos de material (iguales en ambos temas). */
+const MATERIAL_GLYPH = '#ffffff';
+
 /** Rombo del tono del material con un ícono blanco chiquito (árbol o trigo) sin rotar. */
 export function generatorPinHtml(spec: GeneratorPinSpec, icon: PinIcon, marker: string): { html: string; width: number; height: number } {
   // El rombo es un cuadrado rotado: su diagonal ocupa ~1,41 × el lado.
   const side = Math.round(spec.size / Math.SQRT2 + 3);
   const box = Math.max(HIT, spec.size + 10);
   const diamond = `<span style="position:absolute;width:${side}px;height:${side}px;background:${spec.fill};border-radius:3px;transform:rotate(45deg);${outlineStyle(spec.ring, spec.published)}"></span>`;
-  const glyph = `<span style="position:relative">${svgIcon(icon, spec.ring ? 11 : 9, '#e8ece9', 2.5)}</span>`;
+  const glyph = `<span style="position:relative">${svgIcon(icon, spec.ring ? 11 : 9, MATERIAL_GLYPH, 2.5)}</span>`;
   return { html: wrap(box, diamond + glyph, `data-marker="${attr(marker)}"${originAttr(spec.published)}`), width: box, height: box };
 }
 
@@ -191,7 +200,7 @@ export function buyerPinSpec(light: TrafficLight | undefined, { selected, hot }:
   };
 }
 
-/** Punto con la forma del semáforo y el ícono del sector (oscuro sobre el relleno menta, claro sobre el centro oscuro). */
+/** Punto con la forma del semáforo y el ícono del sector (sobre el relleno o sobre el centro, según el tema). */
 export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, light: string): { html: string; width: number; height: number } {
   const s = spec.size;
   const box = Math.max(HIT, s + 10);
@@ -201,7 +210,7 @@ export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, 
     hollow: `background:${MAP_COLORS.ink};border:2px solid ${spec.color}`,
     muted: `background:${MAP_COLORS.ink};border:1.5px dashed ${spec.color}`,
   };
-  const iconColor = spec.shape === 'fill' ? MAP_COLORS.ink : spec.shape === 'muted' ? '#9aa5a0' : '#e8ece9';
+  const iconColor = spec.shape === 'fill' ? MAP_COLORS.onFill : spec.shape === 'muted' ? LIGHT_COLORS.sinEvaluar : MAP_COLORS.glyph;
   const iconSize = spec.ring ? 11 : spec.shape === 'muted' ? 7 : 9;
   const dot = `<span style="display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:${s}px;height:${s}px;border-radius:9999px;${styles[spec.shape]};${outlineStyle(spec.ring, spec.published)}">${svgIcon(icon, iconSize, iconColor, 2.5)}</span>`;
   return {
@@ -212,4 +221,18 @@ export function buyerPinHtml(spec: BuyerPinSpec, icon: PinIcon, marker: string, 
     width: box,
     height: box,
   };
+}
+
+type Pt = { x: number; y: number };
+
+/**
+ * Las etiquetas permanentes van arriba de cada pin (abajo en mobile): si la planta y el comprador elegidos quedan cerca
+ * en pantalla, se pisan. En ese caso se muestra una sola etiqueta "Planta → Comprador" en el pin del extremo libre
+ * (el de más arriba si van arriba, el de más abajo si van abajo; empate: la planta).
+ * Umbral: ancho típico de una etiqueta (~200 px) y alto de etiqueta + pin (~48 px). Devuelve null si no se pisan.
+ */
+export function mergedLabelHost(gen: Pt, buyer: Pt, direction: 'top' | 'bottom' = 'top', minDx = 200, minDy = 48): 'gen' | 'buyer' | null {
+  if (Math.abs(gen.x - buyer.x) >= minDx || Math.abs(gen.y - buyer.y) >= minDy) return null;
+  const buyerFirst = direction === 'top' ? buyer.y < gen.y : buyer.y > gen.y;
+  return buyerFirst ? 'buyer' : 'gen';
 }

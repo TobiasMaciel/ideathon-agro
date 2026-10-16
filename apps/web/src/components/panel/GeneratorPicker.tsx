@@ -58,7 +58,7 @@ export default function GeneratorPicker({ generators, materials, selectedId, onS
       </PopoverTrigger>
       <PopoverContent align="start" className="w-(--radix-popover-trigger-width) min-w-72 p-0 shadow-overlay ring-0">
         <Command>
-          <CommandInput placeholder="Buscar planta, localidad o material…" className="text-input sm:text-body" />
+          <CommandInput placeholder="Buscar planta, localidad o material…" className="text-base sm:text-body" />
           <CommandList className="max-h-80">
             <CommandEmpty>No hay plantas con ese nombre.</CommandEmpty>
             {materials.map((m) => {

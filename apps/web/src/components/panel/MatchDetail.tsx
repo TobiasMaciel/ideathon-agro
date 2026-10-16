@@ -9,6 +9,7 @@ import { DistanceBar, MarginBar } from './Charts';
 import Light, { LIGHT_TEXT } from './Light';
 import { SECTOR_SINGULAR } from './labels';
 import { ars, minusArs } from './num';
+import { nextTrack, type MarginTrack } from './trajectory';
 
 interface Props {
   buyer: Buyer;
@@ -26,20 +27,27 @@ function pct(fraction: number): string {
   return formatPct(fraction).replace(/^-/, '−');
 }
 
-/** Recuerda el margen anterior del mismo comprador (p. ej. antes de pasar de suelto a pellet). */
-function usePrevious(id: string, value: number): number | null {
-  const [track, setTrack] = useState<{ id: string; value: number; from: number | null }>({ id, value, from: null });
-  if (track.id !== id || track.value !== value) {
-    setTrack({ id, value, from: track.id === id ? track.value : null });
-  }
-  return track.id === id ? track.from : null;
+/** Margen antes del último cambio de estado con la misma planta y comprador (p. ej. de suelto a pellet); si no, null. */
+function useStateTrajectory(key: string, state: string, value: number): number | null {
+  const [track, setTrack] = useState<MarginTrack>({ key, state, value, from: null });
+  const next = nextTrack(track, key, state, value);
+  if (next !== track) setTrack(next);
+  return next.from;
 }
 
 /** La respuesta: card con el comprador elegido, el estado arriba a la derecha y la escala del margen. */
-export function Answer({ buyer, alternative, result, threshold, contact }: Props & { threshold: number; contact?: React.ReactNode }) {
+export function Answer({
+  buyer,
+  alternative,
+  result,
+  threshold,
+  contact,
+  generatorId,
+  state,
+}: Props & { threshold: number; contact?: React.ReactNode; generatorId: string; state: string }) {
   const s = result.buyerSavingsPerMonth;
   const buyerPays = !result.buyerBenefits && result.sellerLight !== 'rojo';
-  const from = usePrevious(buyer.id, result.marginPct);
+  const from = useStateTrajectory(`${generatorId}|${buyer.id}`, state, result.marginPct);
   return (
     <div className="rounded-lg border border-line bg-surface-subtle p-3.5" data-testid="result-light" data-light={result.light}>
       <div className="flex items-start justify-between gap-3">

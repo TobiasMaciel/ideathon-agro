@@ -59,7 +59,7 @@ function Field({ k, label, unit, value, onChange }: {
           if (parsed !== null) onChange(k, parsed);
         }}
         onBlur={() => setDraft(null)}
-        className="h-10 rounded-md bg-surface px-3 text-input text-fg tabular-nums focus-visible:ring-2 aria-invalid:border-bad aria-invalid:ring-0 sm:text-body"
+        className="h-10 rounded-md bg-surface px-3 text-base text-fg tabular-nums focus-visible:ring-2 aria-invalid:border-bad aria-invalid:ring-0 sm:text-body"
       />
       <p id={hintId} className={cn('mt-1 text-caption', invalid ? 'text-bad-fg' : 'text-fg-subtle')}>
         {invalid ? `Ingresá un valor entre ${rangeText(k)}. Mientras tanto se usa el anterior.` : `Entre ${rangeText(k)}`}

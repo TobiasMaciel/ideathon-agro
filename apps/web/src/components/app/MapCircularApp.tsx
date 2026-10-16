@@ -1,5 +1,5 @@
 import { Suspense, createContext, lazy, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Moon, Plus, Sun } from 'lucide-react';
 import ClientMap from '../map/ClientMap';
 import type { CatalogResponse, ListingCreatedResponse } from '@mapa/core/api';
 import type { Buyer, Material, Generator } from '@mapa/core/data';
@@ -8,6 +8,7 @@ import { formatArs, formatNumber, formatTons } from '@mapa/core/format';
 import type { MaterialState, TrafficLight } from '@mapa/core/viability';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { setTheme, useTheme } from '@/lib/theme';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AssumptionsEditor from '../panel/AssumptionsEditor';
 import BuyerRanking, { orderRanking } from '../panel/BuyerRanking';
@@ -46,16 +47,46 @@ function useWide(): boolean {
   return wide;
 }
 
-/** Marca chica flotante; el título completo es el h1 (sr-only). */
+/** Alterna modo claro / oscuro (se recuerda; sin elección, sigue al sistema). */
+function ThemeToggle() {
+  const theme = useTheme();
+  const light = theme === 'light';
+  return (
+    <button
+      type="button"
+      data-testid="theme-toggle"
+      aria-label={light ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
+      aria-pressed={light}
+      onClick={() => setTheme(light ? 'dark' : 'light')}
+      className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-120 ease-out hover:bg-surface-subtle hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-selection"
+    >
+      {light ? <Moon size={15} aria-hidden="true" /> : <Sun size={15} aria-hidden="true" />}
+    </button>
+  );
+}
+
+/** Marca (copia de public/logo-mark.svg): trazos en currentColor (texto primario); el punto, salvia del tema activo. */
+function LogoMark() {
+  return (
+    <svg viewBox="0 0 32 32" width={20} height={20} aria-hidden="true" className="shrink-0 text-fg">
+      <path d="M9.07 12 A8 8 0 0 1 22.93 12" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" />
+      <path d="M22.93 20 A8 8 0 0 1 9.07 20" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" opacity={0.5} />
+      <rect x={5.6} y={13.6} width={4.8} height={4.8} transform="rotate(45 8 16)" fill="currentColor" />
+      <circle cx={24} cy={16} r={2.7} fill="var(--brand-dot)" />
+    </svg>
+  );
+}
+
+/** Marca chica flotante (el título completo es el h1 sr-only) con el selector de tema. */
 function BrandPill() {
   return (
-    <div aria-hidden="true" className="flex h-9 shrink-0 items-center gap-2 rounded-lg border border-line bg-surface/90 pr-3.5 pl-3 shadow-overlay backdrop-blur-md">
-      <span className="flex items-center gap-1">
-        <span className="size-2 rotate-45 rounded-[1px] bg-fg" />
-        <span className="h-px w-2.5 bg-fg-subtle" />
-        <span className="size-2 rounded-full bg-ok" />
+    <div className="flex h-9 shrink-0 items-center gap-2 rounded-lg border border-line bg-surface/90 pr-1 pl-2.5 shadow-overlay backdrop-blur-md">
+      <LogoMark />
+      <span aria-hidden="true" className="text-small font-semibold tracking-tight text-fg">
+        Circular NEA
       </span>
-      <span className="text-small font-semibold tracking-tight text-fg">Circular NEA</span>
+      <span aria-hidden="true" className="ml-0.5 h-4 w-px bg-line" />
+      <ThemeToggle />
     </div>
   );
 }
@@ -478,6 +509,8 @@ function Loaded({ catalog, wide, onListingCreated }: { catalog: CatalogResponse;
               alternative={selectedAlternative}
               result={selected.result}
               threshold={d.values.greenThreshold}
+              generatorId={generator.id}
+              state={d.state}
               contact={<EntityContact entity={selected.buyer} onShowSources={() => setTab('fuentes')} />}
             />
           ) : (

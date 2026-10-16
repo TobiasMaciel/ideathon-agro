@@ -13,16 +13,25 @@ import {
   generatorPinHtml,
   generatorPinSpec,
   lightColor,
+  mergedLabelHost,
 } from './markers';
 
 const idle = { selected: false, hot: false };
 
 describe('colores del semáforo', () => {
-  it('salvia, ámbar y coral apagados (espejo de los tokens ok/warn/bad); el pin usa los mismos tonos', () => {
-    expect(lightColor('verde')).toBe('#8fb8a0');
-    expect(lightColor('amarillo')).toBe('#c9a86a');
-    expect(lightColor('rojo')).toBe('#c98b78');
+  it('salvia, ámbar y coral: los tokens ok/warn/bad (siguen al tema claro u oscuro); el pin usa los mismos tonos', () => {
+    expect(lightColor('verde')).toBe('var(--color-ok)');
+    expect(lightColor('amarillo')).toBe('var(--color-warn)');
+    expect(lightColor('rojo')).toBe('var(--color-bad)');
     expect(PIN_BORDER).toEqual(LIGHT_COLORS);
+  });
+  it('el HTML de los pines no lleva hex del tema: solo variables (cambian sin rehacer los íconos)', () => {
+    const buyer = buyerPinHtml(buyerPinSpec('amarillo', { selected: true, hot: false }, true), 'zap', 'buyer-t', 'amarillo').html;
+    const gen = generatorPinHtml(generatorPinSpec('aserrin', { selected: true, hot: false }), 'tree-pine', 'gen-t').html;
+    for (const html of [buyer, gen]) {
+      expect(html).not.toMatch(/#0d1110|#8fb8a0|#e8ece9|#9aa5a0/i);
+      expect(html).toContain('var(--');
+    }
   });
   it('gris para "no compra este material"', () => {
     expect(lightColor(undefined)).toBe(LIGHT_COLORS.sinEvaluar);
@@ -114,5 +123,23 @@ describe('HTML de los pines', () => {
   });
   it('escapa los atributos', () => {
     expect(buyerPinHtml(buyerPinSpec('verde', idle), 'zap', 'buyer-"x', 'verde').html).not.toContain('buyer-"x');
+  });
+});
+
+describe('mergedLabelHost (etiquetas de planta y comprador que se pisan)', () => {
+  it('lejos en pantalla: cada pin con su etiqueta', () => {
+    expect(mergedLabelHost({ x: 0, y: 0 }, { x: 400, y: 0 })).toBeNull();
+    expect(mergedLabelHost({ x: 0, y: 0 }, { x: 0, y: 120 })).toBeNull();
+  });
+  it('cerca: una sola etiqueta combinada, en el pin de más arriba', () => {
+    expect(mergedLabelHost({ x: 0, y: 10 }, { x: 30, y: 0 })).toBe('buyer');
+    expect(mergedLabelHost({ x: 0, y: 0 }, { x: 30, y: 20 })).toBe('gen');
+  });
+  it('con las etiquetas debajo de los pines (mobile), la combinada va en el pin de más abajo', () => {
+    expect(mergedLabelHost({ x: 0, y: 10 }, { x: 30, y: 0 }, 'bottom')).toBe('gen');
+    expect(mergedLabelHost({ x: 0, y: 0 }, { x: 30, y: 20 }, 'bottom')).toBe('buyer');
+  });
+  it('mismo lugar: la etiqueta va en la planta', () => {
+    expect(mergedLabelHost({ x: 5, y: 5 }, { x: 5, y: 5 })).toBe('gen');
   });
 });

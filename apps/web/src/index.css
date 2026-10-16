@@ -2,11 +2,12 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* Sin modo oscuro: la variante `dark:` solo aplicaría bajo .dark, que la app nunca pone. */
+/* La variante `dark:` de shadcn solo aplicaría bajo .dark, que la app nunca pone: el tema se cambia redefiniendo tokens (data-theme). */
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Tokens (docs/design.md §3): tema oscuro único, negro con tinte verde, acento menta, semáforo menta/ámbar/coral.
+ * Tokens (docs/design.md §2): tema oscuro (default), negro con tinte verde, acento salvia, semáforo salvia/ámbar/coral.
+ * El tema claro redefine estas mismas variables bajo :root[data-theme='light'] (más abajo).
  * La paleta default de Tailwind se corta: solo existen estos colores. Las variables de shadcn (:root) apuntan acá.
  * Contrastes medidos (texto ≥ 4,5:1, bordes de control y foco ≥ 3:1): ver docs/design.md.
  */
@@ -63,7 +64,7 @@
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* Variables de shadcn/ui (tema oscuro) mapeadas a la paleta. */
+/* Variables de shadcn/ui mapeadas a la paleta (valores del oscuro; el claro las redefine más abajo). */
 :root {
   color-scheme: dark;
   --background: #0d1110;
@@ -85,6 +86,82 @@
   --input: #5e6b65;
   --ring: #8fb8a0;
   --radius: 0.5rem;               /* sm 5px · md 6px · lg 8px · xl 11px */
+
+  /* Pines del mapa (markers.ts arma su HTML con estas variables, así cambian con el tema sin rehacerse). */
+  --pin-center: #0d1110;          /* centro de los pines huecos y anillo interior del elegido */
+  --pin-on-fill: #0d1110;         /* ícono sobre el disco relleno (Cierra) */
+  --pin-glyph: #e8ece9;           /* ícono sobre el centro */
+  --pin-muted: #9aa5a0;           /* "No compra este material" */
+  --pin-outline: #e8ece9;         /* contorno de los pines curados */
+  --pin-dash: #e8ece9;            /* contorno punteado de las publicaciones */
+  --pin-neutral: #0d1110;         /* rombo neutro de la leyenda */
+  --pin-shadow: rgb(0 0 0 / 0.6);
+
+  --brand-dot: #8fb8a0;           /* punto salvia de la marca (public/logo-mark.svg) */
+}
+
+/*
+ * Tema claro: mismos tokens, otros valores (docs/design.md §3). Contrastes medidos con
+ * light-contrast.mjs (WCAG): texto ≥ 4,5:1 sobre card, elevado y fondos tenues; bordes de control, foco y pines ≥ 3:1.
+ */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-canvas: #f7f8f7;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f0f2f1;
+  --color-surface-muted: #f4f5f4;
+  --color-line: #dfe4e1;
+  --color-divider: #e8ecea;
+  --color-line-strong: #7e8883;      /* borde de inputs: 3,7:1 card, 3,3:1 elevado */
+  --color-fg: #141a17;               /* 17,7:1 */
+  --color-fg-muted: #55605b;         /* 6,5:1 */
+  --color-fg-subtle: #5f6a65;        /* 5,6:1 card, 5,0:1 elevado, 4,9:1 fila elegida */
+  --color-faint: #b4bdb8;            /* solo decorativo */
+
+  --color-selection: #3a7254;        /* 5,7:1 card, 4,9:1 sobre su tenue */
+  --color-selection-hover: #2f5f46;
+  --color-selection-ring: #3a7254;
+  --color-selection-solid: #447d5f;  /* relleno sólido; texto blanco: 4,8:1 */
+  --color-selection-subtle: rgb(58 114 84 / 0.10);
+  --color-on-accent: #ffffff;
+
+  --color-ok: #3a7254;   --color-ok-bg: rgb(58 114 84 / 0.10);  --color-ok-fg: #3a7254;   --color-ok-line: rgb(58 114 84 / 0.30);
+  --color-warn: #806219; --color-warn-bg: rgb(128 98 25 / 0.10); --color-warn-fg: #806219; --color-warn-line: rgb(128 98 25 / 0.30);
+  --color-bad: #a5523c;  --color-bad-bg: rgb(165 82 60 / 0.10);  --color-bad-fg: #a5523c;  --color-bad-line: rgb(165 82 60 / 0.30);
+
+  --shadow-overlay: 0 0 0 1px rgb(20 26 23 / 0.06), 0 8px 24px -6px rgb(20 26 23 / 0.18);
+
+  --background: #f7f8f7;
+  --foreground: #141a17;
+  --card: #ffffff;
+  --card-foreground: #141a17;
+  --popover: #ffffff;
+  --popover-foreground: #141a17;
+  --primary: #447d5f;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f2f1;
+  --secondary-foreground: #141a17;
+  --muted: #f0f2f1;
+  --muted-foreground: #55605b;
+  --accent: #f0f2f1;
+  --accent-foreground: #141a17;
+  --destructive: #a5523c;
+  --border: #dfe4e1;
+  --input: #7e8883;
+  --ring: #3a7254;
+
+  /* Pines: discos oscuros con ícono blanco y centro blanco; contornos blancos (curados) o grises punteados. */
+  --pin-center: #ffffff;
+  --pin-on-fill: #ffffff;
+  --pin-glyph: #141a17;
+  --pin-muted: #55605b;
+  --pin-outline: #ffffff;
+  --pin-dash: #55605b;
+  --pin-neutral: #55605b;
+  --pin-shadow: rgb(20 26 23 / 0.35);
+
+  --brand-dot: #4f8a6b;
 }
 
 @theme inline {
@@ -147,10 +224,21 @@
   font-family: var(--font-sans);
   background: var(--color-canvas);
 }
-/* Satelital levemente apagado para que pines, círculo y etiquetas se lean primero. */
 /* Base gris oscura llevada hacia el fondo de la app (#0d1110, tinte verde muy leve). */
 .leaflet-container .tiles-base {
   filter: brightness(0.85) sepia(0.12) hue-rotate(95deg) saturate(0.9);
+}
+/* Claro (World Light Gray Canvas): solo un tinte verde muy leve, hacia el fondo #f7f8f7. */
+[data-theme='light'] .leaflet-container .tiles-base {
+  filter: sepia(0.06) hue-rotate(80deg) saturate(0.9);
+}
+/* Círculo de radio y ruta: el color sale del token (Leaflet pone el atributo; CSS le gana y sigue al tema). */
+.leaflet-container path.radius-circle {
+  stroke: var(--color-selection);
+  fill: var(--color-selection);
+}
+.leaflet-container path.route-line {
+  stroke: var(--color-selection);
 }
 .leaflet-container .tiles-labels {
   opacity: 0.75;
@@ -186,7 +274,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--color-fg-muted);
-  background: rgb(13 17 16 / 0.8);
+  background: color-mix(in srgb, var(--color-canvas) 80%, transparent);
   border-top-left-radius: 6px;
 }
 .leaflet-container.leaflet-container .leaflet-control-attribution a {
@@ -196,7 +284,7 @@
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--color-fg);
-  background: rgb(13 17 16 / 0.75);
+  background: color-mix(in srgb, var(--color-canvas) 75%, transparent);
   border: 1.5px solid var(--color-fg-muted);
   border-top: 0;
 }
@@ -246,9 +334,18 @@
   background: var(--color-canvas);
   border-color: var(--color-selection);
   padding: 2px 8px;
+  /* La etiqueta combinada ("Planta → Comprador · Estado") puede ser larga: a lo sumo 260 px y en varias líneas. */
+  width: max-content;
+  max-width: 260px;
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
 }
 .leaflet-container.leaflet-container .leaflet-tooltip-top.pin-label::before {
   border-top-color: var(--color-selection);
+}
+.leaflet-container.leaflet-container .leaflet-tooltip-bottom.pin-label::before {
+  border-bottom-color: var(--color-selection);
 }
 
 /* Publicar: modo "marcar en el mapa". Cursor en cruz y los pines dejan pasar el click al mapa. */

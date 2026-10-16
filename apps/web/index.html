@@ -3,9 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Mapa Circular NEA — ¿Cierra el negocio?</title>
     <meta name="description" content="Mapa y calculadora de viabilidad de economía circular en el NEA." />
+    <!-- Tema antes del primer paint (sin parpadeo): preferencia guardada o, si no hay, claro. Espejo de src/lib/theme.ts. -->
+    <script>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light';
+      })();
+    </script>
   </head>
   <body class="min-h-full flex flex-col">
     <div id="root" class="flex flex-1 flex-col"></div>
