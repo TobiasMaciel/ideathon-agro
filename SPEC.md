@@ -37,10 +37,10 @@ Que el dueño de un residuo (aserradero o molino) y un posible comprador vean **
 
 ### Guion de la demo (≤ 2 minutos)
 
-1. Se elige un aserradero de Santa Rosa: "80 t/mes de aserrín, 45% de humedad" (precargado).
-2. El mapa muestra los compradores posibles alrededor (capa A3).
-3. Con el material **suelto**, el radio de viabilidad es chico y solo el comprador a unos 30 km queda en verde.
-4. Al cambiar a **pellet**, el radio se amplía y aparece un secadero de yerba en verde que **ahorra $X/mes frente al GLP**.
+1. La app abre con **Molinos Ala (Adecoagro), Mercedes**: ~1.615 t/mes de cascarilla de arroz (estimado con fuente).
+2. El mapa muestra los compradores posibles (capa A3): centrales de biomasa, yerbateras, citrícola, secadero de arroz, frigorífico.
+3. Con la cascarilla **suelta** (108 kg/m³, el camión se llena de aire) el radio viable es de ~25 km por ruta: solo el secadero vecino cierra; el **Frigorífico Duhalde** en Curuzú Cuatiá (~88 km) queda en rojo.
+4. Al pasar a **pellet**, el radio salta a ~310 km y Duhalde pasa a verde: al vendedor le cierra y el frigorífico **ahorra $X/mes frente al GLP**. Los compradores que hoy queman leña barata quedan en rojo con "no le conviene al comprador" (honestidad del modelo).
 5. El semáforo queda en verde y el detalle del cálculo se ve con cada supuesto etiquetado.
 
 ---
@@ -58,12 +58,19 @@ acond_mes    = cantidad_t_mes × costo_acond_t[estado]
 ingreso_mes  = cantidad_t_mes × precio_t[material][estado]
 margen_mes   = ingreso_mes − flete_mes − acond_mes
 margen_pct   = margen_mes / ingreso_mes
-semaforo     = verde si margen_pct ≥ 15% · amarillo si 0 ≤ margen_pct < 15% · rojo si margen_pct < 0
+semaforo_vendedor = verde si margen_pct ≥ 15% · amarillo si 0 ≤ margen_pct < 15% · rojo si margen_pct < 0
 
-ahorro_comprador_mes = costo_alternativa_mes − (ingreso_mes + flete_mes si lo paga el comprador)
-  con costo_alternativa por equivalencia energética (PCI) o sustitución de volumen (sustratos)
+# El precio es "puesto en destino": el vendedor paga el flete y el comprador paga solo ingreso_mes.
+ahorro_comprador_mes = costo_alternativa_mes − ingreso_mes
+  con costo_alternativa por equivalencia energética (PCI × eficiencia de caldera) o sustitución de volumen (sustratos)
 
-radio_max_km (B2) = (precio_t − costo_acond_t) × carga_t / (2 × costo_km × factor_tortuosidad)
+semaforo_negocio = semaforo_vendedor, salvo rojo si ahorro_comprador_mes < 0 (al comprador no le conviene)
+
+# La demanda del comprador está en t de su combustible actual; se convierte a t del producto por energía útil:
+demanda_producto_t = demanda_t × PCI_alt × ef_alt / (PCI_producto × ef_biomasa)
+
+radio_max_km (B2) = (precio_t − costo_acond_t) × carga_t / (2 × costo_km)   # por ruta, con camión lleno
+radio_mapa_km     = radio_max_km / factor_ruta                            # línea recta, para dibujar
 ```
 
 Los parámetros (densidades, capacidades del camión, costo por km, precios, PCI, umbrales del semáforo) viven en Supabase (`assumptions`). Cada uno tiene `valor`, `unidad`, `etiqueta` (real/estimado), `fuente` y `fecha`, y el usuario puede editarlos en la UI solo para su sesión.
@@ -105,7 +112,8 @@ docs/desafio.md              → documento principal del desafío
 SPEC.md                      → este spec
 tasks/                       → plan.md y todo.md
 src/app/                     → páginas (App Router)
-src/app/api/                 → back: generators, buyers, assumptions (GET)
+src/app/api/                 → back: catalog, generators, buyers (GET) y viability (POST)
+src/server/                  → repositorio (Supabase o src/data) y helpers HTTP
 src/components/map/          → mapa Leaflet, capas, círculo de radio
 src/components/calculator/   → panel de la calculadora y el semáforo
 src/lib/viability/           → modelo de cálculo puro (+ *.test.ts al lado)
@@ -158,10 +166,10 @@ export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
 
 ## Success Criteria
 
-- [ ] El guion de la demo se puede recorrer completo en ≤ 2 minutos en la URL desplegada en Cloudflare Workers.
-- [ ] El mapa muestra ≥ 10 generadores y ≥ 15 compradores leídos desde Supabase, filtrables por material o sector.
+- [ ] El guion de la demo se puede recorrer completo en ≤ 2 minutos corriendo en local (`npm run dev`). El deploy a Cloudflare y Supabase queda configurado pero no se ejecuta en esta etapa.
+- [ ] El mapa muestra ≥ 10 generadores y ≥ 10 compradores reales servidos por la API (Supabase si está configurado; si no, `src/data/`), filtrables por material o sector.
 - [ ] Al cambiar suelto → compactado → pellet, el radio B2 y el semáforo se actualizan en < 200 ms, sin recargar la página.
-- [ ] Con los datos del seed, el caso "aserrín suelto" da verde solo para el comprador cercano (~30 km) y "pellet" suma al menos un comprador lejano en verde.
+- [ ] Con los datos del seed, la cascarilla de Molinos Ala (Mercedes) suelta tiene un radio de ~25 km por ruta y da rojo para el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km); pelletizada el radio pasa a ~310 km y el mismo comprador da verde con ahorro frente al GLP.
 - [ ] Cada número de la UI muestra su etiqueta y su fuente, y los supuestos se pueden editar en la sesión.
 - [ ] `npm test`, `npm run typecheck`, `npm run lint` y el e2e pasan.
 - [ ] Se usa bien desde el celular (viewport de 375 px).
@@ -170,5 +178,5 @@ export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
 
 - Distancia: línea recta × factor de corrección por ruta editable (1,3 por defecto).
 - Datos: solo fuentes reales de Corrientes/NEA, etiquetados `real` o `estimado`.
-- Cuentas de Supabase y Cloudflare: fuera de alcance; el proyecto queda listo para `supabase db push` y `npm run deploy`.
+- Cuentas de Supabase y Cloudflare: fuera de alcance. **No se despliega nada**: el proyecto se desarrolla y prueba en local, y queda listo para que el equipo haga `supabase db push` y `npm run deploy` después.
 - Ejecución: el MVP completo lo construye el agente orquestador con subagentes.
