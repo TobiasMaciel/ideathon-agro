@@ -21,6 +21,8 @@ Instalado desde https://github.com/addyosmani/agent-skills (commit `aeac41d`).
 
 Si una skill aplica a la tarea (aunque sea dudoso), **usala**. No implementes "rápido" salteando la skill.
 
+**Documentos: solo archivos Markdown en el repo.** No crear artifacts, docs en la nube ni páginas publicadas (claude.ai Artifacts, Claude Docs, etc.). Todo documento (pitch, informes, planes, guías) va como `.md` dentro de `docs/` (o donde corresponda) y se commitea.
+
 | Intención | Skill |
 |---|---|
 | Feature nueva | `spec-driven-development` → `planning-and-task-breakdown` → `incremental-implementation` + `test-driven-development` |

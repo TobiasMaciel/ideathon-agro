@@ -1,6 +1,6 @@
 # Dirección de diseño: Circular NEA
 
-App de una sola pantalla: mapa satelital de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard oscuro, sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet). Fondo negro con tinte verde, acentos terrosos apagados, títulos en sans y labels/cifras en mono. Este documento describe lo implementado en `apps/web`.
+App de una sola pantalla: mapa oscuro de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard oscuro, sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet). Fondo negro con tinte verde, acentos terrosos apagados, títulos en sans y labels/cifras en mono. Este documento describe lo implementado en `apps/web`.
 
 Fuentes de criterio: skills `minimalist-ui`, `better-ui`, `better-layout`, `better-typography`, `better-colors`, `better-accessibility`, `better-writing`.
 
@@ -93,7 +93,7 @@ Materiales (rombos de planta, ícono claro encima): `#6f4fa0`, `#287a78`, `#5a38
 
 ## 6. Mapa
 
-- **Tiles**: Esri World Imagery, atribución "Imagen © Esri, Maxar, Earthstar Geographics", levemente apagado (`saturate(.8) brightness(.82)`). CARTO (Positron y Dark Matter) hoy devuelve tiles con "API KEY REQUIRED"; queda comentado como alternativa.
+- **Tiles**: Esri World Dark Gray Canvas (base, `.tiles-base` con `brightness(.85) sepia(.12) hue-rotate(95deg) saturate(.9)` para acercarlo al fondo `#0d1110`) + World Dark Gray Reference (nombres, opacidad .75); atribución "© Esri, HERE, Garmin, © OpenStreetMap contributors"; sin API key. El usuario descartó el satelital (World Imagery). CARTO (Positron y Dark Matter) hoy pide API key.
 - **Escala métrica** (`ScaleControl`).
 - **Plantas**: rombo de 16 px del tono del material con ícono de 9 px (árbol para aserraderos/foresto-industria, trigo para el molino arrocero) y contorno claro.
 - **Compradores**: punto de 16 px con ícono de sector de 9 px (rayo, hoja, cítrico, galpón, carne). Forma según estado: salvia relleno (Cierra), anillo grueso ámbar (Justo), hueco con borde coral (No cierra), gris punteado y atenuado (No compra este material).
