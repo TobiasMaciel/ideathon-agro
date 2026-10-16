@@ -1,4 +1,4 @@
-import { alternatives, assumptions, buyers, generators, materials, sources } from '@mapa/core/data';
+import { alternatives, assumptions, buyers, curatedContacts, generators, materials, sources } from '@mapa/core/data';
 import { createDb } from '../src/client';
 import { seedDatabase } from '../src/seed';
 
@@ -12,10 +12,10 @@ if (!url) {
 
 const db = createDb(url);
 try {
-  await seedDatabase(db, { sources, materials, alternatives, assumptions, generators, buyers });
+  await seedDatabase(db, { sources, materials, alternatives, assumptions, generators, buyers, contacts: curatedContacts });
   console.log(
     `Seed cargado: ${sources.length} fuentes, ${materials.length} materiales, ${alternatives.length} alternativas, ` +
-      `${assumptions.length} supuestos, ${generators.length} generadores, ${buyers.length} compradores.`,
+      `${assumptions.length} supuestos, ${generators.length} generadores, ${buyers.length} compradores, ${curatedContacts.length} contactos.`,
   );
 } finally {
   await db.$client.end();

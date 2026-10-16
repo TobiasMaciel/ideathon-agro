@@ -37,4 +37,11 @@ export const sources: Source[] = [
   { id: 'citricola-tucuman', title: 'Citrícola de 60 t/h: ~10.000 t/año de biomasa (La Gaceta)', url: 'https://www.lagaceta.com.ar/nota/955605/economia/citricola-procese-60-t-h-limon-puede-autoabastecerse-gas.html', date: '2023' },
   { id: 'duhalde-infocampo', title: 'Frigorífico Duhalde, Curuzú Cuatiá (Infocampo)', url: 'https://www.infocampo.com.ar/?p=337624', date: '2018' },
   { id: 'osm-nominatim', title: 'Coordenadas de localidades: OpenStreetMap Nominatim', url: 'https://nominatim.openstreetmap.org/', date: '2026-10-16' },
+  { id: 'contacto-adecoagro', title: 'Adecoagro: contactos por país', url: 'https://adecoagro.com/sugerencias-y-consultas/', date: '2026-10-16' },
+  { id: 'contacto-molinos-ala', title: 'Molinos Ala: sitio oficial', url: 'https://www.molinosala.com.ar', date: '2026-10-16' },
+  { id: 'contacto-las-marias', title: 'Las Marías: contactos', url: 'https://www.lasmarias.com.ar/contactos', date: '2026-10-16' },
+  { id: 'contacto-fresa', title: 'FRESA: sitio oficial', url: 'https://www.fresa.com.ar', date: '2026-10-16' },
+  { id: 'contacto-liebig', title: 'Cooperativa de Colonia Liebig: contacto', url: 'https://www.cooperativaliebig.com.ar/contacto', date: '2026-10-16' },
+  { id: 'contacto-rosamonte', title: 'Rosamonte: contacto', url: 'https://www.rosamonte.com.ar/contacto', date: '2026-10-16' },
+  { id: 'contacto-as-de-bastos', title: 'As de Bastos: sitio oficial', url: 'https://www.asdebastos.com.ar', date: '2026-10-16' },
 ];

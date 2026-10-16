@@ -62,9 +62,17 @@ export interface ListingValidationError extends ApiError {
 
 /** GET /api/listings/:id/contact */
 export interface ListingContactResponse {
+  /** Quién atiende: la empresa (contacto corporativo curado), quien publicó, o la plataforma como intermediaria. */
+  via?: 'empresa' | 'publicacion' | 'plataforma';
   name?: string;
   phone?: string;
   email?: string;
   /** Solo si hay teléfono. */
   whatsappUrl?: string;
+  /** Solo en establecimientos curados: sitio oficial. */
+  website?: string;
+  /** Solo en establecimientos curados: página oficial de donde sale el contacto (primera fuente). */
+  sourceUrl?: string;
+  /** Solo con `via: 'plataforma'`: asunto sugerido para el mailto. */
+  mailtoSubject?: string;
 }

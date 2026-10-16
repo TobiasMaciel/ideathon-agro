@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { fromRows, toRows, type DataSet } from '../db/rows';
-import { alternatives, assumptions, buyers, generators, getSource, materials, sources } from './index';
+import { alternatives, assumptions, buyers, curatedContacts, generators, getSource, materials, sources } from './index';
 import type { Tagged } from './types';
 
 const data: DataSet = { sources, materials, alternatives, assumptions, generators, buyers };
@@ -110,5 +110,47 @@ describe('filas de la base', () => {
   it('el round trip sobrevive a la serialización JSON (como al leer de la base)', () => {
     const viaJson = JSON.parse(JSON.stringify(toRows(data)));
     expect(fromRows(viaJson)).toEqual(data);
+  });
+});
+
+describe('contactos corporativos curados', () => {
+  const entityIds = new Set([...generators.map((g) => g.id), ...buyers.map((b) => b.id)]);
+
+  it('cada contacto apunta a un generador o comprador curado existente', () => {
+    expect(curatedContacts.filter((c) => !entityIds.has(c.entityId)).map((c) => c.entityId)).toEqual([]);
+  });
+
+  it('no hay contactos duplicados por establecimiento', () => {
+    expect(dups(curatedContacts.map((c) => c.entityId))).toEqual([]);
+  });
+
+  it('cada sourceIds existe y hay al menos una fuente', () => {
+    for (const c of curatedContacts) {
+      expect(c.sourceIds.length, c.entityId).toBeGreaterThan(0);
+      for (const id of c.sourceIds) expect(getSource(id), `${c.entityId}: ${id}`).toBeDefined();
+    }
+  });
+
+  it('cada contacto tiene nombre y al menos teléfono, email o sitio web', () => {
+    for (const c of curatedContacts) {
+      expect(c.name.trim(), c.entityId).not.toBe('');
+      expect(Boolean(c.phone ?? c.email ?? c.website), c.entityId).toBe(true);
+    }
+  });
+
+  it('las URLs son https y el email tiene formato válido', () => {
+    for (const c of curatedContacts) {
+      if (c.website) expect(c.website, c.entityId).toMatch(/^https:\/\//);
+      if (c.email) expect(c.email, c.entityId).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    }
+    for (const id of curatedContacts.flatMap((c) => c.sourceIds)) expect(getSource(id)?.url).toMatch(/^https:\/\//);
+  });
+
+  it('el contacto no viaja dentro de Generator ni Buyer', () => {
+    const json = JSON.stringify({ generators, buyers });
+    for (const c of curatedContacts) {
+      if (c.email) expect(json).not.toContain(c.email);
+      if (c.phone) expect(json).not.toContain(c.phone);
+    }
   });
 });

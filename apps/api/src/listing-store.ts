@@ -1,4 +1,6 @@
-import { createDbListingSource } from '@mapa/db';
+import { createDbContactSource, createDbListingSource } from '@mapa/db';
+import { curatedContacts } from '@mapa/core/data';
+import type { CuratedContact } from '@mapa/core/data';
 import type { ListingInput, StoredListing } from '@mapa/core/listings';
 import type { Env } from './env';
 
@@ -43,3 +45,14 @@ export function createDbListingStore(url: string): ListingStore {
 /** Con `DATABASE_URL` usa Postgres; si no, la memoria. */
 export const getListingStore = (env: Pick<Env, 'DATABASE_URL'>): ListingStore =>
   env.DATABASE_URL ? createDbListingStore(env.DATABASE_URL) : memoryListingStore;
+
+/** Contactos corporativos de los establecimientos curados (nunca viajan en /api/catalog). */
+export interface ContactStore {
+  get(entityId: string): Promise<CuratedContact | undefined>;
+}
+
+/** Con `DATABASE_URL` lee la tabla `contacts`; si no, los de @mapa/core. */
+export const getContactStore = (env: Pick<Env, 'DATABASE_URL'>): ContactStore =>
+  env.DATABASE_URL
+    ? createDbContactSource(env.DATABASE_URL)
+    : { get: async (id) => curatedContacts.find((c) => c.entityId === id) };

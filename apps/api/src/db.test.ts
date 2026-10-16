@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-import { alternatives, assumptions, buyers, generators, materials, sources } from '@mapa/core/data';
-import type { CatalogResponse } from '@mapa/core/api';
+import { alternatives, assumptions, buyers, curatedContacts, generators, materials, sources } from '@mapa/core/data';
+import type { CatalogResponse, ListingContactResponse } from '@mapa/core/api';
 import { getListing, loadDataSet, loadListings, seedDatabase } from '@mapa/db';
 import { createTestDb } from '@mapa/db/testing';
 
@@ -12,6 +12,7 @@ vi.mock('@mapa/db', async (importActual) => {
   return {
     ...actual,
     createDbDataSource: () => ({ load: () => actual.loadDataSet(ctx.db!.db) }),
+    createDbContactSource: () => ({ get: (id: string) => actual.getCuratedContact(ctx.db!.db, id) }),
     createDbListingSource: () => ({
       list: () => actual.loadListings(ctx.db!.db),
       get: (id: string) => actual.getListing(ctx.db!.db, id),
@@ -25,7 +26,7 @@ const request = (path: string, env: object) => Promise.resolve(app.request(new R
 
 beforeAll(async () => {
   ctx.db = await createTestDb();
-  await seedDatabase(ctx.db.db, { sources, materials, alternatives, assumptions, generators, buyers });
+  await seedDatabase(ctx.db.db, { sources, materials, alternatives, assumptions, generators, buyers, contacts: curatedContacts });
 });
 afterAll(async () => {
   await ctx.db?.client.close();
@@ -115,5 +116,25 @@ describe('publicaciones con DATABASE_URL', () => {
     } finally {
       await ctx.db!.client.exec('alter table listings_off rename to listings');
     }
+  });
+});
+
+describe('contacto de curados con DATABASE_URL', () => {
+  const env = { DATABASE_URL: 'postgres://fake', IP_SALT: 'test', RATE_LIMIT_DISABLED: '1', ENVIRONMENT: 'development' };
+
+  it('lee el contacto corporativo de la tabla contacts', async () => {
+    const res = await request('/api/listings/molinos-ala-mercedes/contact', env);
+    const body = (await res.json()) as ListingContactResponse;
+    expect(res.status).toBe(200);
+    expect(body.via).toBe('empresa');
+    expect(body.email).toBe('info_ar@adecoagro.com');
+    expect(body.sourceUrl).toBe('https://adecoagro.com/sugerencias-y-consultas/');
+  });
+
+  it('un curado sin contacto da 404 y /api/catalog no expone contactos', async () => {
+    expect((await request('/api/listings/duhalde-curuzu/contact', env)).status).toBe(404);
+    const raw = await (await request('/api/catalog', env)).text();
+    expect(raw).not.toContain('info_ar@adecoagro.com');
+    expect(raw).not.toContain('4836 8600');
   });
 });

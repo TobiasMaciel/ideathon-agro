@@ -211,3 +211,28 @@ export const listings = pgTable(
     check('listings_contact_required_check', sql`${t.contactPhone} is not null or ${t.contactEmail} is not null`),
   ],
 );
+
+// Contacto corporativo público de los establecimientos curados (sin FK: el id es el de un generador o
+// comprador). No va en `generators`/`buyers` ni en el catálogo: solo lo lee GET /api/listings/:id/contact.
+export const contacts = pgTable(
+  'contacts',
+  {
+    entityId: text('entity_id').primaryKey(),
+    name: text('name').notNull(),
+    website: text('website'),
+    phone: text('phone'),
+    email: text('email'),
+    sourceIds: text('source_ids').array().notNull(),
+  },
+  (t) => [
+    check('contacts_name_check', sql`char_length(${t.name}) between 2 and 80 and ${t.name} !~ '[[:cntrl:]]'`),
+    check('contacts_website_check', sql`${t.website} is null or ${t.website} ~ '^https://'`),
+    check('contacts_phone_check', sql`${t.phone} is null or ${t.phone} ~ '^[0-9 +()-]{8,20}$'`),
+    check(
+      'contacts_email_check',
+      sql`${t.email} is null or (char_length(${t.email}) <= 120 and ${t.email} ~ '^[^[:space:]@]+@[^[:space:]@]+[.][^[:space:]@]+$')`,
+    ),
+    check('contacts_any_check', sql`${t.website} is not null or ${t.phone} is not null or ${t.email} is not null`),
+    check('contacts_source_ids_check', sql`cardinality(${t.sourceIds}) > 0`),
+  ],
+);

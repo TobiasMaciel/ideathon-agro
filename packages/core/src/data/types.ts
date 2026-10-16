@@ -80,6 +80,22 @@ export interface Buyer {
   createdAt?: string;
 }
 
+/**
+ * Contacto corporativo público de un establecimiento curado (nunca de una persona). No forma parte de
+ * `Generator`/`Buyer`: no viaja en el catálogo, se sirve con GET /api/listings/:id/contact.
+ */
+export interface CuratedContact {
+  /** Id del generador o comprador curado. */
+  entityId: string;
+  /** Nombre del área o de la empresa. */
+  name: string;
+  website?: string;
+  phone?: string;
+  email?: string;
+  /** Páginas oficiales de donde sale cada dato. */
+  sourceIds: string[];
+}
+
 /** Combustible actual del comprador (alternativa de tipo energía del modelo). */
 export interface Alternative {
   id: AlternativeId;

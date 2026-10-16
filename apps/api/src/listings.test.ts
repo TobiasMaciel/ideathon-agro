@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { alternatives, assumptions, buyers, generators, materials } from '@mapa/core/data';
+import { alternatives, assumptions, buyers, curatedContacts, generators, materials } from '@mapa/core/data';
 import type {
   ApiError,
   CatalogResponse,
@@ -162,6 +162,33 @@ describe('POST /api/listings', () => {
     expect((await postListing(oferta, { 'cf-connecting-ip': '', 'x-forwarded-for': '9.9.9.9, 1.1.1.1' })).status).toBe(201);
   });
 
+  it('RATE_LIMIT_DISABLED=1 con ENVIRONMENT=development apaga el límite (solo para e2e en wrangler dev)', async () => {
+    const devEnv = { ...env, ENVIRONMENT: 'development', RATE_LIMIT_DISABLED: '1' };
+    const post = () =>
+      Promise.resolve(
+        app.request(
+          new Request('http://localhost/api/listings', { method: 'POST', body: JSON.stringify(oferta), headers: { 'cf-connecting-ip': ip } }),
+          undefined,
+          devEnv,
+        ),
+      );
+    for (let i = 0; i < 7; i++) expect((await post()).status).toBe(201);
+  });
+
+  it('RATE_LIMIT_DISABLED=1 sin ENVIRONMENT=development no apaga nada', async () => {
+    const prodEnv = { ...env, ENVIRONMENT: 'production', RATE_LIMIT_DISABLED: '1' };
+    const post = () =>
+      Promise.resolve(
+        app.request(
+          new Request('http://localhost/api/listings', { method: 'POST', body: JSON.stringify(oferta), headers: { 'cf-connecting-ip': ip } }),
+          undefined,
+          prodEnv,
+        ),
+      );
+    for (let i = 0; i < 5; i++) expect((await post()).status).toBe(201);
+    expect((await post()).status).toBe(429);
+  });
+
   it('el store en memoria tiene tope de publicaciones', async () => {
     for (let i = 0; i < MEMORY_LISTINGS_MAX + 3; i++) await memoryListingStore.add({ ...oferta } as never, 'h');
     expect(await memoryListingStore.list()).toHaveLength(MEMORY_LISTINGS_MAX);
@@ -176,6 +203,7 @@ describe('GET /api/listings/:id/contact', () => {
     expect(res.status).toBe(200);
     expect(res.headers.get('Cache-Control')).toBe('no-store');
     expect(body).toEqual({
+      via: 'publicacion',
       name: 'Pepe',
       phone: '379 412-3456',
       email: 'pepe@example.com',
@@ -186,13 +214,76 @@ describe('GET /api/listings/:id/contact', () => {
 
   it('sin teléfono no hay whatsappUrl', async () => {
     const created = (await (await postListing({ ...oferta, contact: { email: 'a@b.com' } })).json()) as ListingCreatedResponse;
-    expect(await (await getContact(created.listing.id)).json()).toEqual({ email: 'a@b.com' });
+    expect(await (await getContact(created.listing.id)).json()).toEqual({ via: 'publicacion', email: 'a@b.com' });
   });
 
-  it('un establecimiento curado da 404 con mensaje', async () => {
-    const res = await getContact(generators[0].id);
+  it('un curado con contacto corporativo (molinos-ala-mercedes) devuelve empresa, fuente y WhatsApp', async () => {
+    const res = await getContact('molinos-ala-mercedes');
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as ListingContactResponse;
+    expect(body.via).toBe('empresa');
+    expect(body.name).toBe('Adecoagro Argentina (oficina comercial)');
+    expect(body.website).toBe('https://www.molinosala.com.ar');
+    expect(body.phone).toBe('+54 11 4836 8600');
+    expect(body.email).toBe('info_ar@adecoagro.com');
+    expect(body.sourceUrl).toBe('https://adecoagro.com/sugerencias-y-consultas/');
+    expect(body.whatsappUrl).toContain('https://wa.me/541148368600?text=');
+  });
+
+  it('un curado sin contacto propio y sin plataforma configurada da 404 con mensaje', async () => {
+    const res = await getContact('duhalde-curuzu');
     expect(res.status).toBe(404);
-    expect(await res.json()).toEqual({ error: 'Este establecimiento no tiene datos de contacto cargados.' });
+    expect(await res.json()).toEqual({ error: 'Este establecimiento no tiene datos de contacto publicados.' });
+  });
+
+  it('un curado sin contacto propio usa el contacto de la plataforma si está configurado', async () => {
+    const platformEnv = { ...env, PLATFORM_CONTACT_PHONE: '+54 379 400-0000', PLATFORM_CONTACT_EMAIL: 'hola@circular.test' };
+    const res = await Promise.resolve(
+      app.request(new Request('http://localhost/api/listings/duhalde-curuzu/contact', { headers: { 'cf-connecting-ip': ip } }), undefined, platformEnv),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as ListingContactResponse;
+    expect(body.via).toBe('plataforma');
+    expect(body.name).toBe('Circular NEA');
+    expect(body.email).toBe('hola@circular.test');
+    expect(body.mailtoSubject).toContain(buyers.find((b) => b.id === 'duhalde-curuzu')!.name);
+    const text = decodeURIComponent(body.whatsappUrl!.split('text=')[1]);
+    expect(text).toContain(buyers.find((b) => b.id === 'duhalde-curuzu')!.name);
+    expect(text).toContain('sus subproductos');
+  });
+
+  it('para un generador sin contacto propio el mensaje de plataforma nombra el material', async () => {
+    const g = generators.find((x) => !curatedContacts.some((c) => c.entityId === x.id))!;
+    const m = materials.find((x) => x.id === g.materialId)!;
+    const res = await Promise.resolve(
+      app.request(
+        new Request(`http://localhost/api/listings/${g.id}/contact`, { headers: { 'cf-connecting-ip': ip } }),
+        undefined,
+        { ...env, PLATFORM_CONTACT_PHONE: '+54 379 400-0000', PLATFORM_CONTACT_NAME: 'Circular NEA Ayuda' },
+      ),
+    );
+    const body = (await res.json()) as ListingContactResponse;
+    expect(body.name).toBe('Circular NEA Ayuda');
+    const text = decodeURIComponent(body.whatsappUrl!.split('text=')[1]);
+    expect(text).toContain(g.name);
+    expect(text).toContain(m.name.toLowerCase());
+    expect(body.email).toBeUndefined();
+  });
+
+  it('un id que no existe en el catálogo da 404 aun con plataforma configurada', async () => {
+    const res = await Promise.resolve(
+      app.request(new Request('http://localhost/api/listings/no-existe/contact'), undefined, { ...env, PLATFORM_CONTACT_PHONE: '+54 379 400-0000' }),
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it('/api/catalog no incluye ningún email ni teléfono de contacto curado', async () => {
+    const raw = await (await call(new Request('http://localhost/api/catalog'))).text();
+    for (const c of curatedContacts) {
+      for (const v of [c.email, c.phone]) if (v) expect(raw).not.toContain(v);
+    }
+    expect(raw).not.toMatch(/@[a-z0-9-]+\.(com|ar)/i);
+    expect(raw).not.toContain('"contacts"');
   });
 
   it('una publicación inexistente da 404', async () => {

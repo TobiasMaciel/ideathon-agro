@@ -4,6 +4,7 @@ import type {
   AlternativeId,
   Buyer,
   BuyerSector,
+  CuratedContact,
   DataLabel,
   Generator,
   GeneratorKind,
@@ -103,6 +104,8 @@ export interface DataSet {
   assumptions: Assumption[];
   generators: Generator[];
   buyers: Buyer[];
+  /** Contactos corporativos curados: solo para sembrar la base; `fromRows` no los devuelve. */
+  contacts?: CuratedContact[];
 }
 
 export interface DbRows {

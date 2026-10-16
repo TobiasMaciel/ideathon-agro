@@ -4,7 +4,17 @@ import { generators } from './data/generators';
 import { buyers } from './data/buyers';
 import { alternatives, materials } from './data/materials';
 import { evaluateMatch } from './match';
-import { listingToBuyer, listingToGenerator, validateListing, whatsappUrl, type ListingInput } from './listings';
+import { curatedContacts } from './data/contacts';
+import { sources } from './data/sources';
+import {
+  contactResponseFromCurated,
+  platformContactResponse,
+  listingToBuyer,
+  listingToGenerator,
+  validateListing,
+  whatsappUrl,
+  type ListingInput,
+} from './listings';
 
 const oferta = {
   kind: 'oferta',
@@ -182,5 +192,55 @@ describe('listingToGenerator / listingToBuyer', () => {
     const buyer = buyers.find((b) => b.accepts.includes('aserrin'))!;
     const result = evaluateMatch({ generator, buyer, material, state: 'suelto', alternatives, assumptions });
     expect(result).toBeDefined();
+  });
+});
+
+describe('contactResponseFromCurated', () => {
+  const byId = (id: string) => curatedContacts.find((c) => c.entityId === id)!;
+
+  it('arma name, website, phone, email, whatsappUrl y sourceUrl (primera fuente)', () => {
+    const r = contactResponseFromCurated(byId('molinos-ala-mercedes'), sources);
+    expect(r.via).toBe('empresa');
+    expect(r.name).toBe('Adecoagro Argentina (oficina comercial)');
+    expect(r.website).toBe('https://www.molinosala.com.ar');
+    expect(r.phone).toBe('+54 11 4836 8600');
+    expect(r.email).toBe('info_ar@adecoagro.com');
+    expect(r.sourceUrl).toBe('https://adecoagro.com/sugerencias-y-consultas/');
+    expect(r.whatsappUrl).toBe(
+      `https://wa.me/541148368600?text=${encodeURIComponent('Hola, los contacto desde Circular NEA por sus subproductos')}`,
+    );
+  });
+
+  it('sin teléfono no hay whatsappUrl y se omiten los campos ausentes', () => {
+    const r = contactResponseFromCurated(byId('las-marias-yerba'), sources);
+    expect(r.whatsappUrl).toBeUndefined();
+    expect(r.phone).toBeUndefined();
+    expect('phone' in r).toBe(false);
+    expect(r.email).toBe('atclientes@lasmarias.com.ar');
+  });
+
+  it('usa el nombre del material en el mensaje si se pasa', () => {
+    const r = contactResponseFromCurated(byId('as-de-bastos'), sources, 'aserrín');
+    expect(decodeURIComponent(r.whatsappUrl!.split('text=')[1])).toBe('Hola, los contacto desde Circular NEA por aserrín');
+  });
+});
+
+describe('platformContactResponse', () => {
+  it('arma via plataforma con WhatsApp que nombra al establecimiento y al material', () => {
+    const r = platformContactResponse({ name: 'Circular NEA', phone: '+54 379 400-0000', email: 'hola@circular.test' }, 'Duhalde', 'aserrín')!;
+    expect(r.via).toBe('plataforma');
+    expect(r.name).toBe('Circular NEA');
+    expect(r.email).toBe('hola@circular.test');
+    expect(r.mailtoSubject).toContain('Duhalde');
+    const text = decodeURIComponent(r.whatsappUrl!.split('text=')[1]);
+    expect(text).toBe('Hola, me interesa contactar a Duhalde por aserrín, vi su ficha en Circular NEA');
+  });
+  it('sin material usa "sus subproductos"; solo email no genera whatsappUrl', () => {
+    const r = platformContactResponse({ name: 'Circular NEA', email: 'hola@circular.test' }, 'Duhalde')!;
+    expect(r.whatsappUrl).toBeUndefined();
+    expect(r.phone).toBeUndefined();
+  });
+  it('sin teléfono ni email devuelve undefined', () => {
+    expect(platformContactResponse({ name: 'Circular NEA' }, 'Duhalde')).toBeUndefined();
   });
 });

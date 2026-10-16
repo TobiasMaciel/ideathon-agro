@@ -7,3 +7,13 @@
 DATABASE_URL=
 # Sal para hashear la IP de quien publica (en producción: `wrangler secret put IP_SALT`).
 IP_SALT=
+# Solo para e2e locales: apaga el límite por IP de publicaciones y contactos.
+# Hace falta que AMBAS estén definidas; en producción no se definen (y ENVIRONMENT nunca es development).
+# Playwright las pasa con `wrangler dev --var ENVIRONMENT:development --var RATE_LIMIT_DISABLED:1`.
+# ENVIRONMENT=development
+# RATE_LIMIT_DISABLED=1
+# Contacto de la plataforma (intermediaria) para establecimientos curados sin contacto público propio.
+# Sin teléfono ni email esos establecimientos responden 404. PLATFORM_CONTACT_NAME es opcional (default "Circular NEA").
+PLATFORM_CONTACT_PHONE=
+PLATFORM_CONTACT_EMAIL=
+PLATFORM_CONTACT_NAME=

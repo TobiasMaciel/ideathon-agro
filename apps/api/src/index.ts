@@ -11,7 +11,13 @@ import type {
   ViabilityResponse,
 } from '@mapa/core/api';
 import type { BuyerSector } from '@mapa/core/data';
-import { storedToEntry, validateListing, whatsappUrl } from '@mapa/core/listings';
+import {
+  contactResponseFromCurated,
+  platformContactResponse,
+  storedToEntry,
+  validateListing,
+  whatsappUrl,
+} from '@mapa/core/listings';
 import { availableStates, evaluateMatch, type Overrides } from '@mapa/core/match';
 import { isEditableKey, OVERRIDE_RULES, validateOverride } from '@mapa/core/overrides';
 import type { MaterialState } from '@mapa/core/viability';
@@ -19,8 +25,8 @@ import type { Env } from './env';
 import { apiError, json, readJsonBody } from './http';
 import { createDbDataSource } from '@mapa/db';
 import { getDataSet } from './repository';
-import { getListingStore } from './listing-store';
-import { allow, CONTACT_LIMITS, CREATE_LIMITS, clientIp, hashIp } from './rate-limit';
+import { getContactStore, getListingStore } from './listing-store';
+import { allow, CONTACT_LIMITS, CREATE_LIMITS, clientIp, hashIp, rateLimitDisabled } from './rate-limit';
 
 const SECTORS: BuyerSector[] = ['yerbatera', 'central_biomasa', 'citricola', 'secadero_granos', 'frigorifico'];
 const STATES: MaterialState[] = ['suelto', 'compactado', 'pellet'];
@@ -119,7 +125,7 @@ app.post('/api/listings', async (c) => {
     return json(body, 400);
   }
   const ipHash = await hashIp(clientIp(c.req.raw), env.IP_SALT);
-  if (!allow('create', ipHash, CREATE_LIMITS)) {
+  if (!rateLimitDisabled(env) && !allow('create', ipHash, CREATE_LIMITS)) {
     return apiError('Demasiadas publicaciones desde esta conexión. Probá más tarde.', 429);
   }
   const stored = await getListingStore(env).add(parsed.value, ipHash);
@@ -133,23 +139,42 @@ app.post('/api/listings', async (c) => {
 });
 
 // El contacto se revela solo bajo demanda (no viaja en /api/catalog) y con límite por IP.
+// pub-*: el que dejó quien publicó. Curados: contacto corporativo público con fuente o, si no tienen,
+// el de la plataforma como intermediaria (si está configurado).
 app.get('/api/listings/:id/contact', async (c) => {
   const env = c.env ?? {};
   const id = c.req.param('id');
-  if (!id.startsWith('pub-')) return apiError('Este establecimiento no tiene datos de contacto cargados.', 404);
   const ipHash = await hashIp(clientIp(c.req.raw), env.IP_SALT);
-  if (!allow('contact', ipHash, CONTACT_LIMITS)) {
+  if (!rateLimitDisabled(env) && !allow('contact', ipHash, CONTACT_LIMITS)) {
     return apiError('Demasiadas consultas de contacto desde esta conexión. Probá más tarde.', 429);
   }
-  const stored = await getListingStore(env).get(id.slice(4));
-  if (!stored) return apiError('No existe la publicación.', 404);
-  const { name, phone, email } = stored.input.contact;
-  const body: ListingContactResponse = {
-    ...(name !== undefined && { name }),
-    ...(phone !== undefined && { phone, whatsappUrl: whatsappUrl(phone, stored.input.materialId) }),
-    ...(email !== undefined && { email }),
-  };
-  return json(body);
+  if (id.startsWith('pub-')) {
+    const stored = await getListingStore(env).get(id.slice(4));
+    if (!stored) return apiError('No existe la publicación.', 404);
+    const { name, phone, email } = stored.input.contact;
+    const body: ListingContactResponse = {
+      via: 'publicacion',
+      ...(name !== undefined && { name }),
+      ...(phone !== undefined && { phone, whatsappUrl: whatsappUrl(phone, stored.input.materialId) }),
+      ...(email !== undefined && { email }),
+    };
+    return json(body);
+  }
+  const { data } = await loadData(env);
+  const generator = data.generators.find((g) => g.id === id);
+  const buyer = generator ? undefined : data.buyers.find((b) => b.id === id);
+  const entity = generator ?? buyer;
+  if (!entity) return apiError('No existe el establecimiento.', 404);
+  const materialName = generator ? data.materials.find((m) => m.id === generator.materialId)?.name.toLowerCase() : undefined;
+  const curated = await getContactStore(env).get(id);
+  if (curated) return json(contactResponseFromCurated(curated, data.sources, materialName));
+  const platform = platformContactResponse(
+    { name: env.PLATFORM_CONTACT_NAME?.trim() || 'Circular NEA', phone: env.PLATFORM_CONTACT_PHONE?.trim() || undefined, email: env.PLATFORM_CONTACT_EMAIL?.trim() || undefined },
+    entity.name,
+    materialName,
+  );
+  if (platform) return json(platform);
+  return apiError('Este establecimiento no tiene datos de contacto publicados.', 404);
 });
 
 app.get('/api/generators', async (c) => {

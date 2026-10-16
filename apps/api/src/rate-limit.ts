@@ -32,6 +32,11 @@ export function allow(bucket: string, key: string, limits: Limit[], now = Date.n
   return true;
 }
 
+/** El límite se apaga solo con ENVIRONMENT=development y RATE_LIMIT_DISABLED=1 (wrangler dev para e2e). */
+export function rateLimitDisabled(env: { ENVIRONMENT?: string; RATE_LIMIT_DISABLED?: string }): boolean {
+  return env.ENVIRONMENT === 'development' && env.RATE_LIMIT_DISABLED === '1';
+}
+
 export function resetRateLimits(): void {
   hits.clear();
 }

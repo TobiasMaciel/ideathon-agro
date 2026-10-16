@@ -1,5 +1,6 @@
 // Publicaciones abiertas (F1): validación de lo que declara un usuario y mapeo a Generator / Buyer.
-import type { AlternativeId, Buyer, BuyerSector, Generator, MaterialId, Tagged } from './data/types';
+import type { ListingContactResponse } from './api/types';
+import type { AlternativeId, Buyer, BuyerSector, CuratedContact, Generator, MaterialId, Source, Tagged } from './data/types';
 
 export type ListingKind = 'oferta' | 'demanda';
 
@@ -243,11 +244,32 @@ const MATERIAL_LABEL: Record<MaterialId, string> = {
 };
 
 /** Link de WhatsApp (wa.me) con el teléfono solo en dígitos y prefijo 54 si falta. */
-export function whatsappUrl(phone: string, materialId: MaterialId): string {
+function waLink(phone: string, text: string): string {
   let digits = phone.replace(/\D/g, '').replace(/^00/, '');
   if (!digits.startsWith('54')) digits = `54${digits.replace(/^0+/, '')}`;
-  const text = `Hola, vi tu publicación de ${MATERIAL_LABEL[materialId]} en Circular NEA`;
   return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+}
+
+export function whatsappUrl(phone: string, materialId: MaterialId): string {
+  return waLink(phone, `Hola, vi tu publicación de ${MATERIAL_LABEL[materialId]} en Circular NEA`);
+}
+
+/** Contacto corporativo curado -> respuesta de GET /api/listings/:id/contact (`sourceUrl` = primera fuente). */
+export function contactResponseFromCurated(
+  c: CuratedContact,
+  sources: Source[],
+  materialName?: string,
+): ListingContactResponse {
+  const sourceUrl = sources.find((s) => s.id === c.sourceIds[0])?.url;
+  const text = `Hola, los contacto desde Circular NEA por ${materialName ?? 'sus subproductos'}`;
+  return {
+    via: 'empresa',
+    name: c.name,
+    ...(c.website !== undefined && { website: c.website }),
+    ...(c.phone !== undefined && { phone: c.phone, whatsappUrl: waLink(c.phone, text) }),
+    ...(c.email !== undefined && { email: c.email }),
+    ...(sourceUrl !== undefined && { sourceUrl }),
+  };
 }
 
 /** Publicación persistida (en Postgres o en memoria). `id` es el uuid sin el prefijo `pub-`. */
@@ -262,4 +284,31 @@ export function storedToEntry(s: StoredListing): { kind: 'oferta'; generator: Ge
   return s.input.kind === 'oferta'
     ? { kind: 'oferta', generator: listingToGenerator(s.input, s.id, s.createdAt) }
     : { kind: 'demanda', buyer: listingToBuyer(s.input, s.id, s.createdAt) };
+}
+
+/** Contacto de la plataforma (Circular NEA) como intermediaria, configurado por el despliegue. */
+export interface PlatformContact {
+  name: string;
+  phone?: string;
+  email?: string;
+}
+
+/**
+ * Respuesta de contacto para un establecimiento curado sin contacto propio: el de la plataforma, con un
+ * mensaje que nombra al establecimiento. Undefined si la plataforma no tiene teléfono ni email.
+ */
+export function platformContactResponse(
+  p: PlatformContact,
+  establishmentName: string,
+  materialName?: string,
+): ListingContactResponse | undefined {
+  if (!p.phone && !p.email) return undefined;
+  const what = materialName ? materialName : 'sus subproductos';
+  const text = `Hola, me interesa contactar a ${establishmentName} por ${what}, vi su ficha en Circular NEA`;
+  return {
+    via: 'plataforma',
+    name: p.name,
+    ...(p.phone && { phone: p.phone, whatsappUrl: waLink(p.phone, text) }),
+    ...(p.email && { email: p.email, mailtoSubject: `Consulta por ${establishmentName} (Circular NEA)` }),
+  };
 }

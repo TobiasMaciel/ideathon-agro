@@ -15,6 +15,7 @@ export async function seedDatabase(db: AnyDb, data: DataSet): Promise<void> {
 
   await db.transaction(async (tx) => {
     // Hijos primero (claves foráneas).
+    await tx.delete(t.contacts);
     await tx.delete(t.buyers);
     await tx.delete(t.generators);
     await tx.delete(t.materialStates);
@@ -35,5 +36,8 @@ export async function seedDatabase(db: AnyDb, data: DataSet): Promise<void> {
     await tx.insert(t.assumptions).values(ins(t.assumptions, rows.assumptions) as (typeof t.assumptions.$inferInsert)[]);
     await tx.insert(t.generators).values(ins(t.generators, rows.generators) as (typeof t.generators.$inferInsert)[]);
     await tx.insert(t.buyers).values(ins(t.buyers, rows.buyers) as (typeof t.buyers.$inferInsert)[]);
+    if (data.contacts?.length) {
+      await tx.insert(t.contacts).values(data.contacts.map((c) => ({ ...c })));
+    }
   });
 }
