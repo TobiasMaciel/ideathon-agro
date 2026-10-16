@@ -6,15 +6,15 @@
 
 ---
 
-## Supuestos (corregir antes de aprobar)
+## Supuestos
 
 1. **Ningún dato simulado.** Empresas, ubicaciones, precios y parámetros salen de fuentes públicas de Corrientes/NEA. Cada número lleva etiqueta `real` (tomado de una fuente) o `estimado` (calculado a partir de valores con fuente, con la fórmula a la vista) y su URL de fuente.
-2. No hay login ni carga de datos por usuarios en el MVP. Los generadores y compradores vienen precargados en Supabase (seed). Por eso la API es **solo lectura**.
+2. No hay login ni carga de datos por usuarios en el MVP. Los generadores y compradores vienen precargados en la base (seed). Por eso la API es **solo lectura**.
 3. La distancia es la **línea recta** entre origen y destino multiplicada por un **factor de corrección por ruta** (por defecto 1,3: las rutas no son rectas, 100 km en línea recta ≈ 130 km de camino). Es un supuesto editable; con 1 queda línea recta pura. Sin ruteo real.
 4. El mapa usa Leaflet con tiles de OpenStreetMap/CARTO, sin API key.
-5. Front y back se despliegan juntos en **Cloudflare Workers** (Next.js + adaptador OpenNext). La base de datos es **Supabase** (Postgres): se entregan migraciones y seed listos, sin levantar Supabase local; el push se decide después.
-7. Si faltan las variables de Supabase, la API sirve los mismos datos desde el módulo `src/data/` (fuente única de la que también se genera `supabase/seed.sql`), así la demo funciona antes de conectar la base.
+5. Front y back son **dos apps separadas** (ver Arquitectura v2). La API corre en **Cloudflare Workers** (Hono) y la base es **PostgreSQL estándar** accedida con **Drizzle ORM**, sin depender de ningún proveedor (Docker local, Neon, Supabase, RDS…: solo cambia `DATABASE_URL`). Se entregan esquema, migraciones y seed listos; no se despliega nada.
 6. La demo se ve en la web y desde el celular (responsive), en español.
+7. Si falta `DATABASE_URL`, la API sirve los mismos datos desde `packages/core/src/data/` (fuente única de la que también sale el seed de la base), así la demo funciona antes de conectar la base.
 
 ---
 
@@ -45,6 +45,18 @@ Que el dueño de un residuo (aserradero o molino) y un posible comprador vean **
 
 ---
 
+## Publicaciones abiertas (F1: oferta y demanda)
+
+Decisiones del usuario (16/10/2026): el mapa es un **punto en común** donde vendedores y compradores publican su oferta o demanda.
+
+- **Acceso abierto, sin cuenta.** Cada publicación se ve en el mapa marcada **"sin verificar"**. Límite de envíos por IP (best-effort en el Worker; en producción, regla de rate limiting de Cloudflare).
+- **Qué se publica:** *Vendo* (oferta) o *Compro* (demanda), con material, toneladas por mes, ubicación (click en el mapa), localidad y nombre del establecimiento. Oferta: humedad y estacionalidad. Demanda: combustible actual (GLP o leña), su consumo mensual y el sector.
+- **Entra al cálculo** como cualquier generador o comprador: aparece en el ranking, en el radio y en el semáforo. Los valores declarados van con etiqueta `estimado` y nota "declarado por quien publicó, sin verificar".
+- **Contacto al hacer click:** quien publica deja WhatsApp/teléfono y/o email (al menos uno). El contacto **no** viaja en el catálogo: se pide con `GET /api/listings/:id/contact` al tocar "Ver contacto" (con límite por IP) e incluye un link de WhatsApp con mensaje armado. Los establecimientos curados (empresas reales tomadas de fuentes públicas) no tienen contacto cargado: no se inventan teléfonos ni emails de terceros.
+- **Aspecto de producto en producción:** la UI no muestra el origen de los datos ni textos de entorno (local, demo, base); eso solo queda en `GET /api/health`.
+- **Persistencia:** con `DATABASE_URL`, tabla `listings` en Postgres (Drizzle). El rol de la API tiene `INSERT` solo en `listings`. Sin base, las publicaciones viven en memoria de la API (modo demo: se pierden al reiniciar).
+- **API:** `POST /api/listings` (validación estricta, tope de body, límites de texto y de coordenadas al NEA); `GET /api/catalog` incluye las publicaciones mezcladas con los datos curados, con `origin: 'publicacion'` y `verified: false`.
+
 ## Modelo de cálculo (B1 / B2)
 
 Funciones puras en `src/lib/viability/`, sin I/O y con tests unitarios.
@@ -73,66 +85,67 @@ radio_max_km (B2) = (precio_t − costo_acond_t) × carga_t / (2 × costo_km)   
 radio_mapa_km     = radio_max_km / factor_ruta                            # línea recta, para dibujar
 ```
 
-Los parámetros (densidades, capacidades del camión, costo por km, precios, PCI, umbrales del semáforo) viven en Supabase (`assumptions`). Cada uno tiene `valor`, `unidad`, `etiqueta` (real/estimado), `fuente` y `fecha`, y el usuario puede editarlos en la UI solo para su sesión.
+Los parámetros (densidades, capacidades del camión, costo por km, precios, PCI, umbrales del semáforo) viven en la base (`assumptions`). Cada uno tiene `valor`, `unidad`, `etiqueta` (real/estimado), `fuente` y `fecha`, y el usuario puede editarlos en la UI solo para su sesión.
 
 ---
 
-## Tech Stack
+## Arquitectura (v2: front y back separados)
+
+Monorepo con **npm workspaces**. El front y el back son dos apps independientes que comparten un paquete de dominio.
+
+```
+apps/
+  api/        → BACK: Hono sobre Cloudflare Workers (wrangler). Lee Postgres vía Drizzle o, sin DATABASE_URL, los datos de core.
+  web/        → FRONT: Vite + React + TypeScript + Tailwind + Leaflet (SPA estática). Consume la API por HTTP.
+packages/
+  core/       → DOMINIO compartido: modelo de viabilidad, adaptador match, validación de supuestos,
+                datos de Corrientes con fuentes, tipos del contrato de la API.
+  db/         → BASE: esquema Drizzle, migraciones SQL (drizzle-kit), seed y repositorio Postgres.
+docker-compose.yml → Postgres 17 local opcional para desarrollo
+e2e/          → Playwright contra web + api levantados juntos
+docs/         → desafío y dirección de diseño
+```
 
 | Capa | Tecnología |
 |---|---|
-| Front + API | Next.js (App Router) + TypeScript, rutas `app/api/*` como back |
-| Deploy | Cloudflare Workers mediante `@opennextjs/cloudflare` + `wrangler` |
-| Base de datos | Supabase (Postgres), migraciones SQL versionadas |
-| Mapa | Leaflet + react-leaflet (cargado solo en cliente) |
-| Estilos | Tailwind CSS |
-| Tests | Vitest (unitarios), Playwright (1 test e2e del guion de la demo) |
+| Back | Hono + TypeScript en Cloudflare Workers (`wrangler dev` en local, puerto 8787); conexión con `DATABASE_URL` desde bindings |
+| Front | Vite + React 19 + TypeScript + Tailwind CSS 4 + Leaflet/react-leaflet (puerto 5173); en dev, Vite hace proxy de `/api` a la API |
+| Dominio | Paquete TypeScript sin dependencias de runtime (funciones puras + datos) |
+| Base | PostgreSQL 15+ cualquiera + Drizzle ORM (`drizzle-orm`, `drizzle-kit`, driver `postgres`); usuario de solo lectura para la API; tests contra Postgres real en memoria (PGlite) |
+| Deploy (preparado, no ejecutado) | API: `wrangler deploy` del Worker. Web: build estático servido como Worker de assets (o Pages), con `VITE_API_URL` apuntando a la API; la API permite ese origen por CORS (`ALLOWED_ORIGINS`) |
+| Tests | Vitest por workspace; Playwright e2e en la raíz |
 
-Las versiones exactas se fijan en el plan, verificadas contra la documentación oficial (skill `source-driven-development`).
-
-## Commands
+### Commands
 
 ```
-Dev:        npm run dev
-Test:       npm test                  # vitest run
-Test e2e:   npm run test:e2e          # playwright
-Lint:       npm run lint
-Typecheck:  npm run typecheck
-Build:      npm run build
-Preview CF: npm run preview           # opennextjs-cloudflare build && preview (runtime de Workers local)
-Deploy:     npm run deploy            # opennextjs-cloudflare build && deploy
-DB:         npx supabase db push      # aplica supabase/migrations
-Seed:       npm run db:seed           # regenera supabase/seed.sql desde src/data/
+Dev (todo):   npm run dev              # api (8787) + web (5173) en paralelo
+Dev por app:  npm run dev:api  ·  npm run dev:web
+Test:         npm test                 # vitest en todos los workspaces
+Test e2e:     npm run test:e2e
+Lint:         npm run lint
+Typecheck:    npm run typecheck
+Build:        npm run build            # core + api (dry-run de wrangler) + web (vite build)
+DB:           npm run db:generate      # genera migraciones SQL desde el esquema Drizzle
+              npm run db:migrate       # aplica migraciones a DATABASE_URL
+              npm run db:seed          # carga los datos de packages/core en DATABASE_URL
+              docker compose up -d db  # (opcional) Postgres local en :5432
 ```
 
-## Project Structure
+### Endpoints (apps/api)
 
-```
-docs/desafio.md              → documento principal del desafío
-SPEC.md                      → este spec
-tasks/                       → plan.md y todo.md
-src/app/                     → páginas (App Router)
-src/app/api/                 → back: catalog, generators, buyers (GET) y viability (POST)
-src/server/                  → repositorio (Supabase o src/data) y helpers HTTP
-src/components/map/          → mapa Leaflet, capas, círculo de radio
-src/components/calculator/   → panel de la calculadora y el semáforo
-src/lib/viability/           → modelo de cálculo puro (+ *.test.ts al lado)
-src/lib/db/                  → cliente Supabase del lado del servidor, repositorio y tipos
-src/data/                    → datos con fuente (generadores, compradores, materiales, supuestos)
-scripts/gen-seed.ts          → genera supabase/seed.sql desde src/data/
-supabase/migrations/         → esquema SQL
-supabase/seed.sql            → datos etiquetados (generado)
-e2e/                         → test Playwright del guion de la demo
-wrangler.jsonc, open-next.config.ts → configuración de Cloudflare
-```
+| Método | Ruta | Respuesta |
+|---|---|---|
+| GET | `/api/catalog` | materiales, alternativas, supuestos, fuentes, generadores y compradores |
+| GET | `/api/generators?material=` | generadores filtrados |
+| GET | `/api/buyers?sector=&accepts=` | compradores filtrados |
+| POST | `/api/viability` | evaluación de un match (mismo modelo que el front) |
+| GET | `/api/health` | estado y origen de datos |
+| POST | `/api/listings` | crea una publicación de oferta o demanda (abierta, "sin verificar") |
+| GET | `/api/listings/:id/contact` | datos de contacto de una publicación (al hacer click) |
 
-### Datos (Supabase)
+### Diseño visual
 
-- `materials`: id, nombre, densidades por estado, PCI, etiqueta.
-- `generators`: id, nombre, tipo (aserradero/molino), material_id, t_mes, humedad, estacionalidad, lat, lng, etiqueta.
-- `buyers`: id, nombre, sector, consumo_mes, alternativa_actual, costo_alternativa, lat, lng, etiqueta.
-- `assumptions`: clave, valor, unidad, etiqueta, fuente.
-- RLS activado: `select` para `anon`; sin `insert/update/delete` públicos.
+Estética minimalista y limpia, definida en `docs/design.md` con las skills `minimalist-ui` y `better-*` (superficies, tipografía, color, layout, accesibilidad). La UI usa solo tokens de ese documento.
 
 ## Code Style
 
@@ -154,20 +167,20 @@ export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
 ## Testing Strategy
 
 - **Unitarios (Vitest), obligatorios:** todo `src/lib/viability/`: carga del camión, viajes, flete, margen, semáforo (bordes en 0% y 15%), radio máximo y ahorro del comprador. Objetivo de cobertura: ≥ 90% en `lib/viability`.
-- **API:** tests de las rutas con el cliente de Supabase mockeado (forma de la respuesta y errores).
+- **API:** tests de las rutas con un DataSource fake (forma de la respuesta y errores); tests de integración de la base contra PGlite.
 - **E2E (Playwright):** un test que recorre el guion de la demo (elige el aserradero, ve compradores, cambia suelto a pellet, el semáforo pasa a verde).
 - Escribir los tests primero para la lógica de cálculo (skill `test-driven-development`).
 
 ## Boundaries
 
-- **Always:** correr `npm test` y `npm run typecheck` antes de cada commit; etiquetar cada dato; mantener las claves de Supabase solo en el servidor (`.dev.vars` / secrets de Wrangler); commits atómicos en español.
+- **Always:** correr `npm test` y `npm run typecheck` antes de cada commit; etiquetar cada dato; mantener `DATABASE_URL` solo en el servidor (`.dev.vars` / secrets de Wrangler); commits atómicos en español.
 - **Ask first:** agregar dependencias fuera de este spec; cambiar el esquema después del seed; usar servicios pagos o APIs con key (ruteo, geocoding); sumar alcance (A2, C1, B3).
-- **Never:** commitear secretos o la `service_role` key; exponer escrituras públicas en Supabase; mostrar números sin etiqueta ni fuente; inventar datos.
+- **Never:** commitear secretos o credenciales de la base; dar permisos de escritura al usuario de la API; mostrar números sin etiqueta ni fuente; inventar datos.
 
 ## Success Criteria
 
-- [ ] El guion de la demo se puede recorrer completo en ≤ 2 minutos corriendo en local (`npm run dev`). El deploy a Cloudflare y Supabase queda configurado pero no se ejecuta en esta etapa.
-- [ ] El mapa muestra ≥ 10 generadores y ≥ 10 compradores reales servidos por la API (Supabase si está configurado; si no, `src/data/`), filtrables por material o sector.
+- [ ] El guion de la demo se puede recorrer completo en ≤ 2 minutos corriendo en local (`npm run dev`). El deploy a Cloudflare y a un Postgres queda configurado pero no se ejecuta en esta etapa.
+- [ ] El mapa muestra ≥ 10 generadores y ≥ 10 compradores reales servidos por la API (Postgres si hay `DATABASE_URL`; si no, los datos de `packages/core`), filtrables por material o sector.
 - [ ] Al cambiar suelto → compactado → pellet, el radio B2 y el semáforo se actualizan en < 200 ms, sin recargar la página.
 - [ ] Con los datos del seed, la cascarilla de Molinos Ala (Mercedes) suelta tiene un radio de ~25 km por ruta y da rojo para el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km); pelletizada el radio pasa a ~310 km y el mismo comprador da verde con ahorro frente al GLP.
 - [ ] Cada número de la UI muestra su etiqueta y su fuente, y los supuestos se pueden editar en la sesión.
@@ -178,5 +191,6 @@ export function truckLoadTons(densityTPerM3: number, truck: TruckSpec): number {
 
 - Distancia: línea recta × factor de corrección por ruta editable (1,3 por defecto).
 - Datos: solo fuentes reales de Corrientes/NEA, etiquetados `real` o `estimado`.
-- Cuentas de Supabase y Cloudflare: fuera de alcance. **No se despliega nada**: el proyecto se desarrolla y prueba en local, y queda listo para que el equipo haga `supabase db push` y `npm run deploy` después.
+- Cuentas de Cloudflare y del proveedor de Postgres: fuera de alcance. **No se despliega nada**: el proyecto se desarrolla y prueba en local, y queda listo para `npm run db:migrate`, `npm run db:seed` y el deploy de cada app.
+- Base de datos: PostgreSQL estándar con Drizzle ORM, sin atarse a un proveedor (decisión del usuario).
 - Ejecución: el MVP completo lo construye el agente orquestador con subagentes.

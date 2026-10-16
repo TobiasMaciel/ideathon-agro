@@ -69,3 +69,49 @@ Leyenda: `[ ]` pendiente · `[~]` en curso · `[x]` hecho
 - [x] Fan-out de review en paralelo; el orquestador corrige los hallazgos críticos
 - [x] Corrida final: lint, typecheck, test, build, e2e, `npm run dev` y prueba manual del guion
 - [x] Commits agrupados por tema, en español, sin coautor
+
+---
+
+# v2 — Front y back separados + estética minimalista
+
+## V1 · Skills de UI — orquestador
+- [x] Instalar `better-*` (jakubkrehel/skills) y `minimalist-ui`, `redesign-existing-projects`, `design-taste-frontend` (Leonxlnx/taste-skill) para Claude y Gemini
+- [x] Proteger esas skills en `scripts/sync-agent-skills.sh`; documentarlas en `AGENTS.md`
+
+## V2 · Monorepo: core + api + web — implementer
+- [x] npm workspaces; `packages/core` con viability, match, overrides, format, data, tipos de API y filas de Supabase
+- [x] `apps/api`: Hono en Cloudflare Workers (wrangler), mismas rutas y validaciones, `/api/health`, CORS por `ALLOWED_ORIGINS`, Supabase desde bindings con fallback a core
+- [x] `apps/web`: Vite + React + Tailwind + Leaflet con los componentes actuales; proxy `/api` en dev
+- [x] Scripts raíz (`dev`, `dev:api`, `dev:web`, `test`, `typecheck`, `lint`, `build`, `test:e2e`, `db:seed`); quitar Next.js y OpenNext
+- **Acepta:** todos los tests unitarios y e2e pasan; `npm run dev` levanta los dos.
+
+## V2b · Base de datos agnóstica con Drizzle — implementer (después de V2)
+- [x] `packages/db`: esquema Drizzle de las 7 tablas, migraciones con drizzle-kit, seed desde `@mapa/core/data`, `createDbDataSource(url)` para la API
+- [x] Rol de solo lectura para la API en una migración SQL; sin dependencias de Supabase
+- [x] `docker-compose.yml` con Postgres 17 (opcional, no se levanta en esta etapa)
+- [x] Tests de integración contra PGlite (migrar + seed + leer = datos locales)
+- [x] Quitar `supabase/` y `@supabase/supabase-js`
+- **Acepta:** `npm test` verde; la API con `DATABASE_URL` usa la base y sin ella los datos locales.
+
+## V3 · Dirección de diseño — doc-writer (en paralelo a V2)
+- [x] `docs/design.md`: tokens (color, tipografía, espaciado, radios, sombras), layout, componentes y estados, según `minimalist-ui` y `better-*`
+
+## V4 · Rediseño de la web con shadcn/ui — implementer
+- [~] shadcn/ui + lucide-react sobre Tailwind 4, tema mapeado a la paleta de `docs/design.md`
+- [~] Pines del mapa con forma e ícono por tipo (generadores: gota con árbol/trigo; compradores: badge con ícono de sector y semáforo); selección muy visible
+- [~] UX: "dónde estoy" siempre claro, combobox con búsqueda, ranking claro, detalle plegable, mobile cómodo
+- [~] Aplicar `docs/design.md` a `apps/web`; revisión con `better-interface`
+- **Acepta:** screenshots desktop y mobile, contraste AA, e2e verde.
+
+## F1 · Publicaciones abiertas (oferta y demanda)
+- [x] Back: tabla `listings` (Drizzle + migración + permisos), store en memoria sin base, `POST /api/listings` con validación y rate limit, publicaciones mezcladas en `/api/catalog` — implementer
+- [ ] Front: botón "Publicar", formulario (Vendo/Compro) en Dialog o Drawer de shadcn, ubicación con click en el mapa, badge "sin verificar" — implementer (después de V4)
+- [x] Back: contacto en la publicación y `GET /api/listings/:id/contact` (no viaja en el catálogo)
+- [ ] Front: botón "Ver contacto" que revela los datos y abre WhatsApp
+- [~] Quitar de la UI el origen de datos y textos de entorno (look de producción)
+- [ ] e2e: publicar una oferta, verla en el mapa y en el ranking, y ver su contacto
+
+## V5 · Cierre — e2e, README, review y commits
+- [ ] e2e y README actualizados a la nueva estructura
+- [ ] Review (code-reviewer) del monorepo y del rediseño
+- [ ] Commits agrupados en español, sin coautor
