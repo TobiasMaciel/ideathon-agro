@@ -11,7 +11,7 @@ import type {
 } from '@mapa/core/catalog';
 import type { Meta } from './mappers/catalog-rows';
 
-// Esquema de Mapa Circular NEA (Postgres estándar, sin dependencias de ningún proveedor).
+// Esquema de Sobra (Postgres estándar, sin dependencias de ningún proveedor).
 //
 // Números: `doublePrecision` (float8) en vez de `numeric`. Los valores del dominio son `number` de JS
 // (float64): float8 los guarda y devuelve idénticos, sin conversión string<->number del driver

@@ -16,5 +16,5 @@ export function waLink(phone: string, text: string): string {
 
 /** Link de WhatsApp para escribirle a quien publicó, con el material en el mensaje. */
 export function whatsappUrl(phone: string, materialId: MaterialId): string {
-  return waLink(phone, `Hola, vi tu publicación de ${MATERIAL_LABEL[materialId]} en Circular NEA`);
+  return waLink(phone, `Hola, vi tu publicación de ${MATERIAL_LABEL[materialId]} en Sobra`);
 }

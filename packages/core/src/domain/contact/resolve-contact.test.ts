@@ -16,7 +16,7 @@ describe('curatedContactCard', () => {
     expect(r.email).toBe('info_ar@adecoagro.com');
     expect(r.sourceUrl).toBe('https://adecoagro.com/sugerencias-y-consultas/');
     expect(r.whatsappUrl).toBe(
-      `https://wa.me/541148368600?text=${encodeURIComponent('Hola, los contacto desde Circular NEA por sus subproductos')}`,
+      `https://wa.me/541148368600?text=${encodeURIComponent('Hola, los contacto desde Sobra por sus subproductos')}`,
     );
   });
 
@@ -30,27 +30,27 @@ describe('curatedContactCard', () => {
 
   it('usa el nombre del material en el mensaje si se pasa', () => {
     const r = curatedContactCard(byId('as-de-bastos'), sources, 'aserrín');
-    expect(decodeURIComponent(r.whatsappUrl!.split('text=')[1])).toBe('Hola, los contacto desde Circular NEA por aserrín');
+    expect(decodeURIComponent(r.whatsappUrl!.split('text=')[1])).toBe('Hola, los contacto desde Sobra por aserrín');
   });
 });
 
 describe('platformContactCard', () => {
   it('arma via plataforma con WhatsApp que nombra al establecimiento y al material', () => {
-    const r = platformContactCard({ name: 'Circular NEA', phone: '+54 379 400-0000', email: 'hola@circular.test' }, 'Duhalde', 'aserrín')!;
+    const r = platformContactCard({ name: 'Sobra', phone: '+54 379 400-0000', email: 'hola@circular.test' }, 'Duhalde', 'aserrín')!;
     expect(r.via).toBe('plataforma');
-    expect(r.name).toBe('Circular NEA');
+    expect(r.name).toBe('Sobra');
     expect(r.email).toBe('hola@circular.test');
     expect(r.mailtoSubject).toContain('Duhalde');
     const text = decodeURIComponent(r.whatsappUrl!.split('text=')[1]);
-    expect(text).toBe('Hola, me interesa contactar a Duhalde por aserrín, vi su ficha en Circular NEA');
+    expect(text).toBe('Hola, me interesa contactar a Duhalde por aserrín, vi su ficha en Sobra');
   });
   it('sin material usa "sus subproductos"; solo email no genera whatsappUrl', () => {
-    const r = platformContactCard({ name: 'Circular NEA', email: 'hola@circular.test' }, 'Duhalde')!;
+    const r = platformContactCard({ name: 'Sobra', email: 'hola@circular.test' }, 'Duhalde')!;
     expect(r.whatsappUrl).toBeUndefined();
     expect(r.phone).toBeUndefined();
   });
   it('sin teléfono ni email devuelve undefined', () => {
-    expect(platformContactCard({ name: 'Circular NEA' }, 'Duhalde')).toBeUndefined();
+    expect(platformContactCard({ name: 'Sobra' }, 'Duhalde')).toBeUndefined();
   });
 });
 
@@ -67,7 +67,7 @@ const listing: StoredListing = {
     contact: { name: 'Pepe', phone: '379 412-3456', email: 'pepe@example.com' },
   },
 };
-const platform = { name: 'Circular NEA', phone: '+54 379 400-0000' };
+const platform = { name: 'Sobra', phone: '+54 379 400-0000' };
 
 describe('publicationContactCard', () => {
   it('devuelve el contacto de quien publicó con link de WhatsApp', () => {
@@ -77,7 +77,7 @@ describe('publicationContactCard', () => {
       phone: '379 412-3456',
       email: 'pepe@example.com',
       whatsappUrl:
-        'https://wa.me/543794123456?text=' + encodeURIComponent('Hola, vi tu publicación de aserrín en Circular NEA'),
+        'https://wa.me/543794123456?text=' + encodeURIComponent('Hola, vi tu publicación de aserrín en Sobra'),
     });
   });
   it('sin teléfono no hay whatsappUrl', () => {
@@ -99,6 +99,6 @@ describe('resolveContact (publicación → empresa → plataforma → ninguno)',
     expect(resolveContact({ establishmentName: 'Duhalde' }, sources, platform)?.via).toBe('plataforma');
   });
   it('sin contacto propio ni plataforma configurada no hay contacto', () => {
-    expect(resolveContact({ establishmentName: 'Duhalde' }, sources, { name: 'Circular NEA' })).toBeUndefined();
+    expect(resolveContact({ establishmentName: 'Duhalde' }, sources, { name: 'Sobra' })).toBeUndefined();
   });
 });

@@ -204,7 +204,7 @@ describe('GET /api/listings/:id/contact', () => {
       phone: '379 412-3456',
       email: 'pepe@example.com',
       whatsappUrl:
-        'https://wa.me/543794123456?text=' + encodeURIComponent('Hola, vi tu publicación de aserrín en Circular NEA'),
+        'https://wa.me/543794123456?text=' + encodeURIComponent('Hola, vi tu publicación de aserrín en Sobra'),
     });
   });
 
@@ -240,7 +240,7 @@ describe('GET /api/listings/:id/contact', () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as ListingContactResponse;
     expect(body.via).toBe('plataforma');
-    expect(body.name).toBe('Circular NEA');
+    expect(body.name).toBe('Sobra');
     expect(body.email).toBe('hola@circular.test');
     expect(body.mailtoSubject).toContain(buyers.find((b) => b.id === 'duhalde-curuzu')!.name);
     const text = decodeURIComponent(body.whatsappUrl!.split('text=')[1]);
@@ -255,11 +255,11 @@ describe('GET /api/listings/:id/contact', () => {
       app.request(
         new Request(`http://localhost/api/listings/${g.id}/contact`, { headers: { 'cf-connecting-ip': ip } }),
         undefined,
-        { ...env, PLATFORM_CONTACT_PHONE: '+54 379 400-0000', PLATFORM_CONTACT_NAME: 'Circular NEA Ayuda' },
+        { ...env, PLATFORM_CONTACT_PHONE: '+54 379 400-0000', PLATFORM_CONTACT_NAME: 'Sobra Ayuda' },
       ),
     );
     const body = (await res.json()) as ListingContactResponse;
-    expect(body.name).toBe('Circular NEA Ayuda');
+    expect(body.name).toBe('Sobra Ayuda');
     const text = decodeURIComponent(body.whatsappUrl!.split('text=')[1]);
     expect(text).toContain(g.name);
     expect(text).toContain(m.name.toLowerCase());
