@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ars, formatKm, formatNumber, pct } from '@/shared/format';
@@ -7,6 +7,7 @@ import Light from '@/shared/Light';
 import { HREF } from '@/shared/route';
 import type { Example } from './examples';
 
+const ROTATE_MS = 6500;
 const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 /** Ventana de la portada: recorre plantas reales y muestra qué pasa al venderlas suelto, compactado o en pellet. */
@@ -14,13 +15,9 @@ export default function LiveExample({ examples }: { examples: Example[] }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  useEffect(() => {
-    if (paused || reduced() || examples.length < 2) return;
-    const t = setInterval(() => {
-      if (!document.hidden) setI((n) => (n + 1) % examples.length);
-    }, 6500);
-    return () => clearInterval(t);
-  }, [paused, examples.length]);
+  // La rotación la marca la barra del punto activo: al terminar su animación pasa a la siguiente planta.
+  const rotates = examples.length > 1 && !reduced();
+  const next = () => setI((n) => (n + 1) % examples.length);
 
   const ex = examples[i % examples.length];
   if (!ex) return null;
@@ -47,10 +44,20 @@ export default function LiveExample({ examples }: { examples: Example[] }) {
               aria-label={e.generator.name}
               onClick={() => setI(n)}
               className={cn(
-                'h-1.5 w-5 rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection',
-                n === i ? 'bg-selection-solid' : 'bg-line hover:bg-line-strong',
+                'relative h-1.5 overflow-hidden rounded-full bg-line transition-[width,background-color] duration-300 hover:bg-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection',
+                n === i ? 'w-8' : 'w-4',
               )}
-            />
+            >
+              {n === i && (
+                <span
+                  key={i}
+                  aria-hidden="true"
+                  className="absolute inset-0 origin-left rounded-full bg-selection-solid"
+                  style={rotates ? { animation: `dot-fill ${ROTATE_MS}ms linear both`, animationPlayState: paused ? 'paused' : 'running' } : undefined}
+                  onAnimationEnd={rotates ? next : undefined}
+                />
+              )}
+            </button>
           ))}
         </div>
       </div>

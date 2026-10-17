@@ -5,6 +5,7 @@ import { insertListing } from '@/features/catalog';
 import { selectionAfterCreate, usePublishFlow } from '@/features/listings';
 import { ClientMap } from '@/features/map';
 import { NotificationBell, PublishMatches, pollIntervalMs, useCatalogPoll, useNotifications, type MatchItem, type Notification } from '@/features/notifications';
+import IntroInvite from './IntroInvite';
 import Notice from './Notice';
 import PanelShell, { PanelError } from './PanelShell';
 import TopBar from './TopBar';
@@ -148,6 +149,7 @@ export default function Workspace({ catalog, onListingCreated, onCatalogUpdate }
           />
         </Suspense>
       )}
+      <IntroInvite hidden={!!notice || !!matches || publish.mode !== 'closed'} />
       <Notice text={notice} />
       {matches && !publish.picking && (
         <div className="pointer-events-none absolute z-[1040] flex justify-center px-3" style={{ ...MAP_FREE, bottom: 72 }}>

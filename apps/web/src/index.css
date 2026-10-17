@@ -269,6 +269,34 @@ html {
   }
 }
 
+/* ---------- Portada: movimiento ---------- */
+
+/* Resaltado que se "pinta" de izquierda a derecha (cada renglón por separado, por box-decoration-break). */
+.mark-sweep {
+  color: var(--color-on-accent);
+  background: linear-gradient(var(--color-selection-solid), var(--color-selection-solid)) no-repeat 0 0 / 100% 100%;
+  animation: mark-sweep 0.9s var(--ease-out) 0.55s both;
+}
+@keyframes mark-sweep {
+  from { background-size: 0% 100%; color: var(--color-fg); }
+}
+
+/* Luces de fondo que se desplazan lento. */
+@utility animate-drift {
+  animation: drift 18s ease-in-out infinite alternate;
+}
+@utility animate-drift-slow {
+  animation: drift 26s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift {
+  to { transform: translate3d(-6%, 8%, 0) scale(1.08); }
+}
+
+/* Barra de progreso del punto activo del ejemplo en vivo. */
+@keyframes dot-fill {
+  from { transform: scaleX(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0ms !important;

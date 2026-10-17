@@ -124,6 +124,10 @@ Materiales (rombos de planta, ícono blanco encima, iguales en ambos temas): `#6
 
 Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre directo en la app) y la **portada** en `#/inicio`, a la que lleva la marca de la pastilla. La portada (`src/features/landing`, carga diferida) tiene: hero con el titular resaltado en cobalto, un **ejemplo en vivo** que recorre plantas reales y calcula con el catálogo el radio por estado y el mejor negocio (`examples.ts`, lógica pura con tests), cifras del catálogo, "Cómo funciona" en cuatro pasos, dos puertas (tengo residuo / necesito calor), "Sin humo" y un llamado final en bloque cobalto.
 
+- **Barra de la portada** (como la de Dosel): ancha y transparente arriba; al bajar 8 px se vuelve una píldora de vidrio más angosta y flotante (`max-width`, alto, margen y fondo con transición de 300 ms). Marca la sección que se está leyendo (subrayado arriba, pastilla en modo flotante). En móvil, los links van en un desplegable.
+- **Movimiento**: entrada escalonada del hero; el resaltado del titular se "pinta" de izquierda a derecha (`.mark-sweep`); dos luces de fondo que derivan lento; cifras que cuentan desde 0 al entrar en pantalla; secciones que suben y se funden al aparecer (`Reveal`); el punto activo del ejemplo en vivo se llena como barra de progreso y al completarse pasa a la planta siguiente (se pausa con el puntero o el foco). Con `prefers-reduced-motion` todo queda estático.
+- **Invitación en el mapa** (`app/IntroInvite.tsx`): quien llega directo al mapa por primera vez ve abajo una tarjeta no modal "¿Primera vez?" con un botón a la portada. Se oculta al cerrarla, al visitar la portada (`intro-seen` en `localStorage`) o mientras hay otro aviso o el formulario abierto. Decisión: el mapa sigue siendo la entrada (`/`) porque la demo del pitch abre con la app cargada; la portada es para quien llega sin contexto.
+
 ### 4.1 Mapa
 
 - **Un solo scroll en el panel**: el bloque fijo y las pestañas scrollean juntos; la barra de pestañas queda pegada arriba (`sticky`). No hay scroll anidado dentro de las pestañas.

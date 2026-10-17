@@ -20,3 +20,6 @@ function subscribe(listener: () => void): () => void {
 export function useRoute(): Route {
   return useSyncExternalStore(subscribe, () => routeFromHash(window.location.hash), () => 'mapa');
 }
+
+/** Marca que la persona ya vio (o descartó) la portada: el mapa deja de invitarla. */
+export const INTRO_SEEN_KEY = 'intro-seen';
