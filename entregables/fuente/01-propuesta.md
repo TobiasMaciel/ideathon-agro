@@ -1,4 +1,4 @@
-# Circular NEA · Propuesta
+# Sobra · Propuesta
 
 **Ideathon NEA Tech 2026 · Desafío 03: Del subproducto al mercado**
 
@@ -11,10 +11,9 @@ Equipo 13
 ## 1. Resumen
 
 - **Problema:** Corrientes genera cada año decenas de miles de toneladas de cascarilla de arroz y residuos de aserradero, y gran parte se quema o se tira. Usos hay. Lo que pasa es que el que tiene el residuo no sabe quién lo compra, cuánto vale ni si el flete se come la ganancia.
-- **Solución:** Circular NEA es un mapa de oferta y demanda de biomasa del NEA. Para cada par de vendedor y comprador responde una pregunta: **¿cierra el negocio?** Muestra el margen después del flete, un semáforo y cuánto ahorra el comprador.
+- **Solución:** Sobra es un mapa de oferta y demanda de biomasa del NEA. Para cada par de vendedor y comprador responde una pregunta: **¿cierra el negocio?** Muestra el margen después del flete, un semáforo y cuánto ahorra el comprador.
 - **Resultado clave del modelo:** con los supuestos del prototipo (precios estimados y flete de referencia 2026), la cascarilla de arroz suelta es viable solo hasta unos 25 km por ruta; pelletizada, hasta unos **310 km, más de 12 veces más lejos**. La razón es física: suelta pesa 108 kg/m³ y el camión se llena de aire antes que de peso. Los volúmenes, precios y demandas de cada empresa son estimaciones y deben validarse con cada una.
 - **A quién sirve:** aserraderos pyme y molinos arroceros (generadores), industrias que hoy queman GLP o leña (compradores) y el Gobierno de Corrientes.
-- **Siguiente paso:** un piloto de 30 a 60 días con 5 aserraderos de Santa Rosa y 2 molinos arroceros, con precios reales y un ensayo de laboratorio en INTI o INTA.
 
 ---
 
@@ -95,7 +94,7 @@ Experiencias internacionales: NISP ([Sitra](https://sitra.fi/en/blogs/industrial
 
 ## 3. Solución y propuesta de valor
 
-### 3.1 Qué es Circular NEA
+### 3.1 Qué es Sobra
 
 Una aplicación web donde quien genera residuos de madera o arroz y quien puede usarlos se encuentran en un mapa, y cada posible negocio se valúa con números. Funcionalidades del prototipo:
 
@@ -112,9 +111,9 @@ Una aplicación web donde quien genera residuos de madera o arroz y quien puede 
 - **Supuestos editables** (costo del camión, precios, factor de ruta) para probar escenarios propios.
 - **Transparencia.** Cada número lleva su etiqueta "real" o "estimado" y el enlace a su fuente, visibles en la pestaña Fuentes.
 
-### 3.2 Hoy vs. con Circular NEA
+### 3.2 Hoy vs. con Sobra
 
-| Situación | Hoy | Con Circular NEA |
+| Situación | Hoy | Con Sobra |
 |---|---|---|
 | Encontrar comprador | Contactos personales o nada; el residuo se quema o se acumula | Mapa con compradores reales filtrados por material |
 | Saber si conviene vender | Intuición; el flete aparece después, como sorpresa | Margen neto y semáforo antes de levantar el teléfono |
@@ -132,7 +131,7 @@ Las experiencias de otros países muestran que publicar residuos no alcanza:
 - **Excess Materials Exchange** (Países Bajos) pasó de catálogo de materiales a matchmaking con **valuación económica de cada match**, y cobra suscripción por eso.
 - El **NISP** del Reino Unido mostró que la facilitación humana pesa: el software tiene que ayudar a quien arma el negocio, no reemplazarlo.
 
-Circular NEA toma esos aprendizajes. **Valúa cada match**, explica con la física real del flete (densidad, humedad, carga por camión) por qué un negocio cierra o no, y **muestra cuándo no conviene**. Por ejemplo, para una yerbatera que quema leña barata el pellet da "no le conviene al comprador". El pellet le gana al GLP, no a la leña barata, y la app lo dice.
+Sobra toma esos aprendizajes. **Valúa cada match**, explica con la física real del flete (densidad, humedad, carga por camión) por qué un negocio cierra o no, y **muestra cuándo no conviene**. Por ejemplo, para una yerbatera que quema leña barata el pellet da "no le conviene al comprador". El pellet le gana al GLP, no a la leña barata, y la app lo dice.
 
 ---
 
@@ -287,7 +286,7 @@ La identificación del problema, la investigación del desafío, la idea de prod
 
 - **Programación.** Programamos con asistencia de IA (Claude Code, de Anthropic) bajo nuestra dirección. El equipo definió los requisitos y revisó y validó el resultado.
 - **Búsqueda de fuentes y redacción.** También usamos IA como apoyo para buscar fuentes públicas y para redactar y revisar textos. Cada dato lo contrastamos con su fuente y está citado.
-- **El producto no usa IA.** Circular NEA no incluye modelos de IA: el cálculo de viabilidad son fórmulas explícitas, con cada parámetro a la vista.
+- **El producto no usa IA.** Sobra no incluye modelos de IA: el cálculo de viabilidad son fórmulas explícitas, con cada parámetro a la vista.
 
 ### 10.3 Componentes previos
 
