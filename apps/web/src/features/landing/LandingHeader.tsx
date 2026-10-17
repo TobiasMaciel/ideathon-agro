@@ -13,10 +13,10 @@ export interface SectionLink {
 
 export function Brand({ size = 28 }: { size?: number }) {
   return (
-    <a href={HREF.inicio} aria-label="Circular NEA, inicio" className="inline-flex items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
+    <a href={HREF.inicio} aria-label="Sobra, inicio" className="inline-flex items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
       <Logo size={size} className="shrink-0 rounded-[3px]" />
-      <span className="font-display text-[1.125rem] leading-none font-extrabold tracking-[-0.01em] whitespace-nowrap text-fg font-stretch-semi-expanded">
-        Circular <span className="text-selection">NEA</span>
+      <span className="font-display text-[1.3125rem] leading-none font-extrabold tracking-[-0.02em] whitespace-nowrap text-fg font-stretch-semi-expanded">
+        Sobra<span className="text-selection">.</span>
       </span>
     </a>
   );
