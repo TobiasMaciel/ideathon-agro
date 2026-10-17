@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
-  <img src="docs/images/logo-light.svg" alt="Circular NEA" width="360" height="64">
+  <img src="docs/images/logo-light.svg" alt="Sobra" width="230" height="64">
 </picture>
 
 ### ¿Cierra el negocio?
@@ -17,7 +17,7 @@ y cada match dice si vender cierra después de pagar el flete.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/app-dark.png">
-    <img src="docs/images/app-light.png" alt="Circular NEA: mapa de Corrientes con Molinos Ala en pellet, el radio viable dibujado y el Frigorífico Duhalde en verde" width="900">
+    <img src="docs/images/app-light.png" alt="Sobra: mapa de Corrientes con Molinos Ala en pellet, el radio viable dibujado y el Frigorífico Duhalde en verde" width="900">
   </picture>
 </p>
 
@@ -50,4 +50,4 @@ No hace falta base de datos: sin `DATABASE_URL` la API usa los datos incluidos e
 
 ## Licencia
 
-[MIT](LICENSE) © 2026 Equipo Circular NEA
+[MIT](LICENSE) © 2026 Equipo Sobra

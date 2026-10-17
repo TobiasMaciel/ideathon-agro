@@ -12,4 +12,4 @@ export function mapInsets(panelWidth: number) {
   return { top: 0, right: panelWidth + 16, bottom: 0, left: 0 };
 }
 
-export const TITLE = 'Mapa Circular NEA — ¿Cierra el negocio?';
+export const TITLE = 'Sobra — ¿Cierra el negocio?';

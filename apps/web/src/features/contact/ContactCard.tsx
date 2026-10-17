@@ -7,7 +7,7 @@ import { LINK } from './link';
 const VIA_TITLE: Record<ContactVia, string> = {
   empresa: 'Contacto publicado por la empresa',
   publicacion: 'Contacto de quien publicó',
-  plataforma: 'Contactar a través de Circular NEA',
+  plataforma: 'Contactar a través de Sobra',
 };
 
 /** Dominio de la fuente como texto del link ("empresa.com.ar"). */

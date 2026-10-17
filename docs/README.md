@@ -1,6 +1,6 @@
 # Documentación
 
-Índice de la documentación de Circular NEA. Para instalar y correr el proyecto, ver el [README](../README.md) de la raíz.
+Índice de la documentación de Sobra. Para instalar y correr el proyecto, ver el [README](../README.md) de la raíz.
 
 **Demo online desplegada:** [https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/)
 

@@ -13,7 +13,7 @@ IP_SALT=
 # ENVIRONMENT=development
 # RATE_LIMIT_DISABLED=1
 # Contacto de la plataforma (intermediaria) para establecimientos curados sin contacto público propio.
-# Sin teléfono ni email esos establecimientos responden 404. PLATFORM_CONTACT_NAME es opcional (default "Circular NEA").
+# Sin teléfono ni email esos establecimientos responden 404. PLATFORM_CONTACT_NAME es opcional (default "Sobra").
 PLATFORM_CONTACT_PHONE=
 PLATFORM_CONTACT_EMAIL=
 PLATFORM_CONTACT_NAME=

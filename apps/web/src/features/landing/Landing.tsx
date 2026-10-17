@@ -27,7 +27,6 @@ const SECTIONS: SectionLink[] = [
   { id: 'ejemplo', label: 'Ejemplo en vivo' },
   { id: 'como-funciona', label: 'Cómo funciona' },
   { id: 'para-quien', label: 'Para quién' },
-  { id: 'sin-humo', label: 'Sin humo' },
 ];
 
 /** Entrada escalonada del hero (tw-animate-css); con movimiento reducido no corre. */
@@ -42,7 +41,7 @@ export default function Landing() {
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    document.title = 'Circular NEA — Del residuo al mercado';
+    document.title = 'Sobra — Lo que sobra, al mercado';
     writeString(INTRO_SEEN_KEY, '1');
   }, []);
 
@@ -71,7 +70,7 @@ export default function Landing() {
                 </em>
               </h1>
               <p style={enter(220).style} className={`${enter(220).className} max-w-[56ch] text-[1.0625rem] leading-relaxed text-pretty text-fg-muted`}>
-                Circular NEA cruza los residuos de aserraderos y molinos arroceros con las industrias que necesitan calor, y calcula si la venta deja
+                Sobra cruza los residuos de aserraderos y molinos arroceros con las industrias que necesitan calor, y calcula si la venta deja
                 margen una vez pagado el flete. Con números que tienen fuente.
               </p>
               <div style={enter(320).style} className={`${enter(320).className} flex flex-wrap gap-3`}>
@@ -172,27 +171,6 @@ export default function Landing() {
             </a>
             </Reveal>
           ))}
-        </section>
-
-        {/* Honestidad del modelo */}
-        <section id="sin-humo" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-16 sm:px-6">
-          <Reveal className="grid gap-6 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
-            <div className="grid content-start gap-3">
-              <p className="kicker">Sin humo</p>
-              <h2 className="font-display text-[1.75rem] leading-tight font-bold tracking-[-0.02em] text-balance">Si no cierra, te lo decimos.</h2>
-            </div>
-            <div className="grid content-start gap-3 text-body text-pretty text-fg-muted">
-              <p>
-                El pellet le gana al GLP, no a la leña barata. Cuando al comprador le sale más caro que lo que usa hoy, la app lo marca aunque al vendedor le
-                cierre.
-              </p>
-              <p>
-                Cada valor dice si es <span className="font-mono text-caption text-fg uppercase">real</span> o{' '}
-                <span className="font-mono text-caption text-fg uppercase">estimado</span> y llega a su fuente en un clic. Y si tenés mejores números, cambiás
-                los supuestos y el resultado se recalcula al instante.
-              </p>
-            </div>
-          </Reveal>
         </section>
 
         {/* Llamado final */}

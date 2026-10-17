@@ -13,10 +13,10 @@ export interface SectionLink {
 
 export function Brand({ size = 28 }: { size?: number }) {
   return (
-    <a href={HREF.inicio} aria-label="Circular NEA, inicio" className="inline-flex items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
+    <a href={HREF.inicio} aria-label="Sobra, inicio" className="inline-flex items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
       <Logo size={size} className="shrink-0 rounded-[3px]" />
-      <span className="font-display text-[1.125rem] leading-none font-extrabold tracking-[-0.01em] whitespace-nowrap text-fg font-stretch-semi-expanded">
-        Circular <span className="text-selection">NEA</span>
+      <span className="font-display text-[1.3125rem] leading-none font-extrabold tracking-[-0.02em] whitespace-nowrap text-fg font-stretch-semi-expanded">
+        Sobra<span className="text-selection">.</span>
       </span>
     </a>
   );
@@ -45,15 +45,8 @@ export default function LandingHeader({ links }: { links: SectionLink[] }) {
   };
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)]">
-      <div
-        className={cn(
-          'pointer-events-auto grid grid-cols-[auto_1fr_auto] items-center gap-5 border transition-[max-width,height,margin,padding,background-color,border-color,box-shadow,border-radius] duration-300 ease-out',
-          floating
-            ? 'mx-3 mt-2.5 h-14 rounded-xl border-line bg-surface/75 pr-2 pl-4 shadow-overlay backdrop-blur-xl backdrop-saturate-150 md:mx-auto md:max-w-5xl'
-            : 'mx-auto h-16 max-w-6xl rounded-none border-transparent px-4 sm:px-6',
-        )}
-      >
+    <header className={cn('lnav', floating && 'is-floating')}>
+      <div className="lnav-bar">
         <Brand />
         <nav aria-label="Secciones" className="hidden justify-center gap-0.5 md:flex">
           {links.map((l) => {
@@ -68,7 +61,7 @@ export default function LandingHeader({ links }: { links: SectionLink[] }) {
                   'relative h-9 rounded-md px-3 text-small font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-selection',
                   on ? 'text-fg' : 'text-fg-muted hover:text-fg',
                   on && floating && 'bg-fg/8',
-                  'after:absolute after:inset-x-3 after:bottom-0.5 after:h-0.5 after:bg-selection after:transition-opacity after:duration-200',
+                  'after:absolute after:inset-x-3 after:bottom-px after:h-0.5 after:bg-selection after:transition-opacity after:duration-200',
                   on && !floating ? 'after:opacity-100' : 'after:opacity-0',
                 )}
               >
@@ -102,7 +95,7 @@ export default function LandingHeader({ links }: { links: SectionLink[] }) {
       {open && (
         <nav
           aria-label="Secciones (móvil)"
-          className="pointer-events-auto mx-3 mt-2 grid animate-in rounded-xl border border-line bg-surface px-4 py-1.5 shadow-overlay duration-200 fade-in-0 slide-in-from-top-1 md:hidden"
+          className="lnav-drawer grid animate-in rounded-[18px] border border-line bg-surface px-4 py-1.5 shadow-overlay duration-200 fade-in-0 slide-in-from-top-1 md:hidden"
         >
           {links.map((l) => (
             <button

@@ -1,4 +1,4 @@
-# Dirección de diseño: Circular NEA
+# Dirección de diseño: Sobra
 
 App de una sola pantalla: mapa de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet), con **tema claro (principal)** y **tema oscuro (alternativa)**. Identidad cobalto (2026-10): neutros con tinte cobalto, un acento cobalto (vivo en claro, cobalto profundo con acento celeste en oscuro), marca de píxeles, títulos y cifras en Archivo semiexpandida, labels en mono, radios rectos y grilla de instrumento. Mismo nivel de terminación que Dosel (proyecto hermano), con otra paleta, otra marca y otras fuentes. Este documento describe lo implementado en `apps/web`. Prioridad: escritorio (1280–1920 px); mobile solo tiene que funcionar.
 
@@ -24,7 +24,7 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 ### 2.1 Selector de tema
 
-- Botón de 28 px dentro de la pastilla "Circular NEA" (arriba a la izquierda), separado de la marca por un divisor. Ícono de lucide: **luna** en claro, **sol** en oscuro. `aria-label` "Cambiar a modo oscuro" / "Cambiar a modo claro", `aria-pressed` = tema claro activo, `data-testid="theme-toggle"`.
+- Botón de 28 px dentro de la pastilla "Sobra" (arriba a la izquierda), separado de la marca por un divisor. Ícono de lucide: **luna** en claro, **sol** en oscuro. `aria-label` "Cambiar a modo oscuro" / "Cambiar a modo claro", `aria-pressed` = tema claro activo, `data-testid="theme-toggle"`.
 - Valor inicial: preferencia guardada en `localStorage` (`theme`) si existe; si no, **claro**. No sigue a `prefers-color-scheme` (decisión del usuario).
 - Un script inline en `index.html` lo aplica antes del primer paint (sin parpadeo). `src/lib/theme.ts` es su espejo: `resolveTheme`, `readStoredTheme`/`storeTheme` (con try/catch: modo privado o almacenamiento bloqueado no rompen), `setTheme` y el hook `useTheme` (`useSyncExternalStore`).
 
@@ -64,7 +64,9 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 ### 2.3.1 Marca
 
-`src/shared/Logo.tsx` (copias en `public/favicon.svg`, `public/logo-mark.svg` y `docs/images/logo-*.svg`): grilla de 9 × 9 píxeles sobre un cuadrado redondeado de color `selection-solid`. Un anillo que se carga en sentido horario (opacidad de .3 a 1, con un hueco arriba a la derecha: el material que vuelve al mercado) y un núcleo en cruz. Los píxeles usan `on-accent`, así la marca sigue al tema. Al lado, "Circular **NEA**" en Archivo 800 semiexpandida, con "NEA" en el acento.
+**Nombre: Sobra.** Doble sentido: lo que sobra en la planta (el residuo) y "de sobra" (abundancia, la plata que aparece). Reemplaza a "Circular NEA" (2026-10): ese nombre era descriptivo pero genérico. Se escribe con punto final en el acento, "Sobra.", como afirmación.
+
+`src/shared/Logo.tsx` (copias en `public/favicon.svg`, `public/logo-mark.svg` y `docs/images/logo-*.svg`): grilla de 9 × 9 píxeles sobre un cuadrado redondeado de color `selection-solid`. Una pila de residuo (opacidad .3–.7, más densa al centro) de la que sale una diagonal de tres píxeles que sube y se enciende hasta 1: lo que sobra gana valor. Los píxeles usan `on-accent`, así la marca sigue al tema. Al lado, "Sobra" en Archivo 800 semiexpandida con el punto final en el acento.
 
 ### 2.4 Pines (`--pin-*`)
 
@@ -122,9 +124,9 @@ Materiales (rombos de planta, ícono blanco encima, iguales en ambos temas): `#6
 
 ### 4.0 Pantallas y ruteo
 
-Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre directo en la app) y la **portada** en `#/inicio`, a la que lleva la marca de la pastilla. La portada (`src/features/landing`, carga diferida) tiene: hero con el titular resaltado en cobalto, un **ejemplo en vivo** que recorre plantas reales y calcula con el catálogo el radio por estado y el mejor negocio (`examples.ts`, lógica pura con tests), cifras del catálogo, "Cómo funciona" en cuatro pasos, dos puertas (tengo residuo / necesito calor), "Sin humo" y un llamado final en bloque cobalto.
+Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre directo en la app) y la **portada** en `#/inicio`, a la que lleva la marca de la pastilla. La portada (`src/features/landing`, carga diferida) tiene: hero con el titular resaltado en cobalto, un **ejemplo en vivo** que recorre plantas reales y calcula con el catálogo el radio por estado y el mejor negocio (`examples.ts`, lógica pura con tests), cifras del catálogo, "Cómo funciona" en cuatro pasos, dos puertas (tengo residuo / necesito calor) y un llamado final en bloque cobalto.
 
-- **Barra de la portada** (como la de Dosel): ancha y transparente arriba; al bajar 8 px se vuelve una píldora de vidrio más angosta y flotante (`max-width`, alto, margen y fondo con transición de 300 ms). Marca la sección que se está leyendo (subrayado arriba, pastilla en modo flotante). En móvil, los links van en un desplegable.
+- **Barra de la portada** (mismo mecanismo que Dosel, clases `.lnav` en `index.css`): una sola caja ancha y transparente arriba; al bajar 8 px anima a una píldora de vidrio más angosta y flotante (`max-width` 72 → 67 rem, alto 72 → 60 px, margen, padding, fondo, borde y sombra; el radio y el borde existen siempre, transparentes). Marca la sección que se está leyendo (subrayado arriba, pastilla en modo flotante). En móvil, los links van en un desplegable.
 - **Movimiento**: entrada escalonada del hero; el resaltado del titular se "pinta" de izquierda a derecha (`.mark-sweep`); dos luces de fondo que derivan lento; cifras que cuentan desde 0 al entrar en pantalla; secciones que suben y se funden al aparecer (`Reveal`); el punto activo del ejemplo en vivo se llena como barra de progreso y al completarse pasa a la planta siguiente (se pausa con el puntero o el foco). Con `prefers-reduced-motion` todo queda estático.
 - **Invitación en el mapa** (`app/IntroInvite.tsx`): quien llega directo al mapa por primera vez ve abajo una tarjeta no modal "¿Primera vez?" con un botón a la portada. Se oculta al cerrarla, al visitar la portada (`intro-seen` en `localStorage`) o mientras hay otro aviso o el formulario abierto. Decisión: el mapa sigue siendo la entrada (`/`) porque la demo del pitch abre con la app cargada; la portada es para quien llega sin contexto.
 
@@ -133,7 +135,7 @@ Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre 
 - **Un solo scroll en el panel**: el bloque fijo y las pestañas scrollean juntos; la barra de pestañas queda pegada arriba (`sticky`). No hay scroll anidado dentro de las pestañas.
 - **La respuesta es un bloque cobalto**: "Resultado", comprador y margen por mes en `selection-solid` con texto `on-accent`; el semáforo va en una ficha clara para mantener su color. Debajo, en la card, el aviso de "al comprador le sale más caro" y el contacto.
 
-- **Mapa a pantalla completa**; no hay barra superior. El título completo es el `h1` (`sr-only`); a la vista, la pastilla "Circular NEA" arriba a la izquierda, con el selector de tema adentro, y al lado "Publicar".
+- **Mapa a pantalla completa**; no hay barra superior. El título completo es el `h1` (`sr-only`); a la vista, la pastilla "Sobra" arriba a la izquierda, con el selector de tema adentro, y al lado "Publicar".
 - **Franja de KPIs** flotante arriba: Plantas · Toneladas/mes · Compradores · Cierran (`3 de 6`, verde si hay alguno, coral si no). Se recalcula con la planta y el estado.
 - **Desktop (≥ 1024 px):** panel flotante a la derecha, 400 px, `top/right/bottom: 16px`, card con scroll interno. Zoom arriba a la izquierda; leyenda, escala y atribución abajo a la izquierda.
 - **Mobile:** hoja inferior propia, **no modal**, de 470 px (manija para agrandarla al 92 %; elegir una pestaña la agranda). No se usa el Drawer de shadcn: `vaul` siempre monta un Dialog modal de Radix que pone `aria-hidden` en `#root` y atrapa el foco, y el mapa tiene que seguir usable detrás. KPIs en **grilla 2×2** (cifra 20 px, sin sublabel) debajo de marca y "Publicar"; atribución y escala **debajo de los KPIs**, a la derecha (`top: 176px`); "Referencias" debajo de los KPIs, a la izquierda. Las etiquetas permanentes de los pines van **debajo** del pin (arriba está la atribución).

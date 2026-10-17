@@ -1,9 +1,9 @@
-# Circular NEA — Pitch y estrategia
+# Sobra — Pitch y estrategia
 
 > 16/10/2026 · Para el equipo, antes de presentar en la Ideathon NEA Tech 2026.
 > Demo online: [https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/)
 
-Circular NEA convierte residuos de aserraderos y molinos arroceros en ingresos, mostrando en un mapa quién los compra y si el negocio cierra después del flete. Acá están el pitch, la demo, qué sumar antes de presentar, cómo venderlo y cómo ganar.
+Sobra convierte residuos de aserraderos y molinos arroceros en ingresos, mostrando en un mapa quién los compra y si el negocio cierra después del flete. Acá están el pitch, la demo, qué sumar antes de presentar, cómo venderlo y cómo ganar.
 
 ---
 
@@ -14,7 +14,7 @@ La idea central: **el problema no es qué hacer con el residuo, es saber si el n
 | Tiempo | Qué se dice | Qué se muestra |
 | --- | --- | --- |
 | 0:00–0:20 | "Corrientes produce casi la mitad del arroz del país y tiene más de 500.000 hectáreas forestadas. Cada molino y cada aserradero genera montañas de cascarilla y aserrín. Gran parte se quema o se tira. No porque no tenga uso: porque nadie sabe quién lo compra ni si el flete se come la ganancia." | Mapa a pantalla completa con las plantas reales |
-| 0:20–0:35 | "Circular NEA es el lugar donde el que tiene el residuo y el que lo necesita se encuentran, y la app responde una sola pregunta: ¿cierra el negocio?" | Panel con "Tu planta" y la respuesta grande |
+| 0:20–0:35 | "Sobra es el lugar donde el que tiene el residuo y el que lo necesita se encuentran, y la app responde una sola pregunta: ¿cierra el negocio?" | Panel con "Tu planta" y la respuesta grande |
 | 0:35–1:20 | Demo en vivo (sección 2): la cascarilla suelta no llega a 30 km; pelletizada llega a 310 km y el frigorífico ahorra unos $15 millones por mes frente al GLP. | Cambio de suelto a pellet: el círculo crece, el comprador pasa de rojo a verde |
 | 1:20–1:40 | "Y no es un mapa estático: cualquier aserradero o comprador publica su oferta o demanda en un minuto, y el contacto aparece al hacer click." | Publicar una oferta en vivo y tocar "Ver contacto" |
 | 1:40–2:00 | "Cada número tiene su fuente. El modelo de negocio: suscripción para generadores y compradores, y un tablero de impacto para la provincia. Lo que pedimos: cinco aserraderos y dos molinos para el piloto." | Pestaña Fuentes y la franja de KPIs |

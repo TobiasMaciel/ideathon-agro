@@ -1,6 +1,6 @@
 # @mapa/db
 
-Capa de datos de Mapa Circular NEA: esquema Drizzle, migraciones SQL, seed y los adaptadores Postgres de los
+Capa de datos de Sobra: esquema Drizzle, migraciones SQL, seed y los adaptadores Postgres de los
 puertos de `@mapa/core/ports` (`createPgRepositories(db)` → `{ catalog, listings, contacts }`).
 Postgres estándar: solo hace falta `DATABASE_URL` (Docker, Neon, RDS, un servidor propio, etc.).
 
