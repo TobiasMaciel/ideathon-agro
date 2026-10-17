@@ -2,15 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Circular NEA · Pitch deck</title>
+<title>Sobra. · Pitch Deck — Ideathon NEA Tech 2026</title>
 <meta name="viewport" content="width=1920">
 <!--
-  Fuente editable del pitch deck (Ideathon NEA Tech 2026 · Desafío 03).
+  Fuente editable del pitch deck de Sobra. (Ideathon NEA Tech 2026 · Desafío 03).
   Cada <section class="slide"> es una página de 1920×1080. Para regenerar el PDF:
     node entregables/fuente/deck/build-deck.mjs
-  Fuentes: Geist y Geist Mono (SIL OFL 1.1, ver fonts/).
 -->
 <style>
+@font-face { font-family: "Archivo Variable"; src: url("fonts/archivo-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 @font-face { font-family: "Geist"; src: url("fonts/geist-latin-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; font-display: block; }
 @font-face { font-family: "Geist"; src: url("fonts/geist-latin-ext-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; font-display: block; unicode-range: U+0100-02BA, U+1E00-1EFF, U+20A0-20C0; }
 @font-face { font-family: "Geist Mono"; src: url("fonts/geist-mono-latin-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; font-display: block; }
@@ -19,22 +19,26 @@
 @page { size: 1920px 1080px; margin: 0; }
 
 :root {
-  --canvas: #f7f8f7;
+  --canvas: #eef3fd;
   --surface: #ffffff;
-  --subtle-bg: #f0f2f1;
-  --line: #dfe4e1;
-  --fg: #141a17;
-  --muted: #55605b;
-  --subtle: #5f6a65;
-  --sage: #3a7254;
-  --sage-solid: #447d5f;
-  --sage-bg: rgb(58 114 84 / .10);
-  --amber: #806219;
-  --coral: #a5523c;
-  --coral-bg: rgb(165 82 60 / .10);
-  --sans: "Geist", "Segoe UI", system-ui, sans-serif;
+  --subtle-bg: #e6edfb;
+  --line: #d3def3;
+  --fg: #0a1433;
+  --muted: #3d4d7a;
+  --subtle: #5b6b94;
+  --cobalt: #2150e8;
+  --cobalt-dark: #0b1640;
+  --cobalt-surface: #101f54;
+  --cobalt-line: #1f2f66;
+  --cobalt-light: #7aa7ff;
+  --green: #17784a;
+  --green-bg: #e8f5ee;
+  --coral: #b5402a;
+  --coral-bg: #fbeae6;
+  --display: "Archivo Variable", "Geist", system-ui, sans-serif;
+  --sans: "Geist", system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, Consolas, monospace;
-  --pad-x: 112px;
+  --pad-x: 96px;
 }
 
 * { box-sizing: border-box; }
@@ -44,17 +48,20 @@ body {
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
-  font-feature-settings: "ss01" 0;
 }
-@media screen { body { display: grid; gap: 32px; padding: 32px; background: #dfe4e1; } }
+@media screen { body { display: grid; gap: 32px; padding: 32px; background: #cbd5e1; } }
 
 .slide {
   position: relative;
   width: 1920px;
   height: 1080px;
   overflow: hidden;
-  background: var(--canvas);
-  padding: 136px var(--pad-x) 112px;
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(to right, rgba(211, 222, 243, 0.55) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(211, 222, 243, 0.55) 1px, transparent 1px);
+  background-size: 32px 32px;
+  padding: 96px var(--pad-x) 88px;
   page-break-after: always;
   break-after: page;
   display: flex;
@@ -62,616 +69,413 @@ body {
 }
 .slide:last-child { page-break-after: auto; break-after: auto; }
 
-/* Marco común: ícono arriba a la derecha, sección arriba a la izquierda, número de página abajo a la derecha */
-.mark { position: absolute; top: 52px; right: var(--pad-x); width: 48px; height: 48px; }
+.slide.dark {
+  background-color: var(--cobalt-dark);
+  background-image:
+    linear-gradient(to right, rgba(31, 47, 102, 0.55) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 47, 102, 0.55) 1px, transparent 1px);
+  color: #f4f7fe;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
 .eyebrow {
-  position: absolute; top: 62px; left: var(--pad-x);
-  font-family: var(--mono); font-size: 22px; line-height: 28px; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cobalt);
 }
-.eyebrow b { color: var(--fg); font-weight: 500; }
-.foot {
-  position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 44px;
-  display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;
-  font-family: var(--mono); font-size: 18px; line-height: 26px; color: var(--subtle);
+.slide.dark .eyebrow {
+  background: var(--cobalt-surface);
+  border-color: var(--cobalt-line);
+  color: var(--cobalt-light);
 }
-.foot .src { max-width: 1440px; }
-.foot .pg { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.brand-mark {
+  height: 44px;
+  width: auto;
+  display: block;
+}
 
 h1, h2, h3, p { margin: 0; }
+h1, h2, h3 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 112;
+}
+
 h2 {
-  font-size: 76px; line-height: 1.04; letter-spacing: -0.032em; font-weight: 600;
-  max-width: 1500px; text-wrap: balance;
+  font-size: 64px;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  max-width: 1560px;
 }
-h2 .soft { color: var(--subtle); }
-.lead { font-size: 32px; line-height: 1.4; color: var(--muted); max-width: 1180px; text-wrap: pretty; }
-.label {
-  font-family: var(--mono); font-size: 22px; line-height: 28px; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle);
+h2 .accent { color: var(--cobalt); }
+.slide.dark h2 .accent { color: var(--cobalt-light); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--cobalt);
+  padding: 36px;
 }
-.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -0.04em; font-weight: 600; }
-.ok { color: var(--sage); }
-.bad { color: var(--coral); }
-.warn { color: var(--amber); }
-
-.shot { display: block; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-
-.tag {
-  display: inline-block; font-family: var(--mono); font-size: 18px; line-height: 24px; letter-spacing: .08em; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 6px; vertical-align: middle; white-space: nowrap;
-}
-.tag.real { background: var(--sage); color: #fff; border: 1px solid var(--sage); }
-.tag.est { border: 1.5px dashed var(--subtle); color: var(--muted); }
-.pill {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--mono); font-size: 22px; line-height: 28px; letter-spacing: .08em; text-transform: uppercase; font-weight: 500;
-  padding: 6px 14px; border-radius: 8px;
-}
-.pill.bad { background: var(--coral-bg); color: var(--coral); }
-.pill.ok { background: var(--sage-bg); color: var(--sage); }
-.dot { width: 12px; height: 12px; border-radius: 99px; background: currentColor; }
-
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; }
-.arrow { display: inline-block; width: .8em; height: .5em; vertical-align: .14em; margin: 0 .18em; }
-
-/* ---------- 1 · Portada ---------- */
-.cover { padding: 0 var(--pad-x); justify-content: center; }
-.cover .text { width: 840px; position: relative; z-index: 1; }
-.cover .logo { width: 128px; height: 128px; margin-bottom: 56px; }
-.cover h1 { font-size: 148px; line-height: .95; letter-spacing: -0.045em; font-weight: 650; }
-.cover h1 span { color: var(--sage-solid); }
-.cover .tagline { margin-top: 40px; font-size: 50px; line-height: 1.16; letter-spacing: -0.02em; font-weight: 500; color: var(--fg); text-wrap: balance; }
-.cover .meta { margin-top: 72px; display: grid; gap: 12px; }
-.cover .meta .label { color: var(--muted); }
-.cover .team { font-size: 30px; color: var(--fg); font-weight: 500; }
-.cover .hero {
-  position: absolute; top: 120px; left: 1040px; width: 1240px; height: 840px;
-  object-fit: cover; object-position: 0 0;
-  border: 1px solid var(--line); border-radius: 16px;
+.slide.dark .card {
+  background: var(--cobalt-surface);
+  border: 1px solid var(--cobalt-line);
+  border-top: 5px solid var(--cobalt-light);
 }
 
-/* ---------- 2 · Problema ---------- */
-.stats { margin-top: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.stat { border-top: 2px solid var(--fg); padding-top: 28px; }
-.stat .num { font-size: 104px; line-height: 1; display: block; }
-.stat .unit { font-size: 44px; letter-spacing: -0.02em; margin-left: 6px; }
-.stat p { min-height: 120px; margin-top: 20px; font-size: 30px; line-height: 1.3; color: var(--muted); max-width: 470px; }
-.stat .tag { margin-top: 20px; }
-.callout { margin-top: auto; display: flex; gap: 28px; align-items: baseline; font-size: 34px; line-height: 1.35; max-width: 1500px; }
-.callout .label { flex: none; color: var(--coral); }
+.shot-frame {
+  background: var(--surface);
+  border: 2px solid var(--cobalt);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.shot-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
 
-/* ---------- 3 · Por qué ---------- */
-.why { margin-top: 56px; display: grid; grid-template-columns: 1fr 760px; gap: 80px; flex: 1; }
-.lacks { display: grid; gap: 0; align-content: start; margin-top: 36px; }
-.lack { display: grid; grid-template-columns: 260px 1fr; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); align-items: baseline; }
-.lack:last-child { border-bottom: 1px solid var(--line); }
-.lack h3 { font-size: 34px; font-weight: 600; letter-spacing: -0.015em; }
-.lack p { font-size: 28px; line-height: 1.38; color: var(--muted); }
-.truck .big { font-size: 96px; line-height: 1; margin: 18px 0 8px; }
-.truck .big small { font-size: 40px; letter-spacing: -0.02em; margin-left: 8px; font-weight: 500; }
-.truck { display: flex; flex-direction: column; }
-.truck > p { font-size: 28px; line-height: 1.35; color: var(--muted); }
-.truck > p.big { color: var(--fg); }
-.truck .result { margin-top: auto; padding-top: 28px; border-top: 1px solid var(--line); font-size: 28px; line-height: 1.4; color: var(--fg); }
-.bars { margin-top: 36px; display: grid; gap: 26px; }
-.bar-row .meta { display: flex; justify-content: space-between; font-size: 24px; margin-bottom: 10px; }
-.bar-row .meta b { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
-.bar { height: 28px; border-radius: 6px; background: var(--subtle-bg); overflow: hidden; }
-.bar i { display: block; height: 100%; border-radius: 6px; }
+.foot {
+  margin-top: auto;
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--subtle);
+}
+.slide.dark .foot { color: #9ba9d0; }
 
-/* ---------- 4 · Actores ---------- */
-.cols3 { margin-top: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.actor { display: flex; flex-direction: column; gap: 0; padding: 48px 44px; }
-.actor svg { width: 64px; height: 64px; stroke: var(--sage); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.actor h3 { margin-top: 36px; font-size: 40px; letter-spacing: -0.02em; font-weight: 600; }
-.actor .label { margin-top: 14px; font-size: 20px; line-height: 28px; min-height: 84px; }
-.actor p.gain { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); font-size: 30px; line-height: 1.38; }
-
-/* ---------- 5 · Solución ---------- */
-.sol { display: grid; grid-template-columns: 620px 1fr; gap: 64px; flex: 1; }
-.sol h2 { font-size: 60px; line-height: 1.06; }
-.sol ul { list-style: none; padding: 0; margin: 56px 0 0; display: grid; gap: 28px; }
-.sol li { display: grid; grid-template-columns: 52px 1fr; font-size: 29px; line-height: 1.36; color: var(--muted); }
-.sol li .n { font-family: var(--mono); font-size: 22px; color: var(--sage); padding-top: 4px; }
-.sol li b { color: var(--fg); font-weight: 600; }
-.sol-shot { position: absolute; top: 136px; left: 784px; width: 1280px; height: 800px; object-fit: cover; object-position: 0 0; }
-
-/* ---------- 6 · Momento clave ---------- */
-.key { margin-top: 52px; display: grid; grid-template-columns: 640px 1fr 640px; gap: 40px; align-items: start; }
-.key figure { margin: 0; }
-.key figure .pill { margin-bottom: 18px; }
-.key figure img { width: 640px; height: 492px; object-fit: cover; }
-.key figcaption { margin-top: 16px; font-size: 24px; line-height: 1.35; color: var(--muted); }
-.mid { display: grid; gap: 0; padding-top: 70px; }
-.mid .row { padding: 22px 0; border-top: 1px solid var(--line); }
-.mid .row:last-child { border-bottom: 1px solid var(--line); }
-.mid .label { font-size: 20px; }
-.mid .num { display: block; font-size: 44px; line-height: 1.1; margin-top: 8px; white-space: nowrap; }
-.mid .num .arrow { width: .7em; }
-.mid .save .num { font-size: 52px; }
-.mid .note { margin-top: 12px; font-size: 24px; line-height: 1.35; color: var(--muted); }
-.key-foot { margin-top: auto; font-size: 30px; line-height: 1.35; max-width: 1640px; }
-.key-foot b { font-weight: 600; }
-
-/* ---------- 7 · Mercado vivo ---------- */
-.market { margin-top: 56px; display: grid; grid-template-columns: 341px 364px 1fr; gap: 56px; align-items: start; }
-.market img.tall { height: 560px; width: auto; max-width: 100%; }
-.market .step { margin-top: 22px; display: grid; grid-template-columns: 44px 1fr; font-size: 24px; line-height: 1.35; }
-.market .step .n { font-family: var(--mono); color: var(--sage); font-size: 22px; padding-top: 3px; }
-.market .step b { font-weight: 600; }
-.market .step span.d { color: var(--muted); }
-.market .wide img { width: 100%; height: auto; }
-.market .wide .note { margin-top: 36px; padding: 32px 36px; }
-.market .wide .note p { font-size: 28px; line-height: 1.4; }
-.market .wide .note .label { margin-bottom: 14px; }
-
-/* ---------- 8 · Datos ---------- */
-.trust { display: grid; grid-template-columns: 1fr 700px; gap: 96px; flex: 1; }
-.trust ul { list-style: none; padding: 0; margin: 52px 0 0; display: grid; gap: 30px; }
-.trust li { font-size: 29px; line-height: 1.4; color: var(--muted); padding-left: 32px; position: relative; }
-.trust li::before { content: ""; position: absolute; left: 0; top: 16px; width: 12px; height: 12px; border-radius: 3px; background: var(--sage); }
-.trust li b { color: var(--fg); font-weight: 600; }
-.trust .quote { margin-top: auto; font-size: 46px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; }
-.trust .quote span { color: var(--subtle); font-weight: 500; }
-.trust img { width: 700px; height: auto; }
-
-/* ---------- 9 · Hoy vs ---------- */
-table.vs { margin-top: 52px; width: 100%; border-collapse: collapse; font-size: 28px; line-height: 1.32; }
-table.vs th { text-align: left; font-family: var(--mono); font-weight: 500; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle); padding: 0 24px 18px 0; border-bottom: 2px solid var(--fg); }
-table.vs th.us { color: var(--sage); }
-table.vs td { padding: 26px 24px 26px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.vs td:first-child { width: 280px; font-weight: 600; }
-table.vs td.today { width: 640px; color: var(--muted); }
-table.vs td.us { color: var(--fg); }
-table.vs td .ic { display: inline-block; width: 26px; margin-right: 12px; font-family: var(--mono); font-weight: 600; }
-
-/* ---------- 10 · Impacto ---------- */
-.impact { margin-top: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.impact .fig { border-top: 2px solid var(--sage); padding-top: 28px; }
-.impact .num { font-size: 96px; line-height: 1; display: block; color: var(--fg); }
-.impact .num small { font-size: 40px; letter-spacing: -0.02em; font-weight: 500; margin-left: 6px; color: var(--muted); }
-.impact .fig p { margin-top: 20px; font-size: 30px; line-height: 1.3; color: var(--muted); max-width: 470px; }
-.basis { margin-top: auto; display: grid; grid-template-columns: 1fr 520px; gap: 48px; align-items: stretch; }
-.basis .card { padding: 32px 36px; }
-.basis p { font-size: 24px; line-height: 1.45; color: var(--muted); }
-.basis p b { color: var(--fg); font-weight: 600; }
-.basis .label { margin-bottom: 12px; }
-.basis .one .num { font-size: 40px; display: block; margin-top: 6px; color: var(--fg); }
-
-/* ---------- 11 · Tecnología ---------- */
-.tech { margin-top: 56px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 28px; }
-.tech .card { grid-column: span 2; padding: 34px 36px; }
-.tech .card.w3 { grid-column: span 3; }
-.tech h3 { margin-top: 18px; font-size: 34px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; }
-.tech p { margin-top: 14px; font-size: 25px; line-height: 1.4; color: var(--muted); }
-.tech .label { font-size: 20px; color: var(--sage); }
-
-/* ---------- 12 · Negocio ---------- */
-.biz { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.biz .card { padding: 36px 40px; display: flex; flex-direction: column; }
-.biz .label { color: var(--sage); }
-.biz h3 { margin-top: 20px; font-size: 42px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
-.biz p { margin-top: 18px; margin-bottom: 24px; font-size: 28px; line-height: 1.4; color: var(--muted); }
-.biz .who { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--line); font-size: 24px; line-height: 1.4; color: var(--fg); }
-.biz-foot { margin-top: 28px; font-size: 26px; line-height: 1.4; color: var(--muted); }
-.biz-foot b { color: var(--fg); font-weight: 600; }
-
-/* ---------- 13 · Supuestos y piloto ---------- */
-.next { margin-top: 52px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; flex: 1; }
-.next .label { margin-bottom: 20px; }
-.next ul { list-style: none; padding: 0; margin: 0; }
-.next li { font-size: 26px; line-height: 1.38; color: var(--muted); padding: 16px 0; border-top: 1px solid var(--line); }
-.next li:last-child { border-bottom: 1px solid var(--line); }
-.next li b { color: var(--fg); font-weight: 600; }
-.success { margin-top: 28px; background: var(--sage-bg); border: 1px solid rgb(58 114 84 / .25); border-radius: 16px; padding: 28px 32px; }
-.success .label { color: var(--sage); margin-bottom: 10px; }
-.success p { font-size: 26px; line-height: 1.45; }
-
-/* ---------- 14 · Cierre ---------- */
-.close { justify-content: center; }
-.close .logo { width: 96px; height: 96px; margin-bottom: 56px; }
-.close blockquote { margin: 0; font-size: 80px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; max-width: 1560px; text-wrap: balance; }
-.close blockquote span { color: var(--sage-solid); }
-.close .ask { margin-top: 40px; font-size: 36px; line-height: 1.35; color: var(--muted); }
-.close .ask b { color: var(--fg); font-weight: 600; }
-.close .links { margin-top: 56px; display: flex; gap: 72px; align-items: center; }
-.close .links div { display: grid; gap: 10px; }
-.close .links .val { font-size: 32px; font-weight: 500; }
-.close .links .demo { font-size: 40px; font-weight: 600; letter-spacing: -0.015em; color: var(--sage); }
-.close .qr { width: 200px; height: 200px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
-.close .ia { margin-top: 48px; max-width: 1560px; font-size: 24px; line-height: 1.45; color: var(--muted); border-top: 1px solid var(--line); padding-top: 24px; }
-.close .ia b { color: var(--fg); font-weight: 600; }
+.num {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 112;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
 </style>
 </head>
 <body>
 
 <!-- 1 · Portada -->
-<section class="slide cover">
-  <div class="text">
-    <img class="logo" src="img/icon.svg" alt="">
-    <h1>Circular <span>NEA</span></h1>
-    <p class="tagline">Que el residuo deje de ser un costo y se vuelva un ingreso</p>
-    <div class="meta">
-      <p class="label">Ideathon NEA Tech 2026 · Desafío 03</p>
-      <p class="label">Del subproducto al mercado</p>
-      <p class="team">Equipo 13</p>
-    </div>
-  </div>
-  <img class="hero" src="img/03-pellet.jpg" alt="Circular NEA: mapa de Corrientes con el radio viable del pellet de cascarilla">
-</section>
-
-<!-- 2 · El problema -->
-<section class="slide">
-  <p class="eyebrow">El problema</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Corrientes genera montañas de cascarilla y aserrín. <span class="soft">Gran parte se quema o se tira.</span></h2>
-  <div class="stats">
-    <div class="stat">
-      <span class="num">48,5<span class="unit">%</span></span>
-      <p>del arroz del país lo produjo Corrientes en la campaña 2025/26</p>
-      <span class="tag real">Real</span>
-    </div>
-    <div class="stat">
-      <span class="num">516.771<span class="unit">ha</span></span>
-      <p>forestadas: la primera provincia forestal de la Argentina</p>
-      <span class="tag real">Real</span>
-    </div>
-    <div class="stat">
-      <span class="num">~150.000<span class="unit">t</span></span>
-      <p>de cascarilla por año con origen en el arroz correntino (140.000 a 157.000 t)</p>
-      <span class="tag est">Estimado</span>
-    </div>
-  </div>
-  <p class="callout"><span class="label">Y además</span><span>Solo en el parque foresto-industrial de Santa Rosa se estimaban 200.000 t/año de residuos de aserradero que se queman.</span></p>
-  <div class="foot">
-    <p class="src">Fuentes: Bichos de Campo (producción de arroz 2025/26) · CONICET (inventario forestal 2019) · El Inversor Energético (proyecto Genergiabio) · Estimación propia: ~714.000 t de arroz × 20 a 22 % de cascarilla</p>
-    <span class="pg">02 / 14</span>
-  </div>
-</section>
-
-<!-- 3 · Por qué pasa -->
-<section class="slide">
-  <p class="eyebrow">Por qué pasa</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>El flete se come la ganancia</h2>
-  <div class="why">
-    <div>
-      <p class="lead">No faltan usos: energía, pellets, sílice, sustratos. Faltan tres cosas.</p>
-      <div class="lacks">
-        <div class="lack"><h3>Información</h3><p>El que tiene el residuo no sabe quién lo necesita ni dónde está.</p></div>
-        <div class="lack"><h3>Números</h3><p>Nadie calcula si la venta cierra después de pagar el camión.</p></div>
-        <div class="lack"><h3>Escala</h3><p>Un aserradero chico, solo, no llena un camión ni firma un contrato.</p></div>
+<section class="slide dark" style="justify-content: center;">
+  <div style="display: grid; grid-template-columns: 720px 960px; gap: 48px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 28px; align-items: flex-start;">
+      <img src="img/logo-dark.svg" alt="Sobra." style="height: 84px; width: auto;">
+      <div class="eyebrow">■ IDEATHON NEA TECH 2026 · DESAFÍO 03</div>
+      <h1 style="font-size: 72px; line-height: 1.02; font-weight: 800; letter-spacing: -0.03em;">
+        Del residuo al mercado,<br>
+        <span style="color: var(--cobalt-light);">con un número que te cierra.</span>
+      </h1>
+      <p style="font-size: 28px; line-height: 1.38; color: #9ba9d0;">
+        Mapa de oferta y demanda de biomasa que calcula si la venta deja margen una vez pagado el flete.
+      </p>
+      <div style="display: flex; gap: 20px; align-items: center; margin-top: 8px;">
+        <span style="padding: 12px 20px; background: var(--cobalt); color: #fff; font-family: var(--mono); font-size: 18px; font-weight: 700;">EQUIPO 13</span>
+        <span style="font-family: var(--mono); font-size: 18px; color: var(--cobalt-light);">ideathon-agro-web.vercel.app</span>
       </div>
     </div>
-    <div class="card truck">
-      <p class="label">Un camión de cascarilla suelta</p>
-      <p class="big num">108<small>kg/m³</small></p>
-      <p>El camión se llena de aire antes que de peso.</p>
-      <div class="bars">
-        <div class="bar-row">
-          <div class="meta"><span>Suelta: caja llena, carga</span><b class="bad">9,7 t de 30</b></div>
-          <div class="bar"><i style="width:32.4%; background: var(--coral)"></i></div>
+    <div class="shot-frame" style="width: 960px; height: 540px; border-color: var(--cobalt-light);">
+      <img src="img/00-portada.png" alt="Portada de Sobra">
+    </div>
+  </div>
+</section>
+
+<!-- 2 · El Problema -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 01 · EL PROBLEMA EN CORRIENTES</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+  <h2>No es basura: <span class="accent">es combustible que hoy se quema.</span></h2>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px;">
+    <div class="card" style="border-top-color: var(--coral);">
+      <div class="num" style="font-size: 88px; color: var(--coral); line-height: 1;">200.000 <span style="font-size: 36px;">t/año</span></div>
+      <h3 style="font-size: 30px; margin-top: 20px;">Se queman a cielo abierto</h3>
+      <p style="font-size: 24px; line-height: 1.38; color: var(--muted); margin-top: 12px;">
+        Solo en el parque foresto-industrial de Santa Rosa se queman montañas de aserrín y costaneros.
+      </p>
+    </div>
+    <div class="card">
+      <div class="num" style="font-size: 88px; color: var(--fg); line-height: 1;">48,5 <span style="font-size: 36px; color: var(--cobalt);">%</span></div>
+      <h3 style="font-size: 30px; margin-top: 20px;">Del arroz del país</h3>
+      <p style="font-size: 24px; line-height: 1.38; color: var(--muted); margin-top: 12px;">
+        Corrientes es la primera provincia arrocera (~150.000 t/año de cascarilla disponible).
+      </p>
+    </div>
+    <div class="card">
+      <div class="num" style="font-size: 88px; color: var(--fg); line-height: 1;">516.771 <span style="font-size: 36px; color: var(--cobalt);">ha</span></div>
+      <h3 style="font-size: 30px; margin-top: 20px;">Superficie forestada</h3>
+      <p style="font-size: 24px; line-height: 1.38; color: var(--muted); margin-top: 12px;">
+        Primera potencia forestal argentina con decenas de aserraderos junto a industrias que pagan GLP caro.
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 36px; background: var(--cobalt-dark); color: #fff; padding: 28px 36px; display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-family: var(--display); font-size: 30px; font-weight: 700;">El que tiene el residuo no sabe quién la compra, cuánto vale, ni si el flete se come toda la ganancia.</span>
+  </div>
+
+  <div class="foot">
+    <span>Fuentes: Bichos de Campo (campaña arrocera 2025/26) · CONICET (inventario forestal) · Proyecto Genergiabio Santa Rosa</span>
+    <span>02 / 08</span>
+  </div>
+</section>
+
+<!-- 3 · Por qué pasa (El flete) -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 02 · EL CUELLO DE BOTELLA LOGÍSTICO</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+  <h2>El camión se llena de aire <span class="accent">antes que de carga</span></h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; flex: 1;">
+    <div class="card" style="border-top-color: var(--coral); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <span style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--coral); text-transform: uppercase;">✕ CASCARILLA SUELTA · 108 KG/M³</span>
+        <div class="num" style="font-size: 112px; color: var(--coral); line-height: 1; margin-top: 16px;">25 km <span style="font-size: 40px;">máx</span></div>
+        <p style="font-size: 28px; line-height: 1.38; color: var(--muted); margin-top: 20px;">
+          El semirremolque de 90 m³ se llena en volumen con apenas <b>9,7 toneladas</b> (el 70% del camión viaja con aire).
+        </p>
+      </div>
+      <div style="padding: 20px 24px; background: var(--coral-bg); color: var(--coral); font-family: var(--mono); font-size: 20px; font-weight: 700;">
+        MÁS ALLÁ DE 25 KM, EL FLETE SE COME EL MARGEN
+      </div>
+    </div>
+
+    <div class="card" style="border-top-color: var(--green); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <span style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--green); text-transform: uppercase;">✓ PELLET DENSIFICADO · 650 KG/M³</span>
+        <div class="num" style="font-size: 112px; color: var(--green); line-height: 1; margin-top: 16px;">310 km <span style="font-size: 40px;">12× más lejos</span></div>
+        <p style="font-size: 28px; line-height: 1.38; color: var(--muted); margin-top: 20px;">
+          Al densificar el subproducto, el camión aprovecha las <b>30 toneladas completas</b> y multiplica por 12 el radio comercial.
+        </p>
+      </div>
+      <div style="padding: 20px 24px; background: var(--green-bg); color: var(--green); font-family: var(--mono); font-size: 20px; font-weight: 700;">
+        CONECTA GENERADORES E INDUSTRIAS EN TODA LA PROVINCIA
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Densidad cascarilla 108 kg/m³ (UNAL) · Pellet 650 kg/m³ (DINplus) · Carga máxima 30 t (Ley 24.449) · Tarifa FETRA 2026</span>
+    <span>03 / 08</span>
+  </div>
+</section>
+
+<!-- 4 · Nuestra propuesta (Sobra.) -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 03 · NUESTRA PROPUESTA</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+
+  <div style="display: grid; grid-template-columns: 600px 1088px; gap: 40px; align-items: center; flex: 1;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <h2 style="font-size: 60px;">Una sola pregunta:<br><span class="accent">¿cierra el negocio?</span></h2>
+      <p style="font-size: 26px; line-height: 1.38; color: var(--muted);">
+        Sobra cruza en un mapa interactivo las plantas que generan residuo con las industrias que necesitan calor.
+      </p>
+      <div class="card" style="padding: 24px 28px;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">01 · OFERTA Y DEMANDA REAL</div>
+        <p style="font-size: 22px; color: var(--fg); font-weight: 600; margin-top: 6px;">13 plantas generadoras y 10 compradores industriales en el mapa.</p>
+      </div>
+      <div class="card" style="padding: 24px 28px;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">02 · SIMULADOR LOGÍSTICO</div>
+        <p style="font-size: 22px; color: var(--fg); font-weight: 600; margin-top: 6px;">Compará en un clic vender suelto, compactado o en pellet.</p>
+      </div>
+      <div class="card" style="padding: 24px 28px;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">03 · VEREDICTO EN SEMÁFORO</div>
+        <p style="font-size: 22px; color: var(--fg); font-weight: 600; margin-top: 6px;">Margen neto después del flete y ahorro mensual del comprador.</p>
+      </div>
+    </div>
+
+    <div class="shot-frame" style="width: 1088px; height: 612px;">
+      <img src="img/01-inicio.png" alt="Mapa interactivo de Sobra completo">
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Captura completa de Sobra en vivo · ideathon-agro-web.vercel.app</span>
+    <span>04 / 08</span>
+  </div>
+</section>
+
+<!-- 5 · Demo en vivo: Suelto (Rojo) vs Pellet (Verde) -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 04 · EJEMPLO REAL · MOLINOS ALA (MERCEDES) → FRIGORÍFICO DUHALDE (88 KM)</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+  <h2 style="font-size: 54px;">Con un clic a pellet, <span class="accent">el mismo viaje pasa de pérdida a ganancia</span></h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 28px; flex: 1; align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="shot-frame" style="width: 846px; height: 476px; border-color: var(--coral);">
+        <img src="img/02-suelto.png" alt="Simulación en Suelto: No cierra">
+      </div>
+      <div class="card" style="padding: 22px 28px; border-top-color: var(--coral); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--coral);">✕ SUELTO · RADIO 25 KM</span>
+          <p style="font-size: 22px; color: var(--muted); margin-top: 4px;">El flete de 88 km se come toda la venta.</p>
         </div>
-        <div class="bar-row">
-          <div class="meta"><span>Pellet (650 kg/m³): carga</span><b class="ok">30 t de 30</b></div>
-          <div class="bar"><i style="width:100%; background: var(--sage)"></i></div>
+        <div class="num" style="font-size: 44px; color: var(--coral);">−$ 2,26 M/mes</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="shot-frame" style="width: 846px; height: 476px; border-color: var(--green);">
+        <img src="img/03-pellet.png" alt="Simulación en Pellet: Cierra con +23,1%">
+      </div>
+      <div class="card" style="padding: 22px 28px; border-top-color: var(--green); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--green);">✓ PELLET · RADIO 310 KM (+23,1% MARGEN)</span>
+          <p style="font-size: 22px; color: var(--muted); margin-top: 4px;">El comprador queda dentro del radio rentable.</p>
+        </div>
+        <div class="num" style="font-size: 44px; color: var(--green);">+$ 1,93 M/mes</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Simulación con tarifa FETRA abril 2026 y GLP febrero 2026</span>
+    <span>05 / 08</span>
+  </div>
+</section>
+
+<!-- 6 · Ahorro para el comprador + Fuentes oficiales -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 05 · AHORRO INDUSTRIAL Y DATOS CON FUENTE</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+
+  <div style="display: grid; grid-template-columns: 600px 1088px; gap: 40px; align-items: center; flex: 1;">
+    <div style="display: flex; flex-direction: column; gap: 28px;">
+      <div style="background: var(--cobalt-dark); color: #fff; padding: 36px; border-left: 6px solid #34d399;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt-light);">AHORRO PARA EL FRIGORÍFICO COMPRADOR</div>
+        <div class="num" style="font-size: 76px; color: #34d399; line-height: 1; margin-top: 12px;">−$ 15 M / mes</div>
+        <p style="font-size: 24px; line-height: 1.35; color: #f4f7fe; margin-top: 14px;">
+          Frente al gas envasado (GLP) que utiliza hoy en su caldera.
+        </p>
+      </div>
+
+      <div class="card">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">CADA NÚMERO MUESTRA SU FUENTE</div>
+        <h3 style="font-size: 34px; margin-top: 12px;">Honestidad técnica sin cajas negras</h3>
+        <p style="font-size: 24px; line-height: 1.38; color: var(--muted); margin-top: 12px;">
+          Cada parámetro indica si es <b>REAL</b> o <b>ESTIMADO</b> y tiene link directo a su fuente oficial. Si a una yerbatera con leña barata no le conviene, la app lo avisa.
+        </p>
+      </div>
+    </div>
+
+    <div class="shot-frame" style="width: 1088px; height: 612px;">
+      <img src="img/07-fuentes.png" alt="Pestaña Fuentes con trazabilidad completa">
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Pestaña Fuentes de Sobra: FETRA, GLP 2026, INTI, CONICET e IPCC</span>
+    <span>06 / 08</span>
+  </div>
+</section>
+
+<!-- 7 · Mercado vivo + Modelo de negocio e Impacto -->
+<section class="slide">
+  <div class="topbar">
+    <div class="eyebrow">■ 06 · MERCADO VIVO, NEGOCIO E IMPACTO</div>
+    <img class="brand-mark" src="img/logo-light.svg" alt="Sobra.">
+  </div>
+
+  <div style="display: grid; grid-template-columns: 880px 808px; gap: 40px; align-items: center; flex: 1;">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="shot-frame" style="width: 880px; height: 495px;">
+        <img src="img/06-campanita.png" alt="Alertas de negocios compatibles en Sobra">
+      </div>
+      <div class="card" style="padding: 24px 32px;">
+        <h3 style="font-size: 30px;">Publicás en 1 minuto, sin crear cuenta</h3>
+        <p style="font-size: 22px; color: var(--muted); margin-top: 8px;">
+          Cargás oferta o demanda, ves el contacto directo por WhatsApp y recibís alertas cuando un trato te cierra.
+        </p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 22px;">
+      <div class="card" style="padding: 28px 32px;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">01 · MODELO FREEMIUM B2B + COMISIÓN</div>
+        <h3 style="font-size: 30px; margin-top: 8px;">Gratis publicar · Pago cuando genera valor</h3>
+        <p style="font-size: 22px; color: var(--muted); margin-top: 8px;">
+          Suscripción para alertas pro y pool de suministro + comisión sobre contrato cerrado.
+        </p>
+      </div>
+
+      <div class="card" style="padding: 28px 32px;">
+        <div style="font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--cobalt);">02 · TABLERO PROVINCIAL (B2G)</div>
+        <h3 style="font-size: 30px; margin-top: 8px;">Datos reales para planificar en Corrientes</h3>
+        <p style="font-size: 22px; color: var(--muted); margin-top: 8px;">
+          Menos quemas a cielo abierto, menos GLP importado y trazabilidad energética regional.
+        </p>
+      </div>
+
+      <div style="background: var(--cobalt-dark); color: #fff; padding: 28px 32px; border-left: 6px solid #34d399; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="num" style="font-size: 48px; color: #34d399;">≈ 500 t CO₂ / año</div>
+          <p style="font-size: 20px; color: #9ba9d0; margin-top: 4px;">Evitadas con un solo acuerdo industrial cerrado.</p>
         </div>
       </div>
-      <p class="result">Con los supuestos del modelo, suelta conviene hasta <b class="num bad">~25 km</b>. En pellet, hasta <b class="num ok">~310 km</b>.</p>
     </div>
   </div>
+
   <div class="foot">
-    <p class="src">Densidad 108 kg/m³: Dyna, UNAL · Carga útil 30 t: Ley 24.449 · Caja de 90 m³ (estimado) · Pellet a granel 650 kg/m³: DINplus</p>
-    <span class="pg">03 / 14</span>
+    <span>Cálculo de emisiones evitadas según factores IPCC 2006 frente a GLP</span>
+    <span>07 / 08</span>
   </div>
 </section>
 
-<!-- 4 · A quién le resolvemos -->
-<section class="slide">
-  <p class="eyebrow">A quién le resolvemos</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Tres actores, una misma pregunta: <span class="soft">¿cierra?</span></h2>
-  <div class="cols3">
-    <div class="card actor">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
-      <h3>Generadores</h3>
-      <p class="label">Molinos arroceros y aserraderos</p>
-      <p class="gain">Venden lo que hoy queman o tiran, y dejan de pagar por sacarlo.</p>
+<!-- 8 · Cierre -->
+<section class="slide dark" style="justify-content: center;">
+  <div style="display: grid; grid-template-columns: 1040px 640px; gap: 48px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 32px; align-items: flex-start;">
+      <img src="img/logo-dark.svg" alt="Sobra." style="height: 88px; width: auto;">
+      <h2 style="font-size: 76px; line-height: 1.02;">
+        Del residuo al mercado,<br>
+        <span class="accent">con un número que te cierra.</span>
+      </h2>
+      <div style="padding: 18px 28px; background: var(--cobalt); border: 1px solid var(--cobalt-light); font-family: var(--mono); font-size: 28px; font-weight: 700; color: #fff;">
+        ↗ ideathon-agro-web.vercel.app
+      </div>
+      <p style="font-size: 22px; line-height: 1.45; color: #9ba9d0; border-top: 1px solid var(--cobalt-line); padding-top: 24px; max-width: 960px;">
+        <b style="color: #fff;">Equipo 13 · Ideathon NEA Tech 2026.</b> Idea, investigación y diseño: Equipo 13. Programación con asistencia de IA. Datos reales con fuente oficial y estimaciones explícitamente marcadas.
+      </p>
     </div>
-    <div class="card actor">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-      <h3>Compradores de calor</h3>
-      <p class="label">Frigoríficos, citrícolas, secaderos y yerbateras con GLP o leña</p>
-      <p class="gain">Bajan la factura de GLP con un combustible local, con el ahorro calculado.</p>
-    </div>
-    <div class="card actor">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M12 2 20 7H4z"/></svg>
-      <h3>Gobierno de Corrientes</h3>
-      <p class="label">Ministerio de Producción</p>
-      <p class="gain">Ve oferta, demanda e impacto en un tablero para decidir qué financiar.</p>
-    </div>
-  </div>
-  <div class="foot">
-    <p class="src"></p>
-    <span class="pg">04 / 14</span>
-  </div>
-</section>
 
-<!-- 5 · La solución -->
-<section class="slide">
-  <p class="eyebrow">La solución</p>
-  <img class="mark" src="img/icon.svg" alt="" style="z-index:2">
-  <div class="sol">
-    <div>
-      <h2>Un mapa donde el residuo encuentra comprador, <span class="soft">y un número que dice si cierra</span></h2>
-      <ul>
-        <li><span class="n">01</span><span><b>13 plantas y 10 compradores reales</b> de la región, más lo que publique cualquiera.</span></li>
-        <li><span class="n">02</span><span>Elegís tu planta, un comprador y <b>cómo lo vendés</b>: suelto, compactado o pellet.</span></li>
-        <li><span class="n">03</span><span>Responde con <b>margen después del flete</b>, un semáforo y el ahorro del comprador.</span></li>
-      </ul>
-    </div>
-  </div>
-  <img class="shot sol-shot" src="img/01-inicio.jpg" alt="Pantalla de inicio de Circular NEA en modo claro">
-  <div class="foot">
-    <p class="src">Captura real de la app · Demo: ideathon-agro-9u3t-flax.vercel.app</p>
-    <span class="pg">05 / 14</span>
-  </div>
-</section>
-
-<!-- 6 · El momento clave -->
-<section class="slide">
-  <p class="eyebrow">El momento clave · <b>ejemplo del modelo con supuestos estimados</b></p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Pelletizar cambia el mapa</h2>
-  <div class="key">
-    <figure>
-      <span class="pill bad"><span class="dot"></span>Suelto · No cierra</span>
-      <img class="shot" src="img/02-suelto.jpg" alt="Cascarilla suelta: radio viable de 25 km, el comprador queda afuera en rojo">
-      <figcaption>Suelta, el círculo apenas rodea al molino. El comprador queda afuera, en rojo.</figcaption>
-    </figure>
-    <div class="mid">
-      <div class="row"><span class="label">Radio viable por ruta</span><span class="num"><span class="bad">25</span><svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ok">310 km</span></span></div>
-      <div class="row"><span class="label">Con pellet</span><span class="num">~12 veces<br><small style="font-family: var(--sans); font-size:28px; letter-spacing:-0.01em; font-weight:500; color: var(--muted)">más radio viable</small></span></div>
-      <div class="row save"><span class="label">Semáforo</span><span class="num"><span class="bad">Rojo</span><svg class="arrow" viewBox="0 0 32 20" aria-hidden="true"><path d="M2 10h26M20 3l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ok">verde</span></span><p class="note">El comprador ve cuánto ahorra frente a su combustible actual.</p></div>
-    </div>
-    <figure>
-      <span class="pill ok"><span class="dot"></span>Pellet · Cierra</span>
-      <img class="shot" src="img/03-pellet.jpg" alt="Pellet: radio viable de 310 km, el comprador pasa a verde">
-      <figcaption>Mismo molino, mismo comprador: el radio crece unas 12 veces y el semáforo pasa a verde.</figcaption>
-    </figure>
-  </div>
-  <div class="foot">
-    <p class="src">Ejemplo del modelo con supuestos estimados: flete FETRA abril 2026, GLP febrero 2026, precios de pellet y cascarilla estimados. No son resultados de las empresas de la captura.</p>
-    <span class="pg">06 / 14</span>
-  </div>
-</section>
-
-<!-- 7 · Un mercado vivo -->
-<section class="slide">
-  <p class="eyebrow">Publicar · contactar · enterarse</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Un mercado vivo, <span class="soft">sin crear cuenta</span></h2>
-  <div class="market">
-    <div>
-      <img class="shot tall" src="img/04-publicar.jpg" alt="Formulario Publicar en el mapa">
-      <p class="step"><span class="n">01</span><span><b>Publicás en un minuto.</b> <span class="d">Vendo o Compro, un click en el mapa y un teléfono.</span></span></p>
-    </div>
-    <div>
-      <img class="shot tall" src="img/05-contacto.jpg" alt="Contacto revelado con botón de WhatsApp">
-      <p class="step"><span class="n">02</span><span><b>El contacto, con un click.</b> <span class="d">Y el WhatsApp ya armado.</span></span></p>
-    </div>
-    <div class="wide">
-      <img class="shot" src="img/06-campanita.jpg" alt="Campanita con una nueva demanda compatible">
-      <p class="step"><span class="n">03</span><span><b>Te avisa cuando aparece un negocio compatible.</b> <span class="d">La campanita muestra el match, el margen y la distancia.</span></span></p>
-      <div class="card note">
-        <p class="label">Sin verificar, pero a la vista</p>
-        <p>Toda publicación entra marcada “sin verificar” y con límite por conexión. La verificación por CUIT es el siguiente paso.</p>
+    <div style="background: #ffffff; border: 2px solid var(--cobalt-light); padding: 48px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
+      <img src="img/qr-demo.png" alt="QR Demo Sobra" style="width: 360px; height: 360px; object-fit: contain;">
+      <div style="font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--fg); letter-spacing: 0.08em;">
+        PROBÁ SOBRA AHORA EN TU CELULAR
       </div>
     </div>
-  </div>
-  <div class="foot">
-    <p class="src">Capturas reales de la app · “Molino Ejemplo” es una publicación de prueba cargada para mostrar el flujo</p>
-    <span class="pg">07 / 14</span>
-  </div>
-</section>
-
-<!-- 8 · Datos confiables -->
-<section class="slide">
-  <p class="eyebrow">Datos en los que se puede confiar</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <div class="trust">
-    <div style="display:flex; flex-direction:column">
-      <h2>Cada número dice de dónde sale</h2>
-      <ul>
-        <li><b>Etiqueta en cada valor:</b> <span class="tag real">Real</span> o <span class="tag est">Estimado</span>, sin letra chica.</li>
-        <li><b>La fuente, a un click:</b> tarifa de flete FETRA, precio del GLP 2026, densidades de literatura, OpenStreetMap.</li>
-        <li><b>Muestra cuándo no conviene:</b> a una yerbatera que quema leña barata la app le dice “No le conviene al comprador”.</li>
-      </ul>
-      <p class="quote">No vendemos humo. <span>El pellet le gana al GLP, no a la leña barata, y la app lo dice.</span></p>
-    </div>
-    <img class="shot" src="img/07-fuentes.jpg" alt="Pestaña Fuentes con cada dato, su valor, su tipo y el link a la fuente">
-  </div>
-  <div class="foot">
-    <p class="src">Captura real: pestaña Fuentes de la app</p>
-    <span class="pg">08 / 14</span>
-  </div>
-</section>
-
-<!-- 9 · Hoy vs. con Circular NEA -->
-<section class="slide">
-  <p class="eyebrow">Qué cambia</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Hoy vs. con Circular NEA</h2>
-  <table class="vs">
-    <thead><tr><th></th><th>Hoy</th><th class="us">Con Circular NEA</th></tr></thead>
-    <tbody>
-      <tr><td>Quién compra</td><td class="today"><span class="ic bad">×</span>De boca en boca, si alguien conoce a alguien</td><td class="us"><span class="ic ok">✓</span>Mapa con compradores reales y publicaciones abiertas</td></tr>
-      <tr><td>¿Cierra?</td><td class="today"><span class="ic bad">×</span>A ojo, o no se calcula</td><td class="us"><span class="ic ok">✓</span>Margen después del flete, con semáforo</td></tr>
-      <tr><td>Hasta dónde</td><td class="today"><span class="ic bad">×</span>Al vecino, o no se vende</td><td class="us"><span class="ic ok">✓</span>Radio viable por estado: 25 km suelto, 310 km en pellet</td></tr>
-      <tr><td>Para el comprador</td><td class="today"><span class="ic bad">×</span>“Es más barato”, sin número</td><td class="us"><span class="ic ok">✓</span>Ahorro mensual concreto frente a su GLP o leña</td></tr>
-      <tr><td>Contacto</td><td class="today"><span class="ic bad">×</span>Llamadas y conocidos</td><td class="us"><span class="ic ok">✓</span>Ver contacto y WhatsApp en un click</td></tr>
-      <tr><td>Novedades</td><td class="today"><span class="ic bad">×</span>Nadie avisa</td><td class="us"><span class="ic ok">✓</span>Aviso cuando aparece un negocio compatible</td></tr>
-    </tbody>
-  </table>
-  <div class="foot">
-    <p class="src"></p>
-    <span class="pg">09 / 14</span>
-  </div>
-</section>
-
-<!-- 10 · Impacto potencial -->
-<section class="slide">
-  <p class="eyebrow">Impacto potencial · <b>escenario estimado</b></p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Si se valoriza el 10 % de la cascarilla correntina</h2>
-  <div class="impact">
-    <div class="fig">
-      <span class="num">~14.000<small>t/año</small></span>
-      <p>de pellet de cascarilla que hoy no existe en el mercado</p>
-    </div>
-    <div class="fig">
-      <span class="num">~4.300<small>t/año</small></span>
-      <p>de GLP que dejan de quemarse en la industria</p>
-    </div>
-    <div class="fig">
-      <span class="num">~12.600<small>t/año</small></span>
-      <p>de CO<sub style="font-size:.7em">2</sub> fósil evitadas</p>
-    </div>
-  </div>
-  <div class="basis">
-    <div class="card">
-      <p class="label">Base del cálculo <span class="tag est" style="margin-left:12px">Estimado</span></p>
-      <p><b>10 % de ~140.000 t/año</b> de cascarilla (estimación propia). <b>1 t de pellet reemplaza ~305 kg de GLP</b> por energía útil. <b>~0,9 t de CO<sub>2</sub> evitadas por t de pellet</b> (GLP: ~3,0 kg CO<sub>2</sub>/kg, IPCC 2006). Supone que todo el pellet reemplaza GLP: es un orden de magnitud, no una proyección.</p>
-    </div>
-    <div class="card one">
-      <p class="label">Qué valida el piloto</p>
-      <p>Los volúmenes y la demanda de cada empresa son estimados. El piloto los reemplaza por <b>datos reales</b> de generadores y compradores.</p>
-    </div>
-  </div>
-  <div class="foot">
-    <p class="src">IPCC 2006 Guidelines, Vol. 2, Cap. 2 · Poderes caloríficos: Forest Research UK · Cálculo propio</p>
-    <span class="pg">10 / 14</span>
-  </div>
-</section>
-
-<!-- 11 · Tecnología -->
-<section class="slide">
-  <p class="eyebrow">Tecnología y por qué</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>La tecnología suma cuando resuelve el problema</h2>
-  <div class="tech">
-    <div class="card">
-      <p class="label">Web · React, Vite, Tailwind, shadcn/ui, Leaflet</p>
-      <h3>Se usa desde el navegador</h3>
-      <p>Sin instalar nada. Mapa interactivo, tema claro y oscuro.</p>
-    </div>
-    <div class="card">
-      <p class="label">API · Hono en Cloudflare Workers</p>
-      <h3>Rápida y barata de operar</h3>
-      <p>Escala sola, sin administrar servidores.</p>
-    </div>
-    <div class="card">
-      <p class="label">Datos · PostgreSQL + Drizzle</p>
-      <h3>Sin atarse a un proveedor</h3>
-      <p>Cualquier Postgres estándar: local, Neon, Supabase o RDS.</p>
-    </div>
-    <div class="card w3">
-      <p class="label">Un mismo motor de cálculo</p>
-      <h3>El número de la pantalla es el del servidor</h3>
-      <p>Las mismas funciones calculan en el navegador y en la API: no hay dos versiones de la verdad.</p>
-    </div>
-    <div class="card w3">
-      <p class="label">Tests automáticos</p>
-      <h3>Cada cambio se prueba solo</h3>
-      <p>Pruebas del cálculo y recorridos completos en el navegador, incluido el guion de la demo.</p>
-    </div>
-  </div>
-  <div class="foot">
-    <p class="src">Código abierto, licencia MIT</p>
-    <span class="pg">11 / 14</span>
-  </div>
-</section>
-
-<!-- 12 · Modelo de negocio -->
-<section class="slide">
-  <p class="eyebrow">Modelo de negocio</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Gratis para empezar, <span class="soft">pago cuando genera valor</span></h2>
-  <div class="biz">
-    <div class="card">
-      <p class="label">01 · Freemium</p>
-      <h3>Publicar y ver el mapa, gratis</h3>
-      <p>Se pagan la calculadora avanzada, las alertas, la ficha técnica y el pool de suministro.</p>
-      <p class="who">Generadores y compradores activos</p>
-    </div>
-    <div class="card">
-      <p class="label">02 · Comisión</p>
-      <h3>Un % por contrato cerrado</h3>
-      <p>Sobre la primera operación o el contrato anual de cada match.</p>
-      <p class="who">Compradores de calor</p>
-    </div>
-    <div class="card">
-      <p class="label">03 · Licencia provincial</p>
-      <h3>Tablero de impacto para el Estado</h3>
-      <p>Oferta, demanda, GLP sustituido y CO<sub>2</sub> evitado, con datos agregados.</p>
-      <p class="who">Gobierno de Corrientes</p>
-    </div>
-  </div>
-  <p class="biz-foot"><b>Referencia:</b> Excess Materials Exchange (Países Bajos) cobra €99 por mes más un fee por match. También: comisión por derivar clientes a laboratorios y fleteros.</p>
-  <div class="foot">
-    <p class="src">Fuente de la referencia: Sitra, caso Excess Materials Exchange</p>
-    <span class="pg">12 / 14</span>
-  </div>
-</section>
-
-<!-- 13 · Supuestos y siguiente paso -->
-<section class="slide">
-  <p class="eyebrow">Supuestos, limitaciones y siguiente paso</p>
-  <img class="mark" src="img/icon.svg" alt="">
-  <h2>Lo que falta validar, y cómo</h2>
-  <div class="next">
-    <div>
-      <p class="label">Hoy es estimado</p>
-      <ul>
-        <li><b>Precios de pellet y cascarilla:</b> sin mercado formal, tomados de referencias.</li>
-        <li><b>Demanda de cada comprador:</b> orden de magnitud por sector.</li>
-        <li><b>Distancias:</b> línea recta × 1,3, sin ruteo real.</li>
-        <li><b>Publicaciones:</b> abiertas y sin verificar.</li>
-        <li><b>Dónde se muele:</b> parte del arroz correntino se descascara en Entre Ríos.</li>
-      </ul>
-    </div>
-    <div>
-      <p class="label">Piloto de 30 a 60 días</p>
-      <ul>
-        <li><b>5 aserraderos de Santa Rosa y 2 molinos</b> con sus datos reales.</li>
-        <li><b>Precios reales</b> con AFOA, ACPA y fleteros de la zona.</li>
-        <li><b>5 entrevistas</b> a compradores que usan GLP.</li>
-        <li><b>1 ensayo de laboratorio</b> en INTI o INTA: humedad, cenizas, poder calorífico.</li>
-      </ul>
-      <div class="success">
-        <p class="label">Criterio de éxito</p>
-        <p>Al menos 3 matches en verde con precios reales, 1 carta de intención firmada y 5 generadores y 5 compradores con datos propios.</p>
-      </div>
-    </div>
-  </div>
-  <div class="foot">
-    <p class="src">Dato de molienda: BCR, 2016 (dato viejo, se actualiza en el piloto)</p>
-    <span class="pg">13 / 14</span>
-  </div>
-</section>
-
-<!-- 14 · Cierre -->
-<section class="slide close">
-  <img class="mark" src="img/icon.svg" alt="">
-  <blockquote>Que un residuo deje de ser un costo y se vuelva un ingreso, <span>con números que lo demuestren.</span></blockquote>
-  <p class="ask">Lo que pedimos: <b>cinco aserraderos y dos molinos</b> para el piloto.</p>
-  <div class="links">
-    <img class="qr" src="img/qr-demo.png" alt="Código QR de la demo">
-    <div><p class="label">Probala ahora</p><p class="demo">ideathon-agro-9u3t-flax.vercel.app</p></div>
-    <div><p class="label">Equipo</p><p class="val">Equipo 13</p></div>
-  </div>
-  <p class="ia"><b>Uso de IA:</b> Idea, problema y funcionalidades: Equipo 13. Programación con asistencia de IA (Claude Code) bajo dirección del equipo. Sin datos simulados: datos reales con fuente y estimaciones marcadas. Componentes previos: no aplica (no reutilizamos desarrollos propios anteriores).</p>
-  <div class="foot">
-    <p class="src">Demo: https://ideathon-agro-9u3t-flax.vercel.app/</p>
-    <span class="pg">14 / 14</span>
   </div>
 </section>
 

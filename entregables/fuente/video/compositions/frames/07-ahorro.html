@@ -1,0 +1,224 @@
+<template>
+  <div id="root" data-composition-id="07-ahorro" data-width="1920" data-height="1080" data-start="0" data-duration="6.28">
+    <style>
+      @font-face {
+        font-family: "Archivo Variable";
+        src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Variable";
+        src: url("assets/fonts/geist-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Mono Variable";
+        src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Geist Variable", sans-serif;
+        color: #F4F7FE;
+      }
+
+      #root *, #root *::before, #root *::after {
+        box-sizing: border-box;
+      }
+
+      #root .bg-canvas {
+        position: absolute;
+        inset: 0;
+        background-color: #0B1640;
+        background-image:
+          linear-gradient(to right, rgba(31, 47, 102, 0.55) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(31, 47, 102, 0.55) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      #root .stage {
+        position: absolute;
+        left: 72px;
+        top: 104px;
+        width: 1776px;
+        height: 752px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 48px;
+      }
+
+      #root .left-col {
+        width: 580px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      #root .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 8px 16px;
+        background: #101F54;
+        border: 1px solid #1F2F66;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #7AA7FF;
+      }
+
+      #root .hero-saving {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 88px;
+        line-height: 0.96;
+        letter-spacing: -0.035em;
+        color: #34D399;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .saving-lead {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 1.15;
+        color: #F4F7FE;
+        margin: 0;
+      }
+
+      #root .compare-box {
+        background: #101F54;
+        border: 1px solid #1F2F66;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      #root .bar-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      #root .bar-meta {
+        display: flex;
+        justify-content: space-between;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 14px;
+        font-weight: 600;
+        color: #9BA9D0;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .bar-track {
+        width: 100%;
+        height: 18px;
+        background: #0B1640;
+        border: 1px solid #1F2F66;
+      }
+
+      #root .bar-fill-glp {
+        width: 100%;
+        height: 100%;
+        background: #B5402A;
+      }
+
+      #root .bar-fill-bio {
+        width: 16%;
+        height: 100%;
+        background: #17784A;
+      }
+
+      /* Exact 16:9 container (1120 x 630) so screenshot is 100% uncropped */
+      #root .screen-col {
+        width: 1120px;
+        height: 630px;
+        background: #101F54;
+        border: 2px solid #7AA7FF;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      #root .app-shot {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #EEF3FD;
+        display: block;
+      }
+    </style>
+
+    <div id="f07-bg" class="clip bg-canvas" data-start="0" data-duration="6.28"></div>
+
+    <div id="f07-stage" class="clip stage" data-start="0" data-duration="6.28">
+      <div id="f07-left" class="left-col">
+        <div id="f07-eyebrow" class="eyebrow">■ IMPACTO EN EL COMPRADOR INDUSTRIAL</div>
+        <div id="f07-saving" class="hero-saving">−$ 15 M / mes</div>
+        <p id="f07-lead" class="saving-lead">De ahorro para el frigorífico frente al gas envasado que utiliza hoy.</p>
+
+        <div id="f07-compare" class="compare-box">
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>GAS ENVASADO (GLP HOY)</span>
+              <span style="color:#F4F7FE;">$ 17,8 M / mes</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill-glp"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>BIOMASA EN PELLET (PUESTA EN PLANTA)</span>
+              <span style="color:#34D399;">$ 2,8 M / mes</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill-bio"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="f07-screen" class="screen-col">
+        <img class="app-shot" src="assets/app-03b-detalle.png" alt="Desglose completo de ahorro energético frente a GLP" />
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.currentScript.parentElement;
+        var left = root.querySelector("#f07-left");
+        var compare = root.querySelector("#f07-compare");
+        var screen = root.querySelector("#f07-screen");
+
+        gsap.set(left, { opacity: 0, y: 18 });
+        gsap.set(compare, { opacity: 0, y: 16 });
+        gsap.set(screen, { opacity: 0, x: 20 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        tl.to(left, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.08);
+        tl.to(screen, { opacity: 1, x: 0, duration: 0.50, ease: "power3.out" }, 0.25);
+        tl.to(compare, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.90);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["07-ahorro"] = tl;
+      })();
+    </script>
+  </div>
+</template>

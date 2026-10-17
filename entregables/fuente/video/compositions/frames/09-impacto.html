@@ -1,0 +1,235 @@
+<template>
+  <div id="root" data-composition-id="09-impacto" data-width="1920" data-height="1080" data-start="0" data-duration="17.42">
+    <style>
+      @font-face {
+        font-family: "Archivo Variable";
+        src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Variable";
+        src: url("assets/fonts/geist-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Mono Variable";
+        src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Geist Variable", sans-serif;
+        color: #0A1433;
+      }
+
+      #root *, #root *::before, #root *::after {
+        box-sizing: border-box;
+      }
+
+      #root .bg-canvas {
+        position: absolute;
+        inset: 0;
+        background-color: #EEF3FD;
+        background-image:
+          linear-gradient(to right, rgba(211, 222, 243, 0.55) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(211, 222, 243, 0.55) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      #root .stage {
+        position: absolute;
+        left: 96px;
+        top: 96px;
+        width: 1728px;
+        height: 760px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #root .header-block {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      #root .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 8px 16px;
+        background: #FFFFFF;
+        border: 1px solid #D3DEF3;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #2150E8;
+      }
+
+      #root .headline {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 56px;
+        line-height: 1.04;
+        letter-spacing: -0.025em;
+        color: #0A1433;
+        margin: 0;
+      }
+
+      #root .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+
+      #root .actor-card {
+        background: #FFFFFF;
+        border: 1px solid #D3DEF3;
+        border-top: 6px solid #2150E8;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      #root .actor-tag {
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #2150E8;
+      }
+
+      #root .actor-title {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 36px;
+        line-height: 1.1;
+        color: #0A1433;
+        margin: 0;
+      }
+
+      #root .actor-desc {
+        font-size: 22px;
+        line-height: 1.35;
+        color: #3D4D7A;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      #root .co2-banner {
+        background: #0B1640;
+        border: 2px solid #17784A;
+        padding: 32px 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #root .co2-stat {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: #34D399;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .co2-copy {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 1.2;
+        color: #F4F7FE;
+        max-width: 960px;
+      }
+    </style>
+
+    <div id="f09-bg" class="clip bg-canvas" data-start="0" data-duration="17.42"></div>
+
+    <div id="f09-stage" class="clip stage" data-start="0" data-duration="17.42">
+      <div id="f09-header" class="header-block">
+        <div class="eyebrow">■ IMPACTO TRIPLE EN EL TERRITORIO</div>
+        <h2 class="headline">Ganancia para las dos puntas y para la provincia</h2>
+      </div>
+
+      <div id="f09-grid" class="cards-grid">
+        <div id="f09-card-1" class="actor-card">
+          <span class="actor-tag">01 · ASERRADERO O MOLINO</span>
+          <h3 class="actor-title">El residuo se vuelve ingreso</h3>
+          <p class="actor-desc">Deja de pagar por quemar o acumular y vende subproducto con margen real.</p>
+        </div>
+
+        <div id="f09-card-2" class="actor-card">
+          <span class="actor-tag">02 · INDUSTRIA COMPRADORA</span>
+          <h3 class="actor-title">Energía local más barata</h3>
+          <p class="actor-desc">Reemplaza gas envasado o gasoil caro por biomasa trazable a minutos de su planta.</p>
+        </div>
+
+        <div id="f09-card-3" class="actor-card">
+          <span class="actor-tag">03 · PROVINCIA DE CORRIENTES</span>
+          <h3 class="actor-title">Menos humo y datos reales</h3>
+          <p class="actor-desc">Menos quemas a cielo abierto, menos GLP importado y mapa vivo para planificar.</p>
+        </div>
+      </div>
+
+      <div id="f09-co2" class="co2-banner">
+        <div class="co2-stat">≈ 500 t CO₂ / año</div>
+        <div class="co2-copy">Evitadas con un solo acuerdo industrial cerrado en la plataforma.</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.currentScript.parentElement;
+        var header = root.querySelector("#f09-header");
+        var c1 = root.querySelector("#f09-card-1");
+        var c2 = root.querySelector("#f09-card-2");
+        var c3 = root.querySelector("#f09-card-3");
+        var co2 = root.querySelector("#f09-co2");
+
+        gsap.set(header, { opacity: 0, y: 16 });
+        gsap.set([c1, c2, c3], { opacity: 0, y: 24 });
+        gsap.set(co2, { opacity: 0, y: 20 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        // Synced to voiceover:
+        // 0.0s: "Para el aserradero el residuo se vuelve ingreso."
+        tl.to(header, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.08);
+        tl.to(c1, { opacity: 1, y: 0, duration: 0.50, ease: "power3.out" }, 0.30);
+
+        // 4.0s: "Para la industria, energía local más barata."
+        tl.to(c2, { opacity: 1, y: 0, duration: 0.50, ease: "power3.out" }, 3.90);
+
+        // 6.8s: "Para Corrientes, menos humo, menos gas importado y datos reales para planificar."
+        tl.to(c3, { opacity: 1, y: 0, duration: 0.50, ease: "power3.out" }, 6.75);
+
+        // 11.2s: "Un solo acuerdo evita quinientas toneladas de dióxido de carbono al año."
+        tl.to(co2, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 11.10);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["09-impacto"] = tl;
+      })();
+    </script>
+  </div>
+</template>

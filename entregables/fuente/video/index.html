@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #EEF3FD;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="95.31"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div
+        id="el-01-hook"
+        class="scene"
+        data-composition-id="01-hook"
+        data-composition-src="compositions/frames/01-hook.html"
+        data-start="0"
+        data-duration="7.47"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-01-hook-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="6.97"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-02-pain"
+        class="scene"
+        data-composition-id="02-pain"
+        data-composition-src="compositions/frames/02-pain.html"
+        data-start="6.97"
+        data-duration="12.68"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-02-pain-voice"
+        src="assets/voice/02.wav"
+        data-start="6.97"
+        data-duration="12.18"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-03-flete"
+        class="scene"
+        data-composition-id="03-flete"
+        data-composition-src="compositions/frames/03-flete.html"
+        data-start="19.15"
+        data-duration="8.84"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-03-flete-voice"
+        src="assets/voice/03.wav"
+        data-start="19.15"
+        data-duration="8.34"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-04-intro"
+        class="scene"
+        data-composition-id="04-intro"
+        data-composition-src="compositions/frames/04-intro.html"
+        data-start="27.49"
+        data-duration="9.84"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-04-intro-voice"
+        src="assets/voice/04.wav"
+        data-start="27.49"
+        data-duration="9.34"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-05-demo-rojo"
+        class="scene"
+        data-composition-id="05-demo-rojo"
+        data-composition-src="compositions/frames/05-demo-rojo.html"
+        data-start="36.83"
+        data-duration="10.1"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-05-demo-rojo-voice"
+        src="assets/voice/05.wav"
+        data-start="36.83"
+        data-duration="9.6"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-06-demo-verde"
+        class="scene"
+        data-composition-id="06-demo-verde"
+        data-composition-src="compositions/frames/06-demo-verde.html"
+        data-start="46.43"
+        data-duration="8.34"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-06-demo-verde-voice"
+        src="assets/voice/06.wav"
+        data-start="46.43"
+        data-duration="7.84"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-07-ahorro"
+        class="scene"
+        data-composition-id="07-ahorro"
+        data-composition-src="compositions/frames/07-ahorro.html"
+        data-start="54.269999999999996"
+        data-duration="6.28"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-07-ahorro-voice"
+        src="assets/voice/07.wav"
+        data-start="54.269999999999996"
+        data-duration="5.78"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-08-features"
+        class="scene"
+        data-composition-id="08-features"
+        data-composition-src="compositions/frames/08-features.html"
+        data-start="60.05"
+        data-duration="10.67"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-08-features-voice"
+        src="assets/voice/08.wav"
+        data-start="60.05"
+        data-duration="10.17"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-09-impacto"
+        class="scene"
+        data-composition-id="09-impacto"
+        data-composition-src="compositions/frames/09-impacto.html"
+        data-start="70.22"
+        data-duration="17.42"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-09-impacto-voice"
+        src="assets/voice/09.wav"
+        data-start="70.22"
+        data-duration="16.92"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-10-cta"
+        class="scene"
+        data-composition-id="10-cta"
+        data-composition-src="compositions/frames/10-cta.html"
+        data-start="87.14"
+        data-duration="8.17"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-10-cta-voice"
+        src="assets/voice/10.wav"
+        data-start="87.14"
+        data-duration="8.17"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- captions -->
+      <div
+        id="el-captions"
+        class="scene"
+        data-composition-id="captions"
+        data-composition-src="compositions/captions.html"
+        data-start="0"
+        data-duration="95.31"
+        data-track-index="2"
+        data-track-kind="captions"
+      ></div>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-hook", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 6.97);
+        tl.fromTo("#el-02-pain", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 6.97);
+        tl.to("#el-02-pain", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 19.15);
+        tl.fromTo("#el-03-flete", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 19.15);
+        tl.to("#el-03-flete", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 27.49);
+        tl.fromTo("#el-04-intro", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 27.49);
+        tl.to("#el-04-intro", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 36.83);
+        tl.fromTo("#el-05-demo-rojo", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 36.83);
+        tl.to("#el-05-demo-rojo", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 46.43);
+        tl.fromTo("#el-06-demo-verde", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 46.43);
+        tl.to("#el-06-demo-verde", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 54.27);
+        tl.fromTo("#el-07-ahorro", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 54.27);
+        tl.to("#el-07-ahorro", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 60.05);
+        tl.fromTo("#el-08-features", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 60.05);
+        tl.to("#el-08-features", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 70.22);
+        tl.fromTo("#el-09-impacto", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 70.22);
+        tl.to("#el-09-impacto", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 87.14);
+        tl.fromTo("#el-10-cta", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 87.14);
+        tl.to({}, { duration: 95.31 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

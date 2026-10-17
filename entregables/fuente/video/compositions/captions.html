@@ -1,0 +1,223 @@
+<template id="captions-template" data-composition-id="captions" data-width="1920" data-height="1080">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+
+<style data-brand-tokens>
+@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-cyrillic-ext-wght-normal-DjL33-gN.woff2")format("woff2-variations");unicode-range:U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-cyrillic-wght-normal-BEAKL7Jp.woff2")format("woff2-variations");unicode-range:U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116}
+@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-vietnamese-wght-normal-6IgcOCM7.woff2")format("woff2-variations");unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-ext-wght-normal-DC-KSUi6.woff2")format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-wght-normal-BgDaEnEv.woff2")format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+      :root {
+      --canvas: #EEF3FD;
+      --surface: #FFFFFF;
+      --surface-subtle: #E6EDFB;
+      --line: #D3DEF3;
+      --ink: #0A1433;
+      --ink-muted: #45547A;
+      --ink-subtle: #52618A;
+      --cobalt: #2150E8;
+      --cobalt-sky: #7AA7FF;
+      --cobalt-subtle: rgba(33,80,232,0.08);
+      --navy: #0B1640;
+      --navy-surface: #101E52;
+      --navy-line: #24377A;
+      --navy-ink: #EEF2FF;
+      --navy-muted: #B0BDE6;
+      --cream: #EEF3FD;
+      --cream-2: #E6EDFB;
+      --green: #0B1640;
+      --green-deep: #071033;
+      --green-lite: #101E52;
+      --pink: #7AA7FF;
+      --pink-deep: #2150E8;
+      --signal-red: #B5402A;
+      --signal-red-dark: #FF9A80;
+      --signal-amber: #8A6410;
+      --signal-amber-dark: #FFD06B;
+      --signal-green: #17784A;
+      --signal-green-dark: #6FE0A8;
+      --cap-ink: #0A1433;
+      --cap-canvas: #EEF3FD;
+      --cap-accent: #2150E8;
+      --cap-accent-2: #2150E8;
+      --font-display: "Archivo Variable", system-ui, serif;
+      --font-body: "Geist Variable", system-ui, sans-serif;
+      --cap-band-top: 900px;
+      --cap-band-height: 180px;
+      }
+    </style>
+
+<style>
+@font-face{font-family:"Archivo Variable";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url("assets/fonts/archivo-latin-wdth-normal.woff2")format("woff2-variations")}
+@font-face{font-family:"Archivo Variable";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url("assets/fonts/archivo-latin-ext-wdth-normal.woff2")format("woff2-variations");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Geist Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-ext-wght-normal-DC-KSUi6.woff2")format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Geist Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-wght-normal-BgDaEnEv.woff2")format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-symbols2-wght-normal-CO5SzqOn.woff2")format("woff2-variations");unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+@font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-latin-ext-wght-normal-Bwz-egvJ.woff2")format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-latin-wght-normal-XN7g48iV.woff2")format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+  #captions-root {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .caption-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .caption-stage {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--cap-band-top, 900px);
+    height: var(--cap-band-height, 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .caption-group {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .caption-pill {
+    max-width: 80%;
+    padding: 18px 40px 20px;
+    background: #ffffff;
+    border: 2px solid #2150e8;
+    border-radius: 8px;
+  }
+  .caption-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.12em 0.32em;
+    font-family: "Geist Variable", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 2.3vw, 46px);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+  }
+
+  .caption-word {
+    display: inline-block;
+    padding: 0.02em 0.14em;
+    color: #52618a;
+    border-radius: 5px;
+  }
+  .caption-word.is-active {
+    color: #ffffff;
+    background: #2150e8;
+    font-weight: 600;
+  }
+  .caption-word.is-spoken {
+    color: #0a1433;
+    background: transparent;
+  }
+  .caption-word.cap-brand {
+    font-family: "Archivo Variable", "Geist Variable", sans-serif;
+    font-weight: 800;
+  }
+  .caption-word.cap-num {
+    font-family: "Geist Mono Variable", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .caption-word.cap-cta {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #2150e8;
+    text-underline-offset: 0.1em;
+  }
+</style>
+
+<div
+  id="captions-root"
+  data-composition-id="captions"
+  data-timeline-locked
+  data-start="0"
+  data-duration="95.31"
+  data-fps="30"
+  data-width="1920"
+  data-height="1080"
+>
+  <div class="caption-layer" aria-hidden="true">
+    <div id="caption-stage" class="caption-stage"></div>
+  </div>
+</div>
+
+<script>
+  var GROUPS = [{"id":"caption-group-0","frame":1,"start":0.6,"end":2.298,"text":"200.000 toneladas por año.","words":[{"id":"caption-word-0-0","text":"200.000","start":0.6,"end":1.048},{"id":"caption-word-0-1","text":"toneladas","start":1.087,"end":1.663},{"id":"caption-word-0-2","text":"por","start":1.713,"end":1.905},{"id":"caption-word-0-3","text":"año.","start":1.922,"end":2.178}]},{"id":"caption-group-1","frame":1,"start":2.3,"end":2.682,"text":"Eso es","words":[{"id":"caption-word-1-0","text":"Eso","start":2.3,"end":2.511},{"id":"caption-word-1-1","text":"es","start":2.529,"end":2.67}]},{"id":"caption-group-2","frame":1,"start":2.682,"end":3.065,"text":"lo que","words":[{"id":"caption-word-2-0","text":"lo","start":2.682,"end":2.823},{"id":"caption-word-2-1","text":"que","start":2.835,"end":3.046}]},{"id":"caption-group-3","frame":1,"start":3.065,"end":3.6,"text":"se quema","words":[{"id":"caption-word-3-0","text":"se","start":3.065,"end":3.205},{"id":"caption-word-3-1","text":"quema","start":3.218,"end":3.569}]},{"id":"caption-group-4","frame":1,"start":3.6,"end":3.9,"text":"solo en","words":[{"id":"caption-word-4-0","text":"solo","start":3.6,"end":3.784},{"id":"caption-word-4-1","text":"en","start":3.8,"end":3.892}]},{"id":"caption-group-5","frame":1,"start":3.9,"end":5.2,"text":"el parque foresto-industrial","words":[{"id":"caption-word-5-0","text":"el","start":3.9,"end":3.992},{"id":"caption-word-5-1","text":"parque","start":4,"end":4.276},{"id":"caption-word-5-2","text":"foresto-industrial","start":4.3,"end":5.128}]},{"id":"caption-group-6","frame":1,"start":5.2,"end":5.592,"text":"de Santa","words":[{"id":"caption-word-6-0","text":"de","start":5.2,"end":5.303},{"id":"caption-word-6-1","text":"Santa","start":5.312,"end":5.57}]},{"id":"caption-group-7","frame":1,"start":5.592,"end":5.872,"text":"Rosa,","words":[{"id":"caption-word-7-0","text":"Rosa,","start":5.592,"end":5.85}]},{"id":"caption-group-8","frame":1,"start":5.872,"end":6.671,"text":"en Corrientes.","words":[{"id":"caption-word-8-0","text":"en","start":5.872,"end":5.975},{"id":"caption-word-8-1","text":"Corrientes.","start":5.984,"end":6.551}]},{"id":"caption-group-9","frame":2,"start":7.17,"end":7.466,"text":"Y a","words":[{"id":"caption-word-9-0","text":"Y","start":7.17,"end":7.306},{"id":"caption-word-9-1","text":"a","start":7.318,"end":7.454}]},{"id":"caption-group-10","frame":2,"start":7.466,"end":7.837,"text":"eso se","words":[{"id":"caption-word-10-0","text":"eso","start":7.466,"end":7.671},{"id":"caption-word-10-1","text":"se","start":7.689,"end":7.825}]},{"id":"caption-group-11","frame":2,"start":7.837,"end":8.281,"text":"le suma","words":[{"id":"caption-word-11-0","text":"le","start":7.837,"end":7.973},{"id":"caption-word-11-1","text":"suma","start":7.985,"end":8.257}]},{"id":"caption-group-12","frame":2,"start":8.281,"end":9.17,"text":"la cascarilla","words":[{"id":"caption-word-12-0","text":"la","start":8.281,"end":8.417},{"id":"caption-word-12-1","text":"cascarilla","start":8.429,"end":9.111}]},{"id":"caption-group-13","frame":2,"start":9.17,"end":9.381,"text":"de la","words":[{"id":"caption-word-13-0","text":"de","start":9.17,"end":9.267},{"id":"caption-word-13-1","text":"la","start":9.276,"end":9.373}]},{"id":"caption-group-14","frame":2,"start":9.381,"end":10.648,"text":"primera provincia arrocera","words":[{"id":"caption-word-14-0","text":"primera","start":9.381,"end":9.721},{"id":"caption-word-14-1","text":"provincia","start":9.751,"end":10.188},{"id":"caption-word-14-2","text":"arrocera","start":10.226,"end":10.614}]},{"id":"caption-group-15","frame":2,"start":10.648,"end":11.169,"text":"del país.","words":[{"id":"caption-word-15-0","text":"del","start":10.648,"end":10.793},{"id":"caption-word-15-1","text":"país.","start":10.806,"end":11.049}]},{"id":"caption-group-16","frame":2,"start":11.17,"end":11.49,"text":"No es","words":[{"id":"caption-word-16-0","text":"No","start":11.17,"end":11.317},{"id":"caption-word-16-1","text":"es","start":11.33,"end":11.477}]},{"id":"caption-group-17","frame":2,"start":11.49,"end":12.05,"text":"basura:","words":[{"id":"caption-word-17-0","text":"basura:","start":11.49,"end":12.005}]},{"id":"caption-group-18","frame":2,"start":12.05,"end":13.213,"text":"es combustible.","words":[{"id":"caption-word-18-0","text":"es","start":12.05,"end":12.197},{"id":"caption-word-18-1","text":"combustible.","start":12.21,"end":13.093}]},{"id":"caption-group-19","frame":2,"start":13.37,"end":13.77,"text":"Pero el","words":[{"id":"caption-word-19-0","text":"Pero","start":13.37,"end":13.615},{"id":"caption-word-19-1","text":"el","start":13.637,"end":13.759}]},{"id":"caption-group-20","frame":2,"start":13.77,"end":14.103,"text":"que la","words":[{"id":"caption-word-20-0","text":"que","start":13.77,"end":13.954},{"id":"caption-word-20-1","text":"la","start":13.97,"end":14.093}]},{"id":"caption-group-21","frame":2,"start":14.103,"end":14.57,"text":"tiene no","words":[{"id":"caption-word-21-0","text":"tiene","start":14.103,"end":14.41},{"id":"caption-word-21-1","text":"no","start":14.437,"end":14.559}]},{"id":"caption-group-22","frame":2,"start":14.57,"end":15.17,"text":"sabe quién","words":[{"id":"caption-word-22-0","text":"sabe","start":14.57,"end":14.815},{"id":"caption-word-22-1","text":"quién","start":14.837,"end":15.143}]},{"id":"caption-group-23","frame":2,"start":15.17,"end":15.77,"text":"la compra,","words":[{"id":"caption-word-23-0","text":"la","start":15.17,"end":15.293},{"id":"caption-word-23-1","text":"compra,","start":15.303,"end":15.733}]},{"id":"caption-group-24","frame":2,"start":15.77,"end":16.512,"text":"cuánto vale,","words":[{"id":"caption-word-24-0","text":"cuánto","start":15.77,"end":16.142},{"id":"caption-word-24-1","text":"vale,","start":16.175,"end":16.485}]},{"id":"caption-group-25","frame":2,"start":16.512,"end":16.782,"text":"ni si","words":[{"id":"caption-word-25-0","text":"ni","start":16.512,"end":16.636},{"id":"caption-word-25-1","text":"si","start":16.647,"end":16.771}]},{"id":"caption-group-26","frame":2,"start":16.782,"end":17.254,"text":"el flete","words":[{"id":"caption-word-26-0","text":"el","start":16.782,"end":16.906},{"id":"caption-word-26-1","text":"flete","start":16.917,"end":17.227}]},{"id":"caption-group-27","frame":2,"start":17.254,"end":17.658,"text":"se come","words":[{"id":"caption-word-27-0","text":"se","start":17.254,"end":17.378},{"id":"caption-word-27-1","text":"come","start":17.389,"end":17.637}]},{"id":"caption-group-28","frame":2,"start":17.658,"end":18.741,"text":"toda la ganancia.","words":[{"id":"caption-word-28-0","text":"toda","start":17.658,"end":17.907},{"id":"caption-word-28-1","text":"la","start":17.928,"end":18.052},{"id":"caption-word-28-2","text":"ganancia.","start":18.063,"end":18.621}]},{"id":"caption-group-29","frame":3,"start":19.35,"end":20.84,"text":"La cascarilla suelta","words":[{"id":"caption-word-29-0","text":"La","start":19.35,"end":19.502},{"id":"caption-word-29-1","text":"cascarilla","start":19.516,"end":20.277},{"id":"caption-word-29-2","text":"suelta","start":20.343,"end":20.8}]},{"id":"caption-group-30","frame":3,"start":20.84,"end":21.419,"text":"pesa tan","words":[{"id":"caption-word-30-0","text":"pesa","start":20.84,"end":21.144},{"id":"caption-word-30-1","text":"tan","start":21.171,"end":21.399}]},{"id":"caption-group-31","frame":3,"start":21.419,"end":21.915,"text":"poco que","words":[{"id":"caption-word-31-0","text":"poco","start":21.419,"end":21.724},{"id":"caption-word-31-1","text":"que","start":21.75,"end":21.902}]},{"id":"caption-group-32","frame":3,"start":21.915,"end":22.355,"text":"el camión","words":[{"id":"caption-word-32-0","text":"el","start":21.915,"end":22.016},{"id":"caption-word-32-1","text":"camión","start":22.025,"end":22.329}]},{"id":"caption-group-33","frame":3,"start":22.355,"end":22.74,"text":"se llena","words":[{"id":"caption-word-33-0","text":"se","start":22.355,"end":22.456},{"id":"caption-word-33-1","text":"llena","start":22.465,"end":22.718}]},{"id":"caption-group-34","frame":3,"start":22.74,"end":23.07,"text":"de aire","words":[{"id":"caption-word-34-0","text":"de","start":22.74,"end":22.841},{"id":"caption-word-34-1","text":"aire","start":22.85,"end":23.052}]},{"id":"caption-group-35","frame":3,"start":23.07,"end":23.51,"text":"antes que","words":[{"id":"caption-word-35-0","text":"antes","start":23.07,"end":23.323},{"id":"caption-word-35-1","text":"que","start":23.345,"end":23.497}]},{"id":"caption-group-36","frame":3,"start":23.51,"end":24.044,"text":"de carga.","words":[{"id":"caption-word-36-0","text":"de","start":23.51,"end":23.611},{"id":"caption-word-36-1","text":"carga.","start":23.62,"end":23.924}]},{"id":"caption-group-37","frame":3,"start":24.15,"end":24.67,"text":"Más allá","words":[{"id":"caption-word-37-0","text":"Más","start":24.15,"end":24.355},{"id":"caption-word-37-1","text":"allá","start":24.373,"end":24.646}]},{"id":"caption-group-38","frame":3,"start":24.67,"end":25.784,"text":"de 25 kilómetros,","words":[{"id":"caption-word-38-0","text":"de","start":24.67,"end":24.807},{"id":"caption-word-38-1","text":"25","start":24.819,"end":24.955},{"id":"caption-word-38-2","text":"kilómetros,","start":24.967,"end":25.719}]},{"id":"caption-group-39","frame":3,"start":25.784,"end":26.817,"text":"ya no conviene.","words":[{"id":"caption-word-39-0","text":"ya","start":25.784,"end":25.921},{"id":"caption-word-39-1","text":"no","start":25.933,"end":26.07},{"id":"caption-word-39-2","text":"conviene.","start":26.081,"end":26.697}]},{"id":"caption-group-40","frame":4,"start":27.69,"end":28.853,"text":"Por eso creamos","words":[{"id":"caption-word-40-0","text":"Por","start":27.69,"end":27.937},{"id":"caption-word-40-1","text":"eso","start":27.958,"end":28.205},{"id":"caption-word-40-2","text":"creamos","start":28.227,"end":28.803}]},{"id":"caption-group-41","frame":4,"start":28.853,"end":29.467,"text":"Sobra.","words":[{"id":"caption-word-41-0","text":"Sobra.","start":28.853,"end":29.347}]},{"id":"caption-group-42","frame":4,"start":29.49,"end":29.94,"text":"Un mapa","words":[{"id":"caption-word-42-0","text":"Un","start":29.49,"end":29.628},{"id":"caption-word-42-1","text":"mapa","start":29.64,"end":29.916}]},{"id":"caption-group-43","frame":4,"start":29.94,"end":30.54,"text":"de oferta","words":[{"id":"caption-word-43-0","text":"de","start":29.94,"end":30.078},{"id":"caption-word-43-1","text":"oferta","start":30.09,"end":30.504}]},{"id":"caption-group-44","frame":4,"start":30.54,"end":31.215,"text":"y demanda","words":[{"id":"caption-word-44-0","text":"y","start":30.54,"end":30.678},{"id":"caption-word-44-1","text":"demanda","start":30.69,"end":31.173}]},{"id":"caption-group-45","frame":4,"start":31.215,"end":31.89,"text":"de biomasa","words":[{"id":"caption-word-45-0","text":"de","start":31.215,"end":31.353},{"id":"caption-word-45-1","text":"biomasa","start":31.365,"end":31.848}]},{"id":"caption-group-46","frame":4,"start":31.89,"end":32.19,"text":"que,","words":[{"id":"caption-word-46-0","text":"que,","start":31.89,"end":32.166}]},{"id":"caption-group-47","frame":4,"start":32.19,"end":33.19,"text":"para cada vendedor","words":[{"id":"caption-word-47-0","text":"para","start":32.19,"end":32.42},{"id":"caption-word-47-1","text":"cada","start":32.44,"end":32.67},{"id":"caption-word-47-2","text":"vendedor","start":32.69,"end":33.15}]},{"id":"caption-group-48","frame":4,"start":33.19,"end":34.19,"text":"y cada comprador,","words":[{"id":"caption-word-48-0","text":"y","start":33.19,"end":33.305},{"id":"caption-word-48-1","text":"cada","start":33.315,"end":33.545},{"id":"caption-word-48-2","text":"comprador,","start":33.565,"end":34.14}]},{"id":"caption-group-49","frame":4,"start":34.19,"end":34.834,"text":"responde una","words":[{"id":"caption-word-49-0","text":"responde","start":34.19,"end":34.621},{"id":"caption-word-49-1","text":"una","start":34.658,"end":34.82}]},{"id":"caption-group-50","frame":4,"start":34.834,"end":35.595,"text":"sola pregunta:","words":[{"id":"caption-word-50-0","text":"sola","start":34.834,"end":35.049},{"id":"caption-word-50-1","text":"pregunta:","start":35.068,"end":35.553}]},{"id":"caption-group-51","frame":4,"start":35.595,"end":36.673,"text":"¿cierra el negocio?","words":[{"id":"caption-word-51-0","text":"¿cierra","start":35.595,"end":35.972},{"id":"caption-word-51-1","text":"el","start":36.005,"end":36.112},{"id":"caption-word-51-2","text":"negocio?","start":36.122,"end":36.553}]},{"id":"caption-group-52","frame":5,"start":37.03,"end":38.03,"text":"Molinos Ala,","words":[{"id":"caption-word-52-0","text":"Molinos","start":37.03,"end":37.615},{"id":"caption-word-52-1","text":"Ala,","start":37.666,"end":38.001}]},{"id":"caption-group-53","frame":5,"start":38.03,"end":39.03,"text":"en Mercedes,","words":[{"id":"caption-word-53-0","text":"en","start":38.03,"end":38.197},{"id":"caption-word-53-1","text":"Mercedes,","start":38.212,"end":38.965}]},{"id":"caption-group-54","frame":5,"start":39.03,"end":40.203,"text":"quiere venderle cascarilla","words":[{"id":"caption-word-54-0","text":"quiere","start":39.03,"end":39.3},{"id":"caption-word-54-1","text":"venderle","start":39.323,"end":39.683},{"id":"caption-word-54-2","text":"cascarilla","start":39.714,"end":40.164}]},{"id":"caption-group-55","frame":5,"start":40.203,"end":41.23,"text":"al Frigorífico Duhalde,","words":[{"id":"caption-word-55-0","text":"al","start":40.203,"end":40.293},{"id":"caption-word-55-1","text":"Frigorífico","start":40.301,"end":40.796},{"id":"caption-word-55-2","text":"Duhalde,","start":40.839,"end":41.199}]},{"id":"caption-group-56","frame":5,"start":41.23,"end":42.762,"text":"a 88 kilómetros.","words":[{"id":"caption-word-56-0","text":"a","start":41.23,"end":41.414},{"id":"caption-word-56-1","text":"88","start":41.43,"end":41.614},{"id":"caption-word-56-2","text":"kilómetros.","start":41.63,"end":42.642}]},{"id":"caption-group-57","frame":5,"start":43.03,"end":43.338,"text":"Si va","words":[{"id":"caption-word-57-0","text":"Si","start":43.03,"end":43.172},{"id":"caption-word-57-1","text":"va","start":43.184,"end":43.325}]},{"id":"caption-group-58","frame":5,"start":43.338,"end":43.876,"text":"suelta,","words":[{"id":"caption-word-58-0","text":"suelta,","start":43.338,"end":43.833}]},{"id":"caption-group-59","frame":5,"start":43.876,"end":44.415,"text":"el flete","words":[{"id":"caption-word-59-0","text":"el","start":43.876,"end":44.018},{"id":"caption-word-59-1","text":"flete","start":44.03,"end":44.384}]},{"id":"caption-group-60","frame":5,"start":44.415,"end":44.876,"text":"se come","words":[{"id":"caption-word-60-0","text":"se","start":44.415,"end":44.556},{"id":"caption-word-60-1","text":"come","start":44.568,"end":44.852}]},{"id":"caption-group-61","frame":5,"start":44.876,"end":46.095,"text":"toda la ganancia.","words":[{"id":"caption-word-61-0","text":"toda","start":44.876,"end":45.159},{"id":"caption-word-61-1","text":"la","start":45.184,"end":45.325},{"id":"caption-word-61-2","text":"ganancia.","start":45.338,"end":45.975}]},{"id":"caption-group-62","frame":6,"start":46.63,"end":47.458,"text":"Pelletizada,","words":[{"id":"caption-word-62-0","text":"Pelletizada,","start":46.63,"end":47.391}]},{"id":"caption-group-63","frame":6,"start":47.458,"end":48.63,"text":"la misma cascarilla","words":[{"id":"caption-word-63-0","text":"la","start":47.458,"end":47.584},{"id":"caption-word-63-1","text":"misma","start":47.596,"end":47.913},{"id":"caption-word-63-2","text":"cascarilla","start":47.94,"end":48.575}]},{"id":"caption-group-64","frame":6,"start":48.63,"end":49.659,"text":"llega 12 veces","words":[{"id":"caption-word-64-0","text":"llega","start":48.63,"end":49.024},{"id":"caption-word-64-1","text":"12","start":49.059,"end":49.216},{"id":"caption-word-64-2","text":"veces","start":49.23,"end":49.624}]},{"id":"caption-group-65","frame":6,"start":49.659,"end":50.509,"text":"más lejos,","words":[{"id":"caption-word-65-0","text":"más","start":49.659,"end":49.895},{"id":"caption-word-65-1","text":"lejos,","start":49.916,"end":50.389}]},{"id":"caption-group-66","frame":6,"start":50.53,"end":52.348,"text":"generando 23% de margen","words":[{"id":"caption-word-66-0","text":"generando","start":50.53,"end":51.283},{"id":"caption-word-66-1","text":"23%","start":51.348,"end":51.599},{"id":"caption-word-66-2","text":"de","start":51.621,"end":51.788},{"id":"caption-word-66-3","text":"margen","start":51.803,"end":52.305}]},{"id":"caption-group-67","frame":6,"start":52.348,"end":53.599,"text":"para el molino.","words":[{"id":"caption-word-67-0","text":"para","start":52.348,"end":52.683},{"id":"caption-word-67-1","text":"el","start":52.712,"end":52.879},{"id":"caption-word-67-2","text":"molino.","start":52.894,"end":53.479}]},{"id":"caption-group-68","frame":7,"start":54.42,"end":54.678,"text":"Y el","words":[{"id":"caption-word-68-0","text":"Y","start":54.42,"end":54.539},{"id":"caption-word-68-1","text":"el","start":54.549,"end":54.668}]},{"id":"caption-group-69","frame":7,"start":54.678,"end":56.419,"text":"frigorífico ahorra 15 millones","words":[{"id":"caption-word-69-0","text":"frigorífico","start":54.678,"end":55.33},{"id":"caption-word-69-1","text":"ahorra","start":55.387,"end":55.743},{"id":"caption-word-69-2","text":"15","start":55.774,"end":55.893},{"id":"caption-word-69-3","text":"millones","start":55.903,"end":56.377}]},{"id":"caption-group-70","frame":7,"start":56.419,"end":56.87,"text":"de pesos","words":[{"id":"caption-word-70-0","text":"de","start":56.419,"end":56.537},{"id":"caption-word-70-1","text":"pesos","start":56.548,"end":56.844}]},{"id":"caption-group-71","frame":7,"start":56.87,"end":57.316,"text":"por mes","words":[{"id":"caption-word-71-0","text":"por","start":56.87,"end":57.075},{"id":"caption-word-71-1","text":"mes","start":57.093,"end":57.298}]},{"id":"caption-group-72","frame":7,"start":57.316,"end":57.911,"text":"frente al","words":[{"id":"caption-word-72-0","text":"frente","start":57.316,"end":57.727},{"id":"caption-word-72-1","text":"al","start":57.762,"end":57.899}]},{"id":"caption-group-73","frame":7,"start":57.911,"end":58.952,"text":"gas envasado que","words":[{"id":"caption-word-73-0","text":"gas","start":57.911,"end":58.116},{"id":"caption-word-73-1","text":"envasado","start":58.134,"end":58.681},{"id":"caption-word-73-2","text":"que","start":58.729,"end":58.934}]},{"id":"caption-group-74","frame":7,"start":58.952,"end":59.866,"text":"utiliza hoy.","words":[{"id":"caption-word-74-0","text":"utiliza","start":58.952,"end":59.431},{"id":"caption-word-74-1","text":"hoy.","start":59.473,"end":59.746}]},{"id":"caption-group-75","frame":8,"start":60.55,"end":61.604,"text":"Publicás una oferta","words":[{"id":"caption-word-75-0","text":"Publicás","start":60.55,"end":61.006},{"id":"caption-word-75-1","text":"una","start":61.046,"end":61.217},{"id":"caption-word-75-2","text":"oferta","start":61.232,"end":61.574}]},{"id":"caption-group-76","frame":8,"start":61.604,"end":61.914,"text":"o una","words":[{"id":"caption-word-76-0","text":"o","start":61.604,"end":61.718},{"id":"caption-word-76-1","text":"una","start":61.728,"end":61.899}]},{"id":"caption-group-77","frame":8,"start":61.914,"end":62.472,"text":"demanda en","words":[{"id":"caption-word-77-0","text":"demanda","start":61.914,"end":62.313},{"id":"caption-word-77-1","text":"en","start":62.348,"end":62.462}]},{"id":"caption-group-78","frame":8,"start":62.472,"end":63.03,"text":"un minuto,","words":[{"id":"caption-word-78-0","text":"un","start":62.472,"end":62.586},{"id":"caption-word-78-1","text":"minuto,","start":62.596,"end":62.995}]},{"id":"caption-group-79","frame":8,"start":63.03,"end":63.735,"text":"sin cuenta.","words":[{"id":"caption-word-79-0","text":"sin","start":63.03,"end":63.201},{"id":"caption-word-79-1","text":"cuenta.","start":63.216,"end":63.615}]},{"id":"caption-group-80","frame":8,"start":63.75,"end":64.95,"text":"Ves el contacto,","words":[{"id":"caption-word-80-0","text":"Ves","start":63.75,"end":63.987},{"id":"caption-word-80-1","text":"el","start":64.007,"end":64.165},{"id":"caption-word-80-2","text":"contacto,","start":64.179,"end":64.888}]},{"id":"caption-group-81","frame":8,"start":64.95,"end":65.569,"text":"te avisamos","words":[{"id":"caption-word-81-0","text":"te","start":64.95,"end":65.064},{"id":"caption-word-81-1","text":"avisamos","start":65.074,"end":65.529}]},{"id":"caption-group-82","frame":8,"start":65.569,"end":66.374,"text":"cuando aparece","words":[{"id":"caption-word-82-0","text":"cuando","start":65.569,"end":65.911},{"id":"caption-word-82-1","text":"aparece","start":65.94,"end":66.339}]},{"id":"caption-group-83","frame":8,"start":66.374,"end":66.931,"text":"un negocio","words":[{"id":"caption-word-83-0","text":"un","start":66.374,"end":66.488},{"id":"caption-word-83-1","text":"negocio","start":66.498,"end":66.896}]},{"id":"caption-group-84","frame":8,"start":66.931,"end":67.55,"text":"que cierra,","words":[{"id":"caption-word-84-0","text":"que","start":66.931,"end":67.102},{"id":"caption-word-84-1","text":"cierra,","start":67.117,"end":67.515}]},{"id":"caption-group-85","frame":8,"start":67.55,"end":67.944,"text":"y cada","words":[{"id":"caption-word-85-0","text":"y","start":67.55,"end":67.671},{"id":"caption-word-85-1","text":"cada","start":67.681,"end":67.923}]},{"id":"caption-group-86","frame":8,"start":67.944,"end":68.667,"text":"número tiene","words":[{"id":"caption-word-86-0","text":"número","start":67.944,"end":68.307},{"id":"caption-word-86-1","text":"tiene","start":68.339,"end":68.641}]},{"id":"caption-group-87","frame":8,"start":68.667,"end":69.193,"text":"su fuente","words":[{"id":"caption-word-87-0","text":"su","start":68.667,"end":68.788},{"id":"caption-word-87-1","text":"fuente","start":68.799,"end":69.161}]},{"id":"caption-group-88","frame":8,"start":69.193,"end":69.938,"text":"a la vista.","words":[{"id":"caption-word-88-0","text":"a","start":69.193,"end":69.314},{"id":"caption-word-88-1","text":"la","start":69.324,"end":69.445},{"id":"caption-word-88-2","text":"vista.","start":69.456,"end":69.818}]},{"id":"caption-group-89","frame":9,"start":70.42,"end":71.811,"text":"Para el aserradero,","words":[{"id":"caption-word-89-0","text":"Para","start":70.42,"end":70.721},{"id":"caption-word-89-1","text":"el","start":70.747,"end":70.898},{"id":"caption-word-89-2","text":"aserradero,","start":70.911,"end":71.739}]},{"id":"caption-group-90","frame":9,"start":71.811,"end":72.547,"text":"un residuo","words":[{"id":"caption-word-90-0","text":"un","start":71.811,"end":71.961},{"id":"caption-word-90-1","text":"residuo","start":71.975,"end":72.501}]},{"id":"caption-group-91","frame":9,"start":72.547,"end":73.202,"text":"se vuelve","words":[{"id":"caption-word-91-0","text":"se","start":72.547,"end":72.698},{"id":"caption-word-91-1","text":"vuelve","start":72.711,"end":73.163}]},{"id":"caption-group-92","frame":9,"start":73.202,"end":74.088,"text":"un ingreso.","words":[{"id":"caption-word-92-0","text":"un","start":73.202,"end":73.352},{"id":"caption-word-92-1","text":"ingreso.","start":73.365,"end":73.968}]},{"id":"caption-group-93","frame":9,"start":74.22,"end":75.357,"text":"Para la industria,","words":[{"id":"caption-word-93-0","text":"Para","start":74.22,"end":74.481},{"id":"caption-word-93-1","text":"la","start":74.504,"end":74.635},{"id":"caption-word-93-2","text":"industria,","start":74.646,"end":75.3}]},{"id":"caption-group-94","frame":9,"start":75.357,"end":76.423,"text":"energía local más","words":[{"id":"caption-word-94-0","text":"energía","start":75.357,"end":75.814},{"id":"caption-word-94-1","text":"local","start":75.854,"end":76.181},{"id":"caption-word-94-2","text":"más","start":76.209,"end":76.406}]},{"id":"caption-group-95","frame":9,"start":76.423,"end":77,"text":"barata.","words":[{"id":"caption-word-95-0","text":"barata.","start":76.423,"end":76.88}]},{"id":"caption-group-96","frame":9,"start":77.02,"end":78.116,"text":"Para Corrientes,","words":[{"id":"caption-word-96-0","text":"Para","start":77.02,"end":77.289},{"id":"caption-word-96-1","text":"Corrientes,","start":77.312,"end":78.052}]},{"id":"caption-group-97","frame":9,"start":78.116,"end":78.847,"text":"menos humo,","words":[{"id":"caption-word-97-0","text":"menos","start":78.116,"end":78.452},{"id":"caption-word-97-1","text":"humo,","start":78.482,"end":78.818}]},{"id":"caption-group-98","frame":9,"start":78.847,"end":79.432,"text":"menos gas","words":[{"id":"caption-word-98-0","text":"menos","start":78.847,"end":79.183},{"id":"caption-word-98-1","text":"gas","start":79.212,"end":79.414}]},{"id":"caption-group-99","frame":9,"start":79.432,"end":79.943,"text":"y datos","words":[{"id":"caption-word-99-0","text":"y","start":79.432,"end":79.566},{"id":"caption-word-99-1","text":"datos","start":79.578,"end":79.914}]},{"id":"caption-group-100","frame":9,"start":79.943,"end":80.893,"text":"para decidir.","words":[{"id":"caption-word-100-0","text":"para","start":79.943,"end":80.212},{"id":"caption-word-100-1","text":"decidir.","start":80.235,"end":80.773}]},{"id":"caption-group-101","frame":9,"start":81.22,"end":82.278,"text":"Un solo acuerdo","words":[{"id":"caption-word-101-0","text":"Un","start":81.22,"end":81.37},{"id":"caption-word-101-1","text":"solo","start":81.383,"end":81.682},{"id":"caption-word-101-2","text":"acuerdo","start":81.708,"end":82.232}]},{"id":"caption-group-102","frame":9,"start":82.278,"end":83.01,"text":"evita unas","words":[{"id":"caption-word-102-0","text":"evita","start":82.278,"end":82.652},{"id":"caption-word-102-1","text":"unas","start":82.684,"end":82.984}]},{"id":"caption-group-103","frame":9,"start":83.01,"end":84.149,"text":"500 toneladas de","words":[{"id":"caption-word-103-0","text":"500","start":83.01,"end":83.234},{"id":"caption-word-103-1","text":"toneladas","start":83.254,"end":83.928},{"id":"caption-word-103-2","text":"de","start":83.986,"end":84.136}]},{"id":"caption-group-104","frame":9,"start":84.149,"end":85.451,"text":"dióxido de carbono","words":[{"id":"caption-word-104-0","text":"dióxido","start":84.149,"end":84.673},{"id":"caption-word-104-1","text":"de","start":84.718,"end":84.868},{"id":"caption-word-104-2","text":"carbono","start":84.881,"end":85.405}]},{"id":"caption-group-105","frame":9,"start":85.451,"end":86.114,"text":"por año.","words":[{"id":"caption-word-105-0","text":"por","start":85.451,"end":85.675},{"id":"caption-word-105-1","text":"año.","start":85.695,"end":85.994}]},{"id":"caption-group-106","frame":10,"start":87.54,"end":88.049,"text":"Por esto","words":[{"id":"caption-word-106-0","text":"Por","start":87.54,"end":87.741},{"id":"caption-word-106-1","text":"esto","start":87.758,"end":88.026}]},{"id":"caption-group-107","frame":10,"start":88.049,"end":89.067,"text":"los invitamos a","words":[{"id":"caption-word-107-0","text":"los","start":88.049,"end":88.25},{"id":"caption-word-107-1","text":"invitamos","start":88.267,"end":88.869},{"id":"caption-word-107-2","text":"a","start":88.922,"end":89.056}]},{"id":"caption-group-108","frame":10,"start":89.067,"end":90.025,"text":"probar Sobra,","words":[{"id":"caption-word-108-0","text":"probar","start":89.067,"end":89.469},{"id":"caption-word-108-1","text":"Sobra,","start":89.504,"end":89.905}]},{"id":"caption-group-109","frame":10,"start":90.04,"end":90.636,"text":"que pasa","words":[{"id":"caption-word-109-0","text":"que","start":90.04,"end":90.275},{"id":"caption-word-109-1","text":"pasa","start":90.296,"end":90.609}]},{"id":"caption-group-110","frame":10,"start":90.636,"end":91.659,"text":"del residuo al","words":[{"id":"caption-word-110-0","text":"del","start":90.636,"end":90.871},{"id":"caption-word-110-1","text":"residuo","start":90.892,"end":91.44},{"id":"caption-word-110-2","text":"al","start":91.488,"end":91.645}]},{"id":"caption-group-111","frame":10,"start":91.659,"end":92.34,"text":"mercado,","words":[{"id":"caption-word-111-0","text":"mercado,","start":91.659,"end":92.285}]},{"id":"caption-group-112","frame":10,"start":92.34,"end":93.392,"text":"con un número","words":[{"id":"caption-word-112-0","text":"con","start":92.34,"end":92.604},{"id":"caption-word-112-1","text":"un","start":92.627,"end":92.803},{"id":"caption-word-112-2","text":"número","start":92.818,"end":93.346}]},{"id":"caption-group-113","frame":10,"start":93.392,"end":94.606,"text":"que te cierra.","words":[{"id":"caption-word-113-0","text":"que","start":93.392,"end":93.656},{"id":"caption-word-113-1","text":"te","start":93.679,"end":93.855},{"id":"caption-word-113-2","text":"cierra.","start":93.87,"end":94.486}]}];
+  var DURATION = 95.31;
+
+  (function () {
+    var stage = document.getElementById("caption-stage");
+
+    GROUPS.forEach(function (group, g) {
+      var groupEl = document.createElement("div");
+      groupEl.className = "caption-group";
+      groupEl.id = "caption-group-" + g;
+      var pill = document.createElement("div");
+      pill.className = "caption-pill";
+      var line = document.createElement("div");
+      line.className = "caption-line";
+      (group.words || []).forEach(function (w, i) {
+        var span = document.createElement("span");
+        span.className = "caption-word";
+        span.id = "caption-word-" + g + "-" + i;
+        span.textContent = String(w.text);
+        line.appendChild(span);
+      });
+      pill.appendChild(line);
+      groupEl.appendChild(pill);
+      stage.appendChild(groupEl);
+    });
+
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    GROUPS.forEach(function (group, g) {
+      var groupEl = document.getElementById("caption-group-" + g);
+      var words = group.words || [];
+      var next = GROUPS[g + 1];
+      var isLast = g === GROUPS.length - 1;
+      var start = Math.max(0, Number(group.start));
+      var end = isLast ? DURATION : Math.min(Number(next.start), Number(group.end) + 0.3);
+      if (end <= start) end = start + 0.01;
+
+      tl.set(groupEl, { opacity: 1 }, start);
+      tl.set(groupEl, { opacity: 0 }, end);
+
+      words.forEach(function (w, i) {
+        var el = document.getElementById("caption-word-" + g + "-" + i);
+        var at = Math.max(start, Number(w.start));
+        tl.set(el, { className: "caption-word" }, start);
+        tl.set(el, { className: "caption-word is-active" }, at);
+        tl.fromTo(el, { scale: 0.985 }, { scale: 1, duration: 0.18, ease: "power1.out" }, at);
+        if (i + 1 < words.length) {
+          var nextAt = Math.max(start, Number(words[i + 1].start));
+          tl.set(el, { className: "caption-word is-spoken" }, nextAt);
+        }
+      });
+      if (words.length) {
+        var lastEl = document.getElementById("caption-word-" + g + "-" + (words.length - 1));
+        var lastSpoken = Math.min(end, Number(words[words.length - 1].end) + 0.1);
+        tl.set(lastEl, { className: "caption-word is-spoken" }, lastSpoken);
+      }
+    });
+
+    tl.to({}, { duration: DURATION }, 0);
+    window.__timelines["captions"] = tl;
+  })();
+</script>
+
+<style>
+  .caption-line { line-height: 1.1 !important; }
+</style>
+</template>

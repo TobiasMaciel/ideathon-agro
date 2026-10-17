@@ -1,0 +1,243 @@
+<template>
+  <style>
+    @font-face{font-family:"Archivo Variable";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url("assets/fonts/archivo-latin-wdth-normal.woff2")format("woff2-variations")}
+    @font-face{font-family:"Archivo Variable";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url("assets/fonts/archivo-latin-ext-wdth-normal.woff2")format("woff2-variations");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Geist Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-ext-wght-normal-DC-KSUi6.woff2")format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Geist Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-latin-wght-normal-BgDaEnEv.woff2")format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-symbols2-wght-normal-CO5SzqOn.woff2")format("woff2-variations");unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+    @font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-latin-ext-wght-normal-Bwz-egvJ.woff2")format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Geist Mono Variable";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/captured-geist-mono-latin-wght-normal-XN7g48iV.woff2")format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Geist Variable", sans-serif;
+      color: #0A1433;
+      box-sizing: border-box;
+    }
+
+    #root *, #root *::before, #root *::after {
+      box-sizing: border-box;
+    }
+
+    .f02-bg {
+      position: absolute;
+      inset: 0;
+      background-color: #EEF3FD;
+      background-image:
+        linear-gradient(to right, rgba(33, 80, 232, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(33, 80, 232, 0.055) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .f02-stage {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      top: 90px;
+      height: 760px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .f02-hero-band {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+      margin-top: 20px;
+    }
+
+    .f02-context-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #D3DEF3;
+      border-radius: 6px;
+      font-family: "Geist Mono Variable", monospace;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2150E8;
+    }
+
+    .f02-sq {
+      width: 10px;
+      height: 10px;
+      background-color: #2150E8;
+      display: inline-block;
+    }
+
+    .f02-headline-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .f02-struck-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .f02-struck-text {
+      font-family: "Archivo Variable", sans-serif;
+      font-variation-settings: "wdth" 112;
+      font-weight: 800;
+      font-size: 92px;
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+      color: #52618A;
+    }
+
+    .f02-strike-line {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 52%;
+      height: 9px;
+      background-color: #B5402A;
+      border-radius: 3px;
+      transform-origin: left center;
+    }
+
+    .f02-sweep-block {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 32px 18px 32px;
+      background-color: #2150E8;
+      border-radius: 10px;
+      font-family: "Archivo Variable", sans-serif;
+      font-variation-settings: "wdth" 112;
+      font-weight: 800;
+      font-size: 92px;
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+    }
+
+    .f02-triptych {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 20px;
+    }
+
+    .f02-q-card {
+      background-color: #FFFFFF;
+      border: 2px solid #D3DEF3;
+      border-radius: 10px;
+      padding: 38px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 290px;
+    }
+
+    .f02-q-ord {
+      font-family: "Geist Mono Variable", monospace;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: #2150E8;
+      text-transform: uppercase;
+    }
+
+    .f02-q-title {
+      font-family: "Archivo Variable", sans-serif;
+      font-variation-settings: "wdth" 112;
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: #0A1433;
+    }
+
+    .f02-bottleneck-badge {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 6px 14px;
+      background-color: #B5402A;
+      border-radius: 4px;
+      font-family: "Geist Mono Variable", monospace;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+  </style>
+
+  <div id="root" data-composition-id="02-pain" data-start="0" data-duration="12.68" data-width="1920" data-height="1080">
+    <div id="f02-bg" class="clip f02-bg" data-start="0" data-duration="12.68" data-track-index="0"></div>
+
+    <div id="f02-stage" class="clip f02-stage" data-start="0" data-duration="12.68" data-track-index="1">
+      <div class="f02-hero-band">
+        <div id="f02-context-pill" class="f02-context-pill">
+          <span class="f02-sq"></span>
+          <span>CASCARILLA DE ARROZ · 1.ª PROVINCIA ARROCERA DEL PAÍS</span>
+        </div>
+
+        <div class="f02-headline-row">
+          <div id="f02-struck-wrap" class="f02-struck-wrap">
+            <span class="f02-struck-text">No es basura.</span>
+            <span id="f02-strike-line" class="f02-strike-line"></span>
+          </div>
+          <div id="f02-sweep-block" class="f02-sweep-block">
+            <span>Es combustible.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="f02-triptych">
+        <div id="f02-q-card-1" class="f02-q-card">
+          <span class="f02-q-ord">01 · DEMANDA</span>
+          <div class="f02-q-title">¿Quién la compra?</div>
+        </div>
+
+        <div id="f02-q-card-2" class="f02-q-card">
+          <span class="f02-q-ord">02 · PRECIO</span>
+          <div class="f02-q-title">¿Cuánto vale?</div>
+        </div>
+
+        <div id="f02-q-card-3" class="f02-q-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="f02-q-ord">03 · FLETE</span>
+            <span id="f02-bottleneck-badge" class="f02-bottleneck-badge">✕ CUELLO DE BOTELLA</span>
+          </div>
+          <div class="f02-q-title">¿El flete se come la ganancia?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo("#f02-context-pill", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.2);
+      tl.fromTo("#f02-struck-wrap", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 4.0);
+      tl.fromTo("#f02-strike-line", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.inOut" }, 4.5);
+      tl.fromTo("#f02-sweep-block", { opacity: 0, scale: 0.88, x: 16 }, { opacity: 1, scale: 1, x: 0, duration: 0.5, ease: "back.out(1.7)" }, 4.85);
+
+      tl.fromTo("#f02-q-card-1", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 7.6);
+      tl.fromTo("#f02-q-card-2", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 8.8);
+      tl.fromTo("#f02-q-card-3", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 9.9);
+      tl.to("#f02-q-card-3", { borderColor: "#2150E8", borderWidth: "3px", backgroundColor: "#F6F9FF", duration: 0.35 }, 10.3);
+      tl.fromTo("#f02-bottleneck-badge", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 10.4);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["02-pain"] = tl;
+    })();
+  </script>
+</template>

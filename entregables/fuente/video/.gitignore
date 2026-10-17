@@ -1,0 +1,8 @@
+node_modules/
+.thumbnails/
+.waveform-cache/
+snapshots/
+renders/
+assets/voice/part1.wav
+assets/voice/part2.wav
+assets/voice/full-narration.wav

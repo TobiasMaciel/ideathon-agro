@@ -1,0 +1,212 @@
+<template>
+  <div id="root" data-composition-id="10-cta" data-width="1920" data-height="1080" data-start="0" data-duration="8.17">
+    <style>
+      @font-face {
+        font-family: "Archivo Variable";
+        src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Variable";
+        src: url("assets/fonts/geist-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Mono Variable";
+        src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Geist Variable", sans-serif;
+        color: #F4F7FE;
+      }
+
+      #root *, #root *::before, #root *::after {
+        box-sizing: border-box;
+      }
+
+      #root .bg-canvas {
+        position: absolute;
+        inset: 0;
+        background-color: #0B1640;
+        background-image:
+          linear-gradient(to right, rgba(31, 47, 102, 0.55) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(31, 47, 102, 0.55) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      #root .stage {
+        position: absolute;
+        left: 88px;
+        top: 104px;
+        width: 1744px;
+        height: 744px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 56px;
+      }
+
+      #root .left-col {
+        width: 680px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+      }
+
+      #root .logo-img {
+        height: 84px;
+        width: auto;
+        display: block;
+      }
+
+      #root .headline {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 1.03;
+        letter-spacing: -0.025em;
+        color: #F4F7FE;
+        margin: 0;
+      }
+
+      #root .headline .accent {
+        color: #7AA7FF;
+      }
+
+      #root .url-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 24px;
+        background: #2150E8;
+        border: 1px solid #7AA7FF;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 20px;
+        font-weight: 700;
+        color: #FFFFFF;
+        letter-spacing: 0.02em;
+      }
+
+      #root .right-col {
+        width: 980px;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+
+      /* Uncropped 16:9 preview (672 x 378) + QR card */
+      #root .app-card {
+        width: 672px;
+        height: 378px;
+        background: #101F54;
+        border: 2px solid #7AA7FF;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      #root .app-shot {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #EEF3FD;
+        display: block;
+      }
+
+      #root .qr-card {
+        width: 280px;
+        height: 378px;
+        background: #FFFFFF;
+        border: 2px solid #7AA7FF;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+      }
+
+      #root .qr-img {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        display: block;
+      }
+
+      #root .qr-label {
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #0A1433;
+      }
+    </style>
+
+    <div id="f10-bg" class="clip bg-canvas" data-start="0" data-duration="8.17"></div>
+
+    <div id="f10-stage" class="clip stage" data-start="0" data-duration="8.17">
+      <div id="f10-left" class="left-col">
+        <img id="f10-logo" class="logo-img" src="assets/logo-sobra-dark.svg" alt="Sobra." />
+        <h1 id="f10-headline" class="headline">
+          Del residuo al mercado,<br />
+          <span class="accent">con un número que te cierra.</span>
+        </h1>
+        <div id="f10-url" class="url-pill">
+          <span>↗</span>
+          <span>ideathon-agro-web.vercel.app</span>
+        </div>
+      </div>
+
+      <div id="f10-right" class="right-col">
+        <div id="f10-app" class="app-card">
+          <img class="app-shot" src="assets/app-00-portada.png" alt="Sobra vista completa" />
+        </div>
+        <div id="f10-qr" class="qr-card">
+          <img class="qr-img" src="assets/qr-demo.png" alt="QR Sobra" />
+          <div class="qr-label">PROBÁ SOBRA AHORA</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.currentScript.parentElement;
+        var logo = root.querySelector("#f10-logo");
+        var headline = root.querySelector("#f10-headline");
+        var url = root.querySelector("#f10-url");
+        var right = root.querySelector("#f10-right");
+
+        gsap.set(logo, { opacity: 0, y: 14 });
+        gsap.set(headline, { opacity: 0, y: 20 });
+        gsap.set(url, { opacity: 0, y: 14 });
+        gsap.set(right, { opacity: 0, x: 24 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        tl.to(logo, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.08);
+        tl.to(headline, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.25);
+        tl.to(right, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 0.45);
+        tl.to(url, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.85);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["10-cta"] = tl;
+      })();
+    </script>
+  </div>
+</template>

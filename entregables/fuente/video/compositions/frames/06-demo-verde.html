@@ -1,0 +1,220 @@
+<template>
+  <div id="root" data-composition-id="06-demo-verde" data-width="1920" data-height="1080" data-start="0" data-duration="8.34">
+    <style>
+      @font-face {
+        font-family: "Archivo Variable";
+        src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Variable";
+        src: url("assets/fonts/geist-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Mono Variable";
+        src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Geist Variable", sans-serif;
+        color: #0A1433;
+      }
+
+      #root *, #root *::before, #root *::after {
+        box-sizing: border-box;
+      }
+
+      #root .bg-canvas {
+        position: absolute;
+        inset: 0;
+        background-color: #EEF3FD;
+        background-image:
+          linear-gradient(to right, rgba(211, 222, 243, 0.55) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(211, 222, 243, 0.55) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      #root .stage {
+        position: absolute;
+        left: 72px;
+        top: 104px;
+        width: 1776px;
+        height: 752px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 48px;
+      }
+
+      #root .left-col {
+        width: 520px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      #root .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 8px 14px;
+        background: #FFFFFF;
+        border: 1px solid #D3DEF3;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #2150E8;
+      }
+
+      #root .route-title {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 42px;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        color: #0A1433;
+        margin: 0;
+      }
+
+      #root .distance-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 10px 16px;
+        background: #E8F5EE;
+        border: 1px solid rgba(23, 120, 74, 0.35);
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: #17784A;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .verdict-card {
+        background: #FFFFFF;
+        border: 2px solid #17784A;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      #root .verdict-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 8px 14px;
+        background: #17784A;
+        color: #FFFFFF;
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      #root .verdict-number {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 56px;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: #17784A;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .verdict-sub {
+        font-size: 20px;
+        line-height: 1.35;
+        color: #3D4D7A;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      /* Exact 16:9 container (1184 x 666) so screenshot is 100% uncropped */
+      #root .screen-col {
+        width: 1184px;
+        height: 666px;
+        background: #FFFFFF;
+        border: 2px solid #17784A;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      #root .app-shot {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #EEF3FD;
+        display: block;
+      }
+    </style>
+
+    <div id="f06-bg" class="clip bg-canvas" data-start="0" data-duration="8.34"></div>
+
+    <div id="f06-stage" class="clip stage" data-start="0" data-duration="8.34">
+      <div id="f06-left" class="left-col">
+        <div id="f06-eyebrow" class="eyebrow">■ FORMATO PELLET · DENSIFICADO</div>
+        <h2 id="f06-title" class="route-title">Molinos Ala → Frigorífico Duhalde</h2>
+        <div id="f06-dist" class="distance-pill">RADIO PELLET: 310 KM (12× MÁS LEJOS)</div>
+
+        <div id="f06-verdict" class="verdict-card">
+          <div class="verdict-badge">✓ CIERRA EN PELLET · MARGEN +23,1%</div>
+          <div class="verdict-number">+$ 1,93 M / mes</div>
+          <p class="verdict-sub">Con un clic a pellet, el mismo viaje pasa de pérdida a ganancia neta cada mes.</p>
+        </div>
+      </div>
+
+      <div id="f06-screen" class="screen-col">
+        <img id="f06-img-rojo" class="app-shot" src="assets/app-02-suelto-rojo.png" alt="Sobra suelto" />
+        <img id="f06-img-verde" class="app-shot" src="assets/app-03-pellet-verde.png" alt="Sobra simulación en pellet completa" />
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.currentScript.parentElement;
+        var left = root.querySelector("#f06-left");
+        var verdict = root.querySelector("#f06-verdict");
+        var imgVerde = root.querySelector("#f06-img-verde");
+
+        gsap.set(left, { opacity: 0, y: 14 });
+        gsap.set(verdict, { opacity: 0, y: 16 });
+        gsap.set(imgVerde, { opacity: 0 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        tl.to(left, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.08);
+        tl.to(imgVerde, { opacity: 1, duration: 0.65, ease: "power2.inOut" }, 0.60);
+        tl.to(verdict, { opacity: 1, y: 0, duration: 0.50, ease: "power3.out" }, 1.20);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["06-demo-verde"] = tl;
+      })();
+    </script>
+  </div>
+</template>

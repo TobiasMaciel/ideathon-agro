@@ -1,0 +1,196 @@
+{
+  "files": [
+    {
+      "file": "geist-cyrillic-ext-wght-normal-DjL33-gN.woff2",
+      "family": "Geist",
+      "rawFamily": "Geist",
+      "subfamily": "Regular",
+      "postscript": "Geist-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-cyrillic-wght-normal-BEAKL7Jp.woff2",
+      "family": "Geist",
+      "rawFamily": "Geist",
+      "subfamily": "Regular",
+      "postscript": "Geist-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-latin-ext-wght-normal-DC-KSUi6.woff2",
+      "family": "Geist",
+      "rawFamily": "Geist",
+      "subfamily": "Regular",
+      "postscript": "Geist-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-latin-wght-normal-BgDaEnEv.woff2",
+      "family": "Geist",
+      "rawFamily": "Geist",
+      "subfamily": "Regular",
+      "postscript": "Geist-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-cyrillic-ext-wght-normal-X_5orZeX.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-cyrillic-wght-normal-DiZS0aHC.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-latin-ext-wght-normal-Bwz-egvJ.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-latin-wght-normal-XN7g48iV.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-symbols2-wght-normal-CO5SzqOn.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-mono-vietnamese-wght-normal-DadHysG0.woff2",
+      "family": "Geist Mono",
+      "rawFamily": "Geist Mono",
+      "subfamily": "Regular",
+      "postscript": "GeistMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "geist-vietnamese-wght-normal-6IgcOCM7.woff2",
+      "family": "Geist",
+      "rawFamily": "Geist",
+      "subfamily": "Regular",
+      "postscript": "Geist-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "Geist",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 5,
+      "files": [
+        "geist-cyrillic-ext-wght-normal-DjL33-gN.woff2",
+        "geist-cyrillic-wght-normal-BEAKL7Jp.woff2",
+        "geist-latin-ext-wght-normal-DC-KSUi6.woff2",
+        "geist-latin-wght-normal-BgDaEnEv.woff2",
+        "geist-vietnamese-wght-normal-6IgcOCM7.woff2"
+      ]
+    },
+    {
+      "family": "Geist Mono",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 6,
+      "files": [
+        "geist-mono-cyrillic-ext-wght-normal-X_5orZeX.woff2",
+        "geist-mono-cyrillic-wght-normal-DiZS0aHC.woff2",
+        "geist-mono-latin-ext-wght-normal-Bwz-egvJ.woff2",
+        "geist-mono-latin-wght-normal-XN7g48iV.woff2",
+        "geist-mono-symbols2-wght-normal-CO5SzqOn.woff2",
+        "geist-mono-vietnamese-wght-normal-DadHysG0.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-16T21:16:10.361Z",
+    "tool": "fontkit"
+  }
+}

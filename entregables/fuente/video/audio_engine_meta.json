@@ -1,0 +1,1362 @@
+{
+  "bgm": null,
+  "bgm_pending": false,
+  "voices": [
+    {
+      "frame": 1,
+      "path": "assets/voice/01.wav",
+      "duration_s": 6.97,
+      "words": [
+        {
+          "text": "200.000",
+          "start": 0.6,
+          "end": 1.048
+        },
+        {
+          "text": "toneladas",
+          "start": 1.087,
+          "end": 1.663
+        },
+        {
+          "text": "por",
+          "start": 1.713,
+          "end": 1.905
+        },
+        {
+          "text": "año.",
+          "start": 1.922,
+          "end": 2.178
+        },
+        {
+          "text": "Eso",
+          "start": 2.3,
+          "end": 2.511
+        },
+        {
+          "text": "es",
+          "start": 2.529,
+          "end": 2.67
+        },
+        {
+          "text": "lo",
+          "start": 2.682,
+          "end": 2.823
+        },
+        {
+          "text": "que",
+          "start": 2.835,
+          "end": 3.046
+        },
+        {
+          "text": "se",
+          "start": 3.065,
+          "end": 3.205
+        },
+        {
+          "text": "quema",
+          "start": 3.218,
+          "end": 3.569
+        },
+        {
+          "text": "solo",
+          "start": 3.6,
+          "end": 3.784
+        },
+        {
+          "text": "en",
+          "start": 3.8,
+          "end": 3.892
+        },
+        {
+          "text": "el",
+          "start": 3.9,
+          "end": 3.992
+        },
+        {
+          "text": "parque",
+          "start": 4,
+          "end": 4.276
+        },
+        {
+          "text": "foresto-industrial",
+          "start": 4.3,
+          "end": 5.128
+        },
+        {
+          "text": "de",
+          "start": 5.2,
+          "end": 5.303
+        },
+        {
+          "text": "Santa",
+          "start": 5.312,
+          "end": 5.57
+        },
+        {
+          "text": "Rosa,",
+          "start": 5.592,
+          "end": 5.85
+        },
+        {
+          "text": "en",
+          "start": 5.872,
+          "end": 5.975
+        },
+        {
+          "text": "Corrientes.",
+          "start": 5.984,
+          "end": 6.551
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "path": "assets/voice/02.wav",
+      "duration_s": 12.18,
+      "words": [
+        {
+          "text": "Y",
+          "start": 0.2,
+          "end": 0.336
+        },
+        {
+          "text": "a",
+          "start": 0.348,
+          "end": 0.484
+        },
+        {
+          "text": "eso",
+          "start": 0.496,
+          "end": 0.701
+        },
+        {
+          "text": "se",
+          "start": 0.719,
+          "end": 0.855
+        },
+        {
+          "text": "le",
+          "start": 0.867,
+          "end": 1.003
+        },
+        {
+          "text": "suma",
+          "start": 1.015,
+          "end": 1.287
+        },
+        {
+          "text": "la",
+          "start": 1.311,
+          "end": 1.447
+        },
+        {
+          "text": "cascarilla",
+          "start": 1.459,
+          "end": 2.141
+        },
+        {
+          "text": "de",
+          "start": 2.2,
+          "end": 2.297
+        },
+        {
+          "text": "la",
+          "start": 2.306,
+          "end": 2.403
+        },
+        {
+          "text": "primera",
+          "start": 2.411,
+          "end": 2.751
+        },
+        {
+          "text": "provincia",
+          "start": 2.781,
+          "end": 3.218
+        },
+        {
+          "text": "arrocera",
+          "start": 3.256,
+          "end": 3.644
+        },
+        {
+          "text": "del",
+          "start": 3.678,
+          "end": 3.823
+        },
+        {
+          "text": "país.",
+          "start": 3.836,
+          "end": 4.079
+        },
+        {
+          "text": "No",
+          "start": 4.2,
+          "end": 4.347
+        },
+        {
+          "text": "es",
+          "start": 4.36,
+          "end": 4.507
+        },
+        {
+          "text": "basura:",
+          "start": 4.52,
+          "end": 5.035
+        },
+        {
+          "text": "es",
+          "start": 5.08,
+          "end": 5.227
+        },
+        {
+          "text": "combustible.",
+          "start": 5.24,
+          "end": 6.123
+        },
+        {
+          "text": "Pero",
+          "start": 6.4,
+          "end": 6.645
+        },
+        {
+          "text": "el",
+          "start": 6.667,
+          "end": 6.789
+        },
+        {
+          "text": "que",
+          "start": 6.8,
+          "end": 6.984
+        },
+        {
+          "text": "la",
+          "start": 7,
+          "end": 7.123
+        },
+        {
+          "text": "tiene",
+          "start": 7.133,
+          "end": 7.44
+        },
+        {
+          "text": "no",
+          "start": 7.467,
+          "end": 7.589
+        },
+        {
+          "text": "sabe",
+          "start": 7.6,
+          "end": 7.845
+        },
+        {
+          "text": "quién",
+          "start": 7.867,
+          "end": 8.173
+        },
+        {
+          "text": "la",
+          "start": 8.2,
+          "end": 8.323
+        },
+        {
+          "text": "compra,",
+          "start": 8.333,
+          "end": 8.763
+        },
+        {
+          "text": "cuánto",
+          "start": 8.8,
+          "end": 9.172
+        },
+        {
+          "text": "vale,",
+          "start": 9.205,
+          "end": 9.515
+        },
+        {
+          "text": "ni",
+          "start": 9.542,
+          "end": 9.666
+        },
+        {
+          "text": "si",
+          "start": 9.677,
+          "end": 9.801
+        },
+        {
+          "text": "el",
+          "start": 9.812,
+          "end": 9.936
+        },
+        {
+          "text": "flete",
+          "start": 9.947,
+          "end": 10.257
+        },
+        {
+          "text": "se",
+          "start": 10.284,
+          "end": 10.408
+        },
+        {
+          "text": "come",
+          "start": 10.419,
+          "end": 10.667
+        },
+        {
+          "text": "toda",
+          "start": 10.688,
+          "end": 10.937
+        },
+        {
+          "text": "la",
+          "start": 10.958,
+          "end": 11.082
+        },
+        {
+          "text": "ganancia.",
+          "start": 11.093,
+          "end": 11.651
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "path": "assets/voice/03.wav",
+      "duration_s": 8.34,
+      "words": [
+        {
+          "text": "La",
+          "start": 0.2,
+          "end": 0.352
+        },
+        {
+          "text": "cascarilla",
+          "start": 0.366,
+          "end": 1.127
+        },
+        {
+          "text": "suelta",
+          "start": 1.193,
+          "end": 1.65
+        },
+        {
+          "text": "pesa",
+          "start": 1.69,
+          "end": 1.994
+        },
+        {
+          "text": "tan",
+          "start": 2.021,
+          "end": 2.249
+        },
+        {
+          "text": "poco",
+          "start": 2.269,
+          "end": 2.574
+        },
+        {
+          "text": "que",
+          "start": 2.6,
+          "end": 2.752
+        },
+        {
+          "text": "el",
+          "start": 2.765,
+          "end": 2.866
+        },
+        {
+          "text": "camión",
+          "start": 2.875,
+          "end": 3.179
+        },
+        {
+          "text": "se",
+          "start": 3.205,
+          "end": 3.306
+        },
+        {
+          "text": "llena",
+          "start": 3.315,
+          "end": 3.568
+        },
+        {
+          "text": "de",
+          "start": 3.59,
+          "end": 3.691
+        },
+        {
+          "text": "aire",
+          "start": 3.7,
+          "end": 3.902
+        },
+        {
+          "text": "antes",
+          "start": 3.92,
+          "end": 4.173
+        },
+        {
+          "text": "que",
+          "start": 4.195,
+          "end": 4.347
+        },
+        {
+          "text": "de",
+          "start": 4.36,
+          "end": 4.461
+        },
+        {
+          "text": "carga.",
+          "start": 4.47,
+          "end": 4.774
+        },
+        {
+          "text": "Más",
+          "start": 5,
+          "end": 5.205
+        },
+        {
+          "text": "allá",
+          "start": 5.223,
+          "end": 5.496
+        },
+        {
+          "text": "de",
+          "start": 5.52,
+          "end": 5.657
+        },
+        {
+          "text": "25",
+          "start": 5.669,
+          "end": 5.805
+        },
+        {
+          "text": "kilómetros,",
+          "start": 5.817,
+          "end": 6.569
+        },
+        {
+          "text": "ya",
+          "start": 6.634,
+          "end": 6.771
+        },
+        {
+          "text": "no",
+          "start": 6.783,
+          "end": 6.92
+        },
+        {
+          "text": "conviene.",
+          "start": 6.931,
+          "end": 7.547
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "path": "assets/voice/04.wav",
+      "duration_s": 9.34,
+      "words": [
+        {
+          "text": "Por",
+          "start": 0.2,
+          "end": 0.447
+        },
+        {
+          "text": "eso",
+          "start": 0.468,
+          "end": 0.715
+        },
+        {
+          "text": "creamos",
+          "start": 0.737,
+          "end": 1.313
+        },
+        {
+          "text": "Sobra.",
+          "start": 1.363,
+          "end": 1.857
+        },
+        {
+          "text": "Un",
+          "start": 2,
+          "end": 2.138
+        },
+        {
+          "text": "mapa",
+          "start": 2.15,
+          "end": 2.426
+        },
+        {
+          "text": "de",
+          "start": 2.45,
+          "end": 2.588
+        },
+        {
+          "text": "oferta",
+          "start": 2.6,
+          "end": 3.014
+        },
+        {
+          "text": "y",
+          "start": 3.05,
+          "end": 3.188
+        },
+        {
+          "text": "demanda",
+          "start": 3.2,
+          "end": 3.683
+        },
+        {
+          "text": "de",
+          "start": 3.725,
+          "end": 3.863
+        },
+        {
+          "text": "biomasa",
+          "start": 3.875,
+          "end": 4.358
+        },
+        {
+          "text": "que,",
+          "start": 4.4,
+          "end": 4.676
+        },
+        {
+          "text": "para",
+          "start": 4.7,
+          "end": 4.93
+        },
+        {
+          "text": "cada",
+          "start": 4.95,
+          "end": 5.18
+        },
+        {
+          "text": "vendedor",
+          "start": 5.2,
+          "end": 5.66
+        },
+        {
+          "text": "y",
+          "start": 5.7,
+          "end": 5.815
+        },
+        {
+          "text": "cada",
+          "start": 5.825,
+          "end": 6.055
+        },
+        {
+          "text": "comprador,",
+          "start": 6.075,
+          "end": 6.65
+        },
+        {
+          "text": "responde",
+          "start": 6.7,
+          "end": 7.131
+        },
+        {
+          "text": "una",
+          "start": 7.168,
+          "end": 7.33
+        },
+        {
+          "text": "sola",
+          "start": 7.344,
+          "end": 7.559
+        },
+        {
+          "text": "pregunta:",
+          "start": 7.578,
+          "end": 8.063
+        },
+        {
+          "text": "¿cierra",
+          "start": 8.105,
+          "end": 8.482
+        },
+        {
+          "text": "el",
+          "start": 8.515,
+          "end": 8.622
+        },
+        {
+          "text": "negocio?",
+          "start": 8.632,
+          "end": 9.063
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "path": "assets/voice/05.wav",
+      "duration_s": 9.6,
+      "words": [
+        {
+          "text": "Molinos",
+          "start": 0.2,
+          "end": 0.785
+        },
+        {
+          "text": "Ala,",
+          "start": 0.836,
+          "end": 1.171
+        },
+        {
+          "text": "en",
+          "start": 1.2,
+          "end": 1.367
+        },
+        {
+          "text": "Mercedes,",
+          "start": 1.382,
+          "end": 2.135
+        },
+        {
+          "text": "quiere",
+          "start": 2.2,
+          "end": 2.47
+        },
+        {
+          "text": "venderle",
+          "start": 2.493,
+          "end": 2.853
+        },
+        {
+          "text": "cascarilla",
+          "start": 2.884,
+          "end": 3.334
+        },
+        {
+          "text": "al",
+          "start": 3.373,
+          "end": 3.463
+        },
+        {
+          "text": "Frigorífico",
+          "start": 3.471,
+          "end": 3.966
+        },
+        {
+          "text": "Duhalde,",
+          "start": 4.009,
+          "end": 4.369
+        },
+        {
+          "text": "a",
+          "start": 4.4,
+          "end": 4.584
+        },
+        {
+          "text": "88",
+          "start": 4.6,
+          "end": 4.784
+        },
+        {
+          "text": "kilómetros.",
+          "start": 4.8,
+          "end": 5.812
+        },
+        {
+          "text": "Si",
+          "start": 6.2,
+          "end": 6.342
+        },
+        {
+          "text": "va",
+          "start": 6.354,
+          "end": 6.495
+        },
+        {
+          "text": "suelta,",
+          "start": 6.508,
+          "end": 7.003
+        },
+        {
+          "text": "el",
+          "start": 7.046,
+          "end": 7.188
+        },
+        {
+          "text": "flete",
+          "start": 7.2,
+          "end": 7.554
+        },
+        {
+          "text": "se",
+          "start": 7.585,
+          "end": 7.726
+        },
+        {
+          "text": "come",
+          "start": 7.738,
+          "end": 8.022
+        },
+        {
+          "text": "toda",
+          "start": 8.046,
+          "end": 8.329
+        },
+        {
+          "text": "la",
+          "start": 8.354,
+          "end": 8.495
+        },
+        {
+          "text": "ganancia.",
+          "start": 8.508,
+          "end": 9.145
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "path": "assets/voice/06.wav",
+      "duration_s": 7.84,
+      "words": [
+        {
+          "text": "Pelletizada,",
+          "start": 0.2,
+          "end": 0.961
+        },
+        {
+          "text": "la",
+          "start": 1.028,
+          "end": 1.154
+        },
+        {
+          "text": "misma",
+          "start": 1.166,
+          "end": 1.483
+        },
+        {
+          "text": "cascarilla",
+          "start": 1.51,
+          "end": 2.145
+        },
+        {
+          "text": "llega",
+          "start": 2.2,
+          "end": 2.594
+        },
+        {
+          "text": "12",
+          "start": 2.629,
+          "end": 2.786
+        },
+        {
+          "text": "veces",
+          "start": 2.8,
+          "end": 3.194
+        },
+        {
+          "text": "más",
+          "start": 3.229,
+          "end": 3.465
+        },
+        {
+          "text": "lejos,",
+          "start": 3.486,
+          "end": 3.959
+        },
+        {
+          "text": "generando",
+          "start": 4.1,
+          "end": 4.853
+        },
+        {
+          "text": "23%",
+          "start": 4.918,
+          "end": 5.169
+        },
+        {
+          "text": "de",
+          "start": 5.191,
+          "end": 5.358
+        },
+        {
+          "text": "margen",
+          "start": 5.373,
+          "end": 5.875
+        },
+        {
+          "text": "para",
+          "start": 5.918,
+          "end": 6.253
+        },
+        {
+          "text": "el",
+          "start": 6.282,
+          "end": 6.449
+        },
+        {
+          "text": "molino.",
+          "start": 6.464,
+          "end": 7.049
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "path": "assets/voice/07.wav",
+      "duration_s": 5.78,
+      "words": [
+        {
+          "text": "Y",
+          "start": 0.15,
+          "end": 0.269
+        },
+        {
+          "text": "el",
+          "start": 0.279,
+          "end": 0.398
+        },
+        {
+          "text": "frigorífico",
+          "start": 0.408,
+          "end": 1.06
+        },
+        {
+          "text": "ahorra",
+          "start": 1.117,
+          "end": 1.473
+        },
+        {
+          "text": "15",
+          "start": 1.504,
+          "end": 1.623
+        },
+        {
+          "text": "millones",
+          "start": 1.633,
+          "end": 2.107
+        },
+        {
+          "text": "de",
+          "start": 2.149,
+          "end": 2.267
+        },
+        {
+          "text": "pesos",
+          "start": 2.278,
+          "end": 2.574
+        },
+        {
+          "text": "por",
+          "start": 2.6,
+          "end": 2.805
+        },
+        {
+          "text": "mes",
+          "start": 2.823,
+          "end": 3.028
+        },
+        {
+          "text": "frente",
+          "start": 3.046,
+          "end": 3.457
+        },
+        {
+          "text": "al",
+          "start": 3.492,
+          "end": 3.629
+        },
+        {
+          "text": "gas",
+          "start": 3.641,
+          "end": 3.846
+        },
+        {
+          "text": "envasado",
+          "start": 3.864,
+          "end": 4.411
+        },
+        {
+          "text": "que",
+          "start": 4.459,
+          "end": 4.664
+        },
+        {
+          "text": "utiliza",
+          "start": 4.682,
+          "end": 5.161
+        },
+        {
+          "text": "hoy.",
+          "start": 5.203,
+          "end": 5.476
+        }
+      ]
+    },
+    {
+      "frame": 8,
+      "path": "assets/voice/08.wav",
+      "duration_s": 10.17,
+      "words": [
+        {
+          "text": "Publicás",
+          "start": 0.5,
+          "end": 0.956
+        },
+        {
+          "text": "una",
+          "start": 0.996,
+          "end": 1.167
+        },
+        {
+          "text": "oferta",
+          "start": 1.182,
+          "end": 1.524
+        },
+        {
+          "text": "o",
+          "start": 1.554,
+          "end": 1.668
+        },
+        {
+          "text": "una",
+          "start": 1.678,
+          "end": 1.849
+        },
+        {
+          "text": "demanda",
+          "start": 1.864,
+          "end": 2.263
+        },
+        {
+          "text": "en",
+          "start": 2.298,
+          "end": 2.412
+        },
+        {
+          "text": "un",
+          "start": 2.422,
+          "end": 2.536
+        },
+        {
+          "text": "minuto,",
+          "start": 2.546,
+          "end": 2.945
+        },
+        {
+          "text": "sin",
+          "start": 2.98,
+          "end": 3.151
+        },
+        {
+          "text": "cuenta.",
+          "start": 3.166,
+          "end": 3.565
+        },
+        {
+          "text": "Ves",
+          "start": 3.7,
+          "end": 3.937
+        },
+        {
+          "text": "el",
+          "start": 3.957,
+          "end": 4.115
+        },
+        {
+          "text": "contacto,",
+          "start": 4.129,
+          "end": 4.838
+        },
+        {
+          "text": "te",
+          "start": 4.9,
+          "end": 5.014
+        },
+        {
+          "text": "avisamos",
+          "start": 5.024,
+          "end": 5.479
+        },
+        {
+          "text": "cuando",
+          "start": 5.519,
+          "end": 5.861
+        },
+        {
+          "text": "aparece",
+          "start": 5.89,
+          "end": 6.289
+        },
+        {
+          "text": "un",
+          "start": 6.324,
+          "end": 6.438
+        },
+        {
+          "text": "negocio",
+          "start": 6.448,
+          "end": 6.846
+        },
+        {
+          "text": "que",
+          "start": 6.881,
+          "end": 7.052
+        },
+        {
+          "text": "cierra,",
+          "start": 7.067,
+          "end": 7.465
+        },
+        {
+          "text": "y",
+          "start": 7.5,
+          "end": 7.621
+        },
+        {
+          "text": "cada",
+          "start": 7.631,
+          "end": 7.873
+        },
+        {
+          "text": "número",
+          "start": 7.894,
+          "end": 8.257
+        },
+        {
+          "text": "tiene",
+          "start": 8.289,
+          "end": 8.591
+        },
+        {
+          "text": "su",
+          "start": 8.617,
+          "end": 8.738
+        },
+        {
+          "text": "fuente",
+          "start": 8.749,
+          "end": 9.111
+        },
+        {
+          "text": "a",
+          "start": 9.143,
+          "end": 9.264
+        },
+        {
+          "text": "la",
+          "start": 9.274,
+          "end": 9.395
+        },
+        {
+          "text": "vista.",
+          "start": 9.406,
+          "end": 9.768
+        }
+      ]
+    },
+    {
+      "frame": 9,
+      "path": "assets/voice/09.wav",
+      "duration_s": 16.92,
+      "words": [
+        {
+          "text": "Para",
+          "start": 0.2,
+          "end": 0.501
+        },
+        {
+          "text": "el",
+          "start": 0.527,
+          "end": 0.678
+        },
+        {
+          "text": "aserradero,",
+          "start": 0.691,
+          "end": 1.519
+        },
+        {
+          "text": "un",
+          "start": 1.591,
+          "end": 1.741
+        },
+        {
+          "text": "residuo",
+          "start": 1.755,
+          "end": 2.281
+        },
+        {
+          "text": "se",
+          "start": 2.327,
+          "end": 2.478
+        },
+        {
+          "text": "vuelve",
+          "start": 2.491,
+          "end": 2.943
+        },
+        {
+          "text": "un",
+          "start": 2.982,
+          "end": 3.132
+        },
+        {
+          "text": "ingreso.",
+          "start": 3.145,
+          "end": 3.748
+        },
+        {
+          "text": "Para",
+          "start": 4,
+          "end": 4.261
+        },
+        {
+          "text": "la",
+          "start": 4.284,
+          "end": 4.415
+        },
+        {
+          "text": "industria,",
+          "start": 4.426,
+          "end": 5.08
+        },
+        {
+          "text": "energía",
+          "start": 5.137,
+          "end": 5.594
+        },
+        {
+          "text": "local",
+          "start": 5.634,
+          "end": 5.961
+        },
+        {
+          "text": "más",
+          "start": 5.989,
+          "end": 6.186
+        },
+        {
+          "text": "barata.",
+          "start": 6.203,
+          "end": 6.66
+        },
+        {
+          "text": "Para",
+          "start": 6.8,
+          "end": 7.069
+        },
+        {
+          "text": "Corrientes,",
+          "start": 7.092,
+          "end": 7.832
+        },
+        {
+          "text": "menos",
+          "start": 7.896,
+          "end": 8.232
+        },
+        {
+          "text": "humo,",
+          "start": 8.262,
+          "end": 8.598
+        },
+        {
+          "text": "menos",
+          "start": 8.627,
+          "end": 8.963
+        },
+        {
+          "text": "gas",
+          "start": 8.992,
+          "end": 9.194
+        },
+        {
+          "text": "y",
+          "start": 9.212,
+          "end": 9.346
+        },
+        {
+          "text": "datos",
+          "start": 9.358,
+          "end": 9.694
+        },
+        {
+          "text": "para",
+          "start": 9.723,
+          "end": 9.992
+        },
+        {
+          "text": "decidir.",
+          "start": 10.015,
+          "end": 10.553
+        },
+        {
+          "text": "Un",
+          "start": 11,
+          "end": 11.15
+        },
+        {
+          "text": "solo",
+          "start": 11.163,
+          "end": 11.462
+        },
+        {
+          "text": "acuerdo",
+          "start": 11.488,
+          "end": 12.012
+        },
+        {
+          "text": "evita",
+          "start": 12.058,
+          "end": 12.432
+        },
+        {
+          "text": "unas",
+          "start": 12.464,
+          "end": 12.764
+        },
+        {
+          "text": "500",
+          "start": 12.79,
+          "end": 13.014
+        },
+        {
+          "text": "toneladas",
+          "start": 13.034,
+          "end": 13.708
+        },
+        {
+          "text": "de",
+          "start": 13.766,
+          "end": 13.916
+        },
+        {
+          "text": "dióxido",
+          "start": 13.929,
+          "end": 14.453
+        },
+        {
+          "text": "de",
+          "start": 14.498,
+          "end": 14.648
+        },
+        {
+          "text": "carbono",
+          "start": 14.661,
+          "end": 15.185
+        },
+        {
+          "text": "por",
+          "start": 15.231,
+          "end": 15.455
+        },
+        {
+          "text": "año.",
+          "start": 15.475,
+          "end": 15.774
+        }
+      ]
+    },
+    {
+      "frame": 10,
+      "path": "assets/voice/10.wav",
+      "duration_s": 8.17,
+      "words": [
+        {
+          "text": "Por",
+          "start": 0.4,
+          "end": 0.601
+        },
+        {
+          "text": "esto",
+          "start": 0.618,
+          "end": 0.886
+        },
+        {
+          "text": "los",
+          "start": 0.909,
+          "end": 1.11
+        },
+        {
+          "text": "invitamos",
+          "start": 1.127,
+          "end": 1.729
+        },
+        {
+          "text": "a",
+          "start": 1.782,
+          "end": 1.916
+        },
+        {
+          "text": "probar",
+          "start": 1.927,
+          "end": 2.329
+        },
+        {
+          "text": "Sobra,",
+          "start": 2.364,
+          "end": 2.765
+        },
+        {
+          "text": "que",
+          "start": 2.9,
+          "end": 3.135
+        },
+        {
+          "text": "pasa",
+          "start": 3.156,
+          "end": 3.469
+        },
+        {
+          "text": "del",
+          "start": 3.496,
+          "end": 3.731
+        },
+        {
+          "text": "residuo",
+          "start": 3.752,
+          "end": 4.3
+        },
+        {
+          "text": "al",
+          "start": 4.348,
+          "end": 4.505
+        },
+        {
+          "text": "mercado,",
+          "start": 4.519,
+          "end": 5.145
+        },
+        {
+          "text": "con",
+          "start": 5.2,
+          "end": 5.464
+        },
+        {
+          "text": "un",
+          "start": 5.487,
+          "end": 5.663
+        },
+        {
+          "text": "número",
+          "start": 5.678,
+          "end": 6.206
+        },
+        {
+          "text": "que",
+          "start": 6.252,
+          "end": 6.516
+        },
+        {
+          "text": "te",
+          "start": 6.539,
+          "end": 6.715
+        },
+        {
+          "text": "cierra.",
+          "start": 6.73,
+          "end": 7.346
+        }
+      ]
+    }
+  ],
+  "sfx": []
+}

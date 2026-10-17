@@ -1,16 +1,9 @@
-# Genera entregables/03-pitch-deck.pptx: deck corto de 7 slides (pitch de 2 minutos), 16:9, editable.
+# Genera entregables/03-pitch-deck.pptx: deck corto de 8 slides de Sobra. (Identidad Cobalto), 16:9, editable.
 # El texto que se dice va en las notas del orador de cada slide.
 #
 # Uso:
 #   python entregables/fuente/deck/build-pptx.py [--font "Segoe UI"] [--html <archivo.html>]
-#     --font  cambia la tipografía sans (por defecto Geist; si no está instalada, PowerPoint la sustituye).
-#     --html  además escribe una vista HTML idéntica (mismas cajas, tamaños y textos) para validarla
-#             con Playwright: que ningún texto desborde su caja (ver el reporte de validación).
-#
-# Requiere python-pptx (pip install --user python-pptx). No es dependencia del proyecto.
-# Coordenadas en px de un lienzo 1920x1080 (1 px = 6350 EMU; 1 px de fuente = 0,5 pt).
-# Antes de guardar valida: cajas dentro del margen de seguridad (0,6 in = 86 px), ninguna caja
-# de contenido se toca con otra (separación mínima 8 px) y ningún texto de contenido baja de 20 pt.
+import math
 import sys
 from pathlib import Path
 
@@ -26,36 +19,49 @@ from lxml import etree
 HERE = Path(__file__).resolve().parent
 IMG = HERE / "img"
 OUT = HERE.parent.parent / "03-pitch-deck.pptx"
-DEMO = "https://ideathon-agro-9u3t-flax.vercel.app/"
+DEMO = "https://ideathon-agro-web.vercel.app/"
 
-SANS = sys.argv[sys.argv.index("--font") + 1] if "--font" in sys.argv else "Geist"
-MONO = "Geist Mono"
+SANS = sys.argv[sys.argv.index("--font") + 1] if "--font" in sys.argv else "Segoe UI"
+MONO = "Consolas"
 HTML_OUT = Path(sys.argv[sys.argv.index("--html") + 1]).resolve() if "--html" in sys.argv else None
 
 W, H = 1920, 1080
 SAFE = 86  # 0,6 in
-GAP = 8
+GAP = 16
 MIN_BODY_PX = 40  # 20 pt
-LH = 1.3  # alto de línea "simple" asumido para PowerPoint (conservador), en múltiplos del tamaño
+LH = 1.32  # alto de línea conservador para PowerPoint en Windows
 
+# Paleta Sobra Cobalt Instrument
 C = {
-    "canvas": "f7f8f7", "surface": "ffffff", "line": "dfe4e1", "fg": "141a17", "muted": "55605b",
-    "subtle": "5f6a65", "sage": "3a7254", "sage_solid": "447d5f", "coral": "a5523c", "white": "ffffff",
+    "canvas": "eef3fd",
+    "surface": "ffffff",
+    "subtle_bg": "e6edfb",
+    "line": "d3def3",
+    "fg": "0a1433",
+    "muted": "3d4d7a",
+    "subtle": "5b6b94",
+    "cobalt": "2150e8",
+    "cobalt_dark": "0b1640",
+    "cobalt_surface": "101f54",
+    "cobalt_line": "1f2f66",
+    "cobalt_light": "7aa7ff",
+    "green": "17784a",
+    "coral": "b5402a",
+    "white": "ffffff",
 }
 
 
-# ---------------- modelo de slides ----------------
 def R(t, size, color="fg", b=False, mono=False, sp=None, link=None):
-    if sp is None:  # tracking negativo en titulares grandes, como el deck (-0,02 a -0,03 em)
-        sp = -0.025 * size if (b and not mono and size >= 64) else 0
+    if sp is None:
+        sp = -0.02 * size if (b and not mono and size >= 64) else 0
     return dict(t=t, size=size, color=color, b=b, mono=mono, sp=sp, link=link)
 
 
-def LBL(t, size=40, color="subtle"):
-    return R(t.upper(), size, color, mono=True, sp=0.08 * size)
+def LBL(t, size=40, color="cobalt"):
+    return R(t.upper(), size, color, mono=True, b=True, sp=0.04 * size)
 
 
-def T(x, y, w, h, paras, align="left", anchor="top", line=1.0, role="content"):
+def T(x, y, w, h, paras, align="left", anchor="top", line=1.05, role="content"):
     if isinstance(paras, dict):
         paras = [[paras]]
     elif paras and isinstance(paras[0], dict):
@@ -63,140 +69,196 @@ def T(x, y, w, h, paras, align="left", anchor="top", line=1.0, role="content"):
     return dict(kind="text", x=x, y=y, w=w, h=h, paras=paras, align=align, anchor=anchor, line=line, role=role)
 
 
-def I(name, x, y, w, h, pos=(0, 0), border=True, role="content", link=None):
+def I(name, x, y, w, h, pos=(0.5, 0.5), border=True, role="content", link=None):
     return dict(kind="img", name=name, x=x, y=y, w=w, h=h, pos=pos, border=border, role=role, link=link)
 
 
-def B(x, y, w, h, fill, alpha=1.0, role="bg"):
-    return dict(kind="rect", x=x, y=y, w=w, h=h, fill=fill, alpha=alpha, role=role)
+def B(x, y, w, h, fill, alpha=1.0, role="bg", border_color=None):
+    return dict(kind="rect", x=x, y=y, w=w, h=h, fill=fill, alpha=alpha, role=role, border_color=border_color)
 
 
 SLIDES = []
 
 
-def slide(els, notes, chrome=True):
+def slide(els, notes, dark=False, chrome=True):
     n = len(SLIDES) + 1
     if chrome:
-        els = els + [I("icon.png", 1744, 96, 64, 64, border=False, role="chrome"),
-                     T(1608, 950, 200, 40, R(f"{n:02d} / 07", 28, "subtle", mono=True), align="right", role="chrome")]
-    SLIDES.append(dict(els=els, notes=notes))
+        num_color = "cobalt_light" if dark else "subtle"
+        els = els + [
+            I("icon.png", 1760, 88, 64, 64, border=False, role="chrome"),
+            T(1580, 936, 244, 54, R(f"{n:02d} / 08", 32, num_color, mono=True, b=True), align="right", role="chrome"),
+        ]
+    SLIDES.append(dict(els=els, notes=notes, dark=dark))
 
 
-# 1 · Portada
+# 1 · Portada (Dark Cobalt)
 slide([
-    I("icon.png", 112, 100, 150, 150, border=False),
-    T(112, 262, 880, 400, [[R("Circular", 150, b=True)], [R("NEA", 150, "sage_solid", b=True)]], line=0.95),
-    T(112, 676, 880, 100, R("El residuo que vuelve ingreso", 64), line=1.1),
-    T(112, 800, 880, 70, R("Equipo 13", 48, b=True)),
-    T(112, 890, 880, 60, LBL("Ideathon NEA Tech 2026", 40, "muted")),
-    I("03-pellet.jpg", 1040, 180, 768, 814, pos=(0.35, 0.3)),
-], chrome=False, notes=(
-    "Somos el Equipo 13 y traemos Circular NEA: una plataforma para que los residuos de la agroindustria "
-    "y la foresto-industria de Corrientes encuentren comprador, con números que muestran si el negocio cierra."))
+    I("icon.png", 104, 104, 112, 112, border=False),
+    T(240, 100, 560, 140, [R("Sobra", 96, "white", b=True), R(".", 96, "cobalt_light", b=True)]),
+    T(104, 272, 740, 260, [
+        [R("Del residuo", 88, "white", b=True)],
+        [R("al mercado.", 88, "cobalt_light", b=True)],
+    ], line=1.0),
+    T(104, 556, 740, 200, R("El mapa que dice si tu biomasa cierra después del flete.", 44, "line"), line=1.12),
+    T(104, 780, 740, 72, R("Equipo 13", 48, "white", b=True)),
+    T(104, 872, 740, 64, LBL("Ideathon NEA Tech 2026", 40, "cobalt_light")),
+    # 16:9 exacto sin recortar (928 x 522)
+    I("00-portada.png", 896, 260, 928, 522, border=True),
+], dark=True, chrome=False, notes=(
+    "Somos el Equipo 13 y creamos Sobra: un mapa de oferta y demanda de biomasa para que los residuos de aserraderos "
+    "y molinos arroceros de Corrientes encuentren comprador con un número que dice si el negocio cierra."))
 
-# 2 · Problema
+# 2 · El Problema
 slide([
-    I("app-light.png", 0, 0, W, H, pos=(0.5, 0.5), border=False, role="bg"),
-    B(0, 0, W, H, "canvas", alpha=0.9),
-    T(112, 110, 1560, 150, R("Se quema lo que vale", 108, b=True)),
-    T(112, 370, 820, 236, [R("48,5", 150, b=True, mono=True), R(" %", 72, b=True, mono=True)]),
-    T(112, 620, 780, 140, R("del arroz del país sale de Corrientes", 44, "muted"), line=1.15),
-    T(1000, 370, 808, 236, [R("516.771", 150, b=True, mono=True), R(" ha", 72, b=True, mono=True)]),
-    T(1000, 620, 808, 140, R("forestadas: primera provincia forestal", 44, "muted"), line=1.15),
-    T(112, 846, 1560, 60, LBL("Dato real · Bichos de Campo 2025/26 · CONICET 2019", 40, "sage")),
+    T(104, 96, 1200, 64, LBL("01 · El problema", 40, "cobalt")),
+    T(104, 180, 1600, 130, R("Se quema lo que es combustible", 84, "fg", b=True)),
+    B(104, 340, 540, 440, "surface", border_color="line"),
+    T(144, 380, 460, 140, [R("200 mil", 84, "coral", b=True, mono=True)]),
+    T(144, 540, 460, 210, R("toneladas al año se queman solo en Santa Rosa.", 42, "muted"), line=1.12),
+    B(690, 340, 540, 440, "surface", border_color="line"),
+    T(730, 380, 460, 140, [R("48,5 %", 84, "cobalt", b=True, mono=True)]),
+    T(730, 540, 460, 210, R("del arroz del país sale de Corrientes.", 42, "muted"), line=1.12),
+    B(1276, 340, 540, 440, "surface", border_color="line"),
+    T(1316, 380, 460, 140, [R("516 mil", 84, "fg", b=True, mono=True)]),
+    T(1316, 540, 460, 210, R("hectáreas forestadas: primera potencia nacional.", 42, "muted"), line=1.12),
+    T(104, 816, 1440, 130, R("Falta saber quién compra y si el camión se come la ganancia.", 44, "fg", b=True)),
 ], notes=(
-    "Corrientes produjo el 48,5 % del arroz del país en la campaña 2025/26 y tiene 516.771 hectáreas forestadas. "
-    "Eso deja montañas de cascarilla y aserrín que en gran parte se queman o se tiran. "
-    "Estimamos unas 150.000 toneladas de cascarilla por año solo del arroz."))
+    "200.000 toneladas por año se queman solo en Santa Rosa, más la cascarilla del primer productor arrocero del país. "
+    "No es basura: es combustible. Pero el que la tiene no sabe quién la compra ni si el flete se come la ganancia."))
 
-# 3 · Por qué
+# 3 · Por qué pasa (El flete)
 slide([
-    T(112, 110, 1560, 140, R("El flete se come la ganancia", 96, b=True)),
-    I("truck.png", 112, 400, 320, 320, border=False),
-    T(500, 330, 1300, 376, [R("108", 240, b=True, mono=True), R(" kg/m³", 96, b=True, mono=True)]),
-    T(500, 716, 1300, 150, R("Cascarilla suelta: el camión se llena de aire", 48, "muted"), line=1.15),
+    T(104, 96, 1200, 64, LBL("02 · El cuello de botella", 40, "cobalt")),
+    T(104, 180, 1600, 130, R("Un camión lleno de aire", 84, "fg", b=True)),
+    B(104, 340, 820, 540, "surface", border_color="line"),
+    T(152, 376, 724, 64, LBL("Cascarilla suelta · 108 kg/m³", 40, "coral")),
+    T(152, 460, 724, 150, R("25 km máx", 92, "coral", b=True, mono=True)),
+    T(152, 632, 724, 220, R("70 % del camión viaja con aire: solo entran 9,7 t de las 30 t posibles.", 42, "muted"), line=1.12),
+    B(992, 340, 820, 540, "surface", border_color="line"),
+    T(1040, 376, 724, 64, LBL("En pellet · 650 kg/m³", 40, "green")),
+    T(1040, 460, 724, 150, R("310 km (12x)", 92, "green", b=True, mono=True)),
+    T(1040, 632, 724, 220, R("Carga las 30 t completas y multiplica 12 veces el radio rentable.", 42, "muted"), line=1.12),
 ], notes=(
-    "¿Por qué pasa? La cascarilla suelta pesa 108 kilos por metro cúbico: el camión se llena de aire antes que de peso "
-    "y el flete se come la ganancia. Además falta información sobre quién compra, y un aserradero chico solo no llena un camión."))
+    "La cascarilla suelta pesa tan poco que el camión se llena de aire antes que de carga: más allá de 25 km no conviene. "
+    "En pellet entra toda la carga y viaja 12 veces más lejos, hasta 310 km."))
 
-# 4 · Solución
+# 4 · La solución: Sobra.
 slide([
-    T(112, 104, 760, 296, R("¿Cierra el negocio?", 104, b=True)),
-    T(112, 436, 80, 60, R("01", 40, "sage", mono=True)),
-    T(200, 420, 680, 140, R("Mapa de residuos", 52, b=True), line=1.1),
-    T(112, 586, 80, 60, R("02", 40, "sage", mono=True)),
-    T(200, 570, 680, 140, R("Margen después del flete", 52, b=True), line=1.1),
-    T(112, 736, 80, 60, R("03", 40, "sage", mono=True)),
-    T(200, 720, 680, 140, R("Semáforo: cierra o no", 52, b=True), line=1.1),
-    I("03-pellet.jpg", 920, 200, 888, 730, pos=(0.62, 0.2)),
+    T(104, 96, 700, 64, LBL("03 · La solución", 40, "cobalt")),
+    T(104, 180, 720, 240, [
+        [R("¿Cierra el", 84, "fg", b=True)],
+        [R("negocio?", 84, "cobalt", b=True)],
+    ], line=1.0),
+    T(104, 450, 720, 130, [R("01  ", 42, "cobalt", b=True, mono=True), R("13 plantas y 10 industrias reales", 42, "fg", b=True)]),
+    T(104, 600, 720, 130, [R("02  ", 42, "cobalt", b=True, mono=True), R("Simula suelto o pellet en 1 clic", 42, "fg", b=True)]),
+    T(104, 750, 720, 130, [R("03  ", 42, "cobalt", b=True, mono=True), R("Semáforo de margen neto real", 42, "fg", b=True)]),
+    # 16:9 exacto sin recortar (960 x 540)
+    I("01-inicio.png", 856, 260, 960, 540, border=True),
 ], notes=(
-    "Circular NEA es un mapa con 13 plantas y 10 compradores reales de la región, más lo que publique cualquiera. "
-    "Elegís tu planta, un comprador y cómo vendés: suelto, compactado o pellet. "
-    "La app calcula el margen después del flete y lo muestra con un semáforo."))
+    "Por eso creamos Sobra: un mapa de oferta y demanda de biomasa que para cada vendedor y cada comprador "
+    "responde una sola pregunta: ¿cierra el negocio?"))
 
-# 5 · Momento clave
+# 5 · El momento clave: De Suelto a Pellet
 slide([
-    T(112, 110, 1500, 140, R("Pelletizar cambia el mapa", 96, b=True)),
-    I("02-suelto.jpg", 112, 260, 820, 350, pos=(0.2, 0.35)),
-    I("03-pellet.jpg", 988, 260, 820, 350, pos=(0.2, 0.35)),
-    T(112, 624, 820, 56, LBL("Suelto", 40, "coral")),
-    T(988, 624, 820, 56, LBL("Pellet", 40, "sage")),
-    T(112, 700, 1020, 176, [R("25", 132, "coral", b=True, mono=True), R(" → ", 132, b=True, mono=True),
-                            R("310 km", 132, "sage", b=True, mono=True)]),
-    T(112, 884, 1020, 64, R("~12 veces más radio. Ejemplo con supuestos estimados.", 40, "muted"), line=1.1),
-    T(1160, 700, 648, 90, [R("De ", 64, b=True), R("rojo", 64, "coral", b=True), R(" a ", 64, b=True), R("verde", 64, "sage", b=True)]),
-    T(1160, 800, 648, 140, [[R("Ahorro frente al GLP,", 44, "muted")], [R("visible al instante", 44, "muted")]], line=1.15),
+    T(104, 96, 1500, 64, LBL("04 · Demo real · Molinos Ala a Frigorífico Duhalde (88 km)", 40, "cobalt")),
+    T(104, 176, 1600, 115, R("De pérdida a ganancia en un clic", 76, "fg", b=True)),
+    # Izquierda 16:9 (800 x 450)
+    I("02-suelto.png", 104, 310, 800, 450, border=True),
+    T(104, 780, 800, 60, LBL("Suelto · Radio 25 km · No cierra", 40, "coral")),
+    T(104, 856, 800, 76, R("-$ 2,26 M / mes (-281 %)", 48, "coral", b=True, mono=True)),
+    # Derecha 16:9 (800 x 450)
+    I("03-pellet.png", 960, 310, 800, 450, border=True),
+    T(960, 780, 800, 60, LBL("Pellet · Radio 310 km · Cierra", 40, "green")),
+    T(960, 856, 600, 76, R("+$ 1,93 M / mes", 48, "green", b=True, mono=True)),
 ], notes=(
-    "Este es el momento clave. Con la cascarilla suelta, el radio viable es de unos 25 km por ruta. "
-    "Pelletizada llega a unos 310 km: unas 12 veces más. El semáforo pasa de rojo a verde y el comprador ve "
-    "cuánto ahorra frente a su combustible actual. Es un ejemplo del modelo con supuestos estimados, "
-    "no un resultado de esas empresas; los precios reales se validan en el piloto."))
+    "Molinos Ala en Mercedes quiere venderle al Frigorífico Duhalde a 88 km. Si va suelta, pierde 2,26 millones por mes. "
+    "Con un clic a pellet, viaja 12 veces más lejos y el trato deja casi 2 millones de pesos por mes."))
 
-# 6 · Mercado vivo
+# 6 · Ahorro para el comprador + Fuentes oficiales
 slide([
-    T(112, 110, 1560, 140, R("Publicá. Conectá. Te avisamos.", 96, b=True)),
-    I("04-publicar.jpg", 112, 270, 528, 540, pos=(0, 0)),
-    I("05-contacto.jpg", 696, 270, 528, 540, pos=(0, 0)),
-    I("06-campanita.jpg", 1280, 270, 528, 540, pos=(0.5, 0)),
-    T(112, 836, 528, 70, R("En un minuto", 44, b=True)),
-    T(696, 836, 528, 70, R("WhatsApp en un click", 44, b=True)),
-    T(1280, 836, 528, 70, R("Aviso de match", 44, b=True)),
+    T(104, 96, 760, 64, LBL("05 · Ahorro y fuentes", 40, "cobalt")),
+    B(104, 184, 720, 330, "cobalt_dark"),
+    T(144, 212, 640, 120, R("-$ 15 M / mes", 76, "cobalt_light", b=True, mono=True)),
+    T(144, 352, 640, 140, R("Ahorra el frigorífico frente al gas envasado (GLP).", 42, "white"), line=1.12),
+    B(104, 544, 720, 360, "surface", border_color="line"),
+    T(144, 576, 640, 64, LBL("Cada número con su fuente", 40, "cobalt")),
+    T(144, 660, 640, 210, R("Tarifas FETRA 2026, GLP 2026, CONICET e IPCC con etiqueta Real o Estimado.", 42, "muted"), line=1.12),
+    # Derecha 16:9 (960 x 540)
+    I("07-fuentes.png", 856, 260, 960, 540, border=True),
 ], notes=(
-    "Además es un mercado vivo y sin crear cuenta: publicás en un minuto, ves el contacto y el WhatsApp con un click, "
-    "y la app te avisa cuando aparece un negocio compatible. Las publicaciones entran marcadas como sin verificar."))
+    "Y al frigorífico le ahorra 15 millones por mes frente al gas envasado que utiliza hoy. "
+    "Además, cada número de la plataforma muestra si es real o estimado y enlaza a su fuente oficial."))
 
-# 7 · Cierre
+# 7 · Mercado vivo + Modelo de negocio e Impacto
 slide([
-    T(112, 110, 1500, 150, R("Probalo ahora", 108, b=True)),
-    I("qr-demo.png", 112, 300, 380, 380, link=DEMO),
-    T(560, 330, 1248, 100, R("ideathon-agro-9u3t-flax.vercel.app", 64, "sage", b=True, link=DEMO)),
-    T(560, 470, 1248, 90, R("Equipo 13", 64, b=True)),
-    B(112, 760, 1696, 2, "line"),
-    T(112, 790, 1696, 150, [[R("Programado con asistencia de IA. Idea y diseño: Equipo 13.", 40, "muted")],
-                            [R("Componentes previos: no aplica (no reutilizamos desarrollos propios anteriores).", 40, "muted")]]),
+    T(104, 96, 1500, 64, LBL("06 · Mercado activo e impacto", 40, "cobalt")),
+    T(104, 176, 800, 104, R("Publicás en 1 minuto", 68, "fg", b=True)),
+    # Izquierda 16:9 (800 x 450)
+    I("06-campanita.png", 104, 300, 800, 450, border=True),
+    T(104, 774, 800, 140, R("Sin cuenta: contacto directo por WhatsApp y alertas de negocio.", 42, "muted"), line=1.12),
+    # Derecha: 3 bloques limpios con alturas amplias
+    B(960, 176, 856, 232, "surface", border_color="line"),
+    T(1000, 198, 776, 60, LBL("1 · Freemium B2B + Comisión", 40, "cobalt")),
+    T(1000, 276, 776, 120, R("Publicar gratis; plan pro y comisión por trato.", 40, "muted")),
+    B(960, 432, 856, 232, "surface", border_color="line"),
+    T(1000, 454, 776, 60, LBL("2 · Tablero para Corrientes", 40, "cobalt")),
+    T(1000, 532, 776, 120, R("Menos humo, menos GLP y datos para planificar.", 40, "muted")),
+    B(960, 688, 856, 224, "cobalt_dark"),
+    T(1000, 708, 776, 90, R("~500 t CO2 / año", 60, "cobalt_light", b=True, mono=True)),
+    T(1000, 816, 560, 76, R("Evitadas por acuerdo.", 42, "white")),
 ], notes=(
-    "Pueden probarla ahora en el link o con el QR. Para el piloto buscamos cinco aserraderos y dos molinos con sus datos reales. "
-    "La idea y el diseño son del Equipo 13; la programación tuvo asistencia de IA. Gracias."))
+    "En Sobra publicás lo que tenés o buscás en un minuto sin crear cuenta, ves el contacto directo y recibís alertas. "
+    "Para el aserradero es ingreso, para la industria energía barata y un solo acuerdo evita 500 toneladas de CO2 al año."))
+
+# 8 · Cierre (Dark Cobalt)
+slide([
+    I("icon.png", 104, 104, 112, 112, border=False),
+    T(240, 100, 560, 140, [R("Sobra", 96, "white", b=True), R(".", 96, "cobalt_light", b=True)]),
+    T(104, 272, 1080, 260, [
+        [R("Con un número", 88, "white", b=True)],
+        [R("que te cierra.", 88, "cobalt_light", b=True)],
+    ], line=1.0),
+    T(104, 560, 1080, 100, R("ideathon-agro-web.vercel.app", 60, "cobalt_light", b=True, mono=True, link=DEMO)),
+    T(104, 688, 1080, 76, R("Equipo 13 · Ideathon NEA Tech 2026", 48, "white", b=True)),
+    T(104, 792, 1080, 150, R("Idea y diseño: Equipo 13. Programación con asistencia de IA. Datos reales con fuente oficial.", 40, "line"), line=1.15),
+    I("qr-demo.png", 1312, 240, 480, 480, border=True, link=DEMO),
+    T(1312, 756, 480, 72, LBL("Probá Sobra ahora", 40, "cobalt_light"), align="center"),
+], dark=True, chrome=False, notes=(
+    "Por esto los invitamos a probar Sobra, que pasa del residuo al mercado, con un número que te cierra."))
 
 
-# ---------------- validación de cajas ----------------
+# ---------------- validación estricta de cajas y desborde ----------------
+def estimate_text_height(e):
+    total_h = 0
+    for runs in e["paras"]:
+        big = max(r["size"] for r in runs)
+        text = "".join(r["t"] for r in runs)
+        avg_char_w = big * (0.62 if any(r["mono"] for r in runs) else 0.56)
+        chars_per_line = max(1, int(e["w"] / avg_char_w))
+        lines = max(1, math.ceil(len(text) / chars_per_line))
+        total_h += lines * big * LH * e["line"]
+    return total_h
+
+
 def validate():
     errs = []
     for n, sd in enumerate(SLIDES, 1):
         boxes = [e for e in sd["els"] if e["role"] != "bg"]
         for e in boxes:
             if e["x"] < SAFE or e["y"] < SAFE or e["x"] + e["w"] > W - SAFE or e["y"] + e["h"] > H - SAFE:
-                errs.append(f"slide {n}: fuera del margen de seguridad: {e.get('name') or e['paras'][0][0]['t']}")
-            if e["kind"] == "text" and e["role"] == "content":
-                for p in e["paras"]:
-                    for r in p:
-                        if r["size"] < MIN_BODY_PX:
-                            errs.append(f"slide {n}: texto menor a 20 pt: {r['t']}")
-                        for ch in ("—", "–"):
-                            if ch in r["t"]:
-                                errs.append(f"slide {n}: raya o guion medio en: {r['t']}")
-        for i, a in enumerate(boxes):
-            for b in boxes[i + 1:]:
+                errs.append(f"slide {n}: fuera del margen de seguridad: {label(e)}")
+            if e["kind"] == "text":
+                est_h = estimate_text_height(e)
+                if est_h > e["h"] + 6:
+                    errs.append(f"slide {n}: texto puede desbordar alto ({est_h:.0f}px > {e['h']}px): {label(e)}")
+                if e["role"] == "content":
+                    for p in e["paras"]:
+                        for r in p:
+                            if r["size"] < MIN_BODY_PX:
+                                errs.append(f"slide {n}: texto menor a 20 pt: {r['t']}")
+        content_boxes = [e for e in boxes if e["kind"] != "rect"]
+        for i, a in enumerate(content_boxes):
+            for b in content_boxes[i + 1:]:
                 if (a["x"] < b["x"] + b["w"] + GAP and b["x"] < a["x"] + a["w"] + GAP and
                         a["y"] < b["y"] + b["h"] + GAP and b["y"] < a["y"] + a["h"] + GAP):
                     errs.append(f"slide {n}: se tocan {label(a)} y {label(b)}")
@@ -205,7 +267,7 @@ def validate():
 
 
 def label(e):
-    return e.get("name") or e["paras"][0][0]["t"][:30]
+    return e.get("name") or e["paras"][0][0]["t"][:35]
 
 
 # ---------------- PPTX ----------------
@@ -225,7 +287,7 @@ def crop_for(e):
     iw, ih = Image.open(IMG / e["name"]).size
     sc = max(e["w"] / iw, e["h"] / ih)
     dw, dh = iw * sc, ih * sc
-    ex, ey = (dw - e["w"]) / dw, (dh - e["h"]) / dh
+    ex, ey = max(0.0, (dw - e["w"]) / dw), max(0.0, (dh - e["h"]) / dh)
     px, py = e["pos"]
     return px * ex, (1 - px) * ex, py * ey, (1 - py) * ey
 
@@ -236,14 +298,14 @@ def build_pptx():
     for sd in SLIDES:
         s = prs.slides.add_slide(prs.slide_layouts[6])
         s.background.fill.solid()
-        s.background.fill.fore_color.rgb = rgb("canvas")
+        s.background.fill.fore_color.rgb = rgb("cobalt_dark" if sd.get("dark") else "canvas")
         for e in sd["els"]:
             if e["kind"] == "img":
                 p = s.shapes.add_picture(str(IMG / e["name"]), E(e["x"]), E(e["y"]), E(e["w"]), E(e["h"]))
                 p.crop_left, p.crop_right, p.crop_top, p.crop_bottom = crop_for(e)
                 if e["border"]:
-                    p.line.color.rgb = rgb("line")
-                    p.line.width = Pt(0.75)
+                    p.line.color.rgb = rgb("cobalt")
+                    p.line.width = Pt(1.5)
                 if e["link"]:
                     p.click_action.hyperlink.address = e["link"]
             elif e["kind"] == "rect":
@@ -253,7 +315,11 @@ def build_pptx():
                 if e["alpha"] < 1:
                     clr = shp.fill._xPr.find(qn("a:solidFill")).find(qn("a:srgbClr"))
                     etree.SubElement(clr, qn("a:alpha")).set("val", str(int(e["alpha"] * 100000)))
-                shp.line.fill.background()
+                if e.get("border_color"):
+                    shp.line.color.rgb = rgb(e["border_color"])
+                    shp.line.width = Pt(1.0)
+                else:
+                    shp.line.fill.background()
                 shp.shadow.inherit = False
             else:
                 tb = s.shapes.add_textbox(E(e["x"]), E(e["y"]), E(e["w"]), E(e["h"]))
@@ -283,36 +349,31 @@ def build_pptx():
     return len(prs.slides)
 
 
-# ---------------- HTML gemelo (para validar con Playwright) ----------------
 def build_html(path):
-    fonts = (HERE / "fonts").as_uri()
     imgs = IMG.as_uri()
     css = f"""
-@font-face {{ font-family: "Geist"; src: url("{fonts}/geist-latin-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; }}
-@font-face {{ font-family: "Geist"; src: url("{fonts}/geist-latin-ext-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; unicode-range: U+0100-02BA, U+1E00-1EFF, U+20A0-20C0; }}
-@font-face {{ font-family: "Geist Mono"; src: url("{fonts}/geist-mono-latin-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; }}
-@font-face {{ font-family: "Geist Mono"; src: url("{fonts}/geist-mono-latin-ext-wght-normal.woff2") format("woff2-variations"); font-weight: 100 900; unicode-range: U+0100-02BA, U+1E00-1EFF, U+20A0-20C0; }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{ background: #ccc; }}
-.slide {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; background: #{C['canvas']}; margin-bottom: 20px; }}
+body {{ background: #cbd5e1; }}
+.slide {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; margin-bottom: 20px; }}
 .el {{ position: absolute; }}
 .t {{ display: flex; flex-direction: column; overflow: visible; -webkit-font-smoothing: antialiased; }}
 .t p {{ overflow-wrap: normal; }}
 img.el {{ object-fit: cover; }}
 """
-    out = [f"<!doctype html><html lang='es'><head><meta charset='utf-8'><title>Pitch 2 min</title><style>{css}</style></head><body>"]
+    out = [f"<!doctype html><html lang='es'><head><meta charset='utf-8'><title>PPTX Twin Check</title><style>{css}</style></head><body>"]
     for sd in SLIDES:
-        out.append("<section class='slide'>")
+        bg = C["cobalt_dark"] if sd.get("dark") else C["canvas"]
+        out.append(f"<section class='slide' style='background:#{bg}'>")
         for e in sd["els"]:
             box = f"left:{e['x']}px;top:{e['y']}px;width:{e['w']}px;height:{e['h']}px;"
             if e["kind"] == "img":
                 px, py = e["pos"]
-                border = f"border:1px solid #{C['line']};" if e["border"] else ""
+                border = f"border:2px solid #{C['cobalt']};" if e["border"] else ""
                 out.append(f"<img class='el' data-role='{e['role']}' src='{imgs}/{e['name']}' style='{box}{border}object-position:{px * 100}% {py * 100}%'>")
             elif e["kind"] == "rect":
                 c = C[e["fill"]]
-                r, g, b = int(c[0:2], 16), int(c[2:4], 16), int(c[4:6], 16)
-                out.append(f"<div class='el' data-role='bg' style='{box}background:rgba({r},{g},{b},{e['alpha']})'></div>")
+                bdr = f"border:1px solid #{C[e['border_color']]};" if e.get("border_color") else ""
+                out.append(f"<div class='el' data-role='bg' style='{box}background:#{c};{bdr}'></div>")
             else:
                 just = {"top": "flex-start", "middle": "center", "bottom": "flex-end"}[e["anchor"]]
                 out.append(f"<div class='el t' data-role='{e['role']}' style='{box}justify-content:{just};text-align:{e['align']}'>")
@@ -321,7 +382,7 @@ img.el {{ object-fit: cover; }}
                     lh = big * LH * e["line"]
                     out.append(f"<p style='line-height:{lh:.1f}px;font-size:{big}px'>")
                     for r in runs:
-                        fam = f'"{MONO}", Consolas, monospace' if r["mono"] else f'"{SANS}", "Segoe UI", Arial, sans-serif'
+                        fam = f'"{MONO}", monospace' if r["mono"] else f'"{SANS}", Arial, sans-serif'
                         st = (f"font-family:{fam};font-size:{r['size']}px;color:#{C[r['color']]};"
                               f"font-weight:{700 if r['b'] else 400};letter-spacing:{r['sp']}px")
                         out.append(f"<span style='{st}'>{r['t']}</span>")
@@ -335,7 +396,7 @@ img.el {{ object-fit: cover; }}
 
 validate()
 n = build_pptx()
-print(f"PPTX: {OUT} | {n} slides | validación de cajas OK")
+print(f"PPTX: {OUT} | {n} slides | validación de cajas y alturas OK")
 if HTML_OUT:
     build_html(HTML_OUT)
     print(f"HTML: {HTML_OUT}")

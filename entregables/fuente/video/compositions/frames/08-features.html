@@ -1,0 +1,210 @@
+<template>
+  <div id="root" data-composition-id="08-features" data-width="1920" data-height="1080" data-start="0" data-duration="10.67">
+    <style>
+      @font-face {
+        font-family: "Archivo Variable";
+        src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Variable";
+        src: url("assets/fonts/geist-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Geist Mono Variable";
+        src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Geist Variable", sans-serif;
+        color: #0A1433;
+      }
+
+      #root *, #root *::before, #root *::after {
+        box-sizing: border-box;
+      }
+
+      #root .bg-canvas {
+        position: absolute;
+        inset: 0;
+        background-color: #EEF3FD;
+        background-image:
+          linear-gradient(to right, rgba(211, 222, 243, 0.55) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(211, 222, 243, 0.55) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      #root .stage {
+        position: absolute;
+        left: 72px;
+        top: 96px;
+        width: 1776px;
+        height: 760px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 48px;
+      }
+
+      #root .steps-col {
+        width: 560px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      #root .section-title {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        color: #0A1433;
+        margin: 0 0 8px 0;
+      }
+
+      #root .step-card {
+        background: #FFFFFF;
+        border: 1px solid #D3DEF3;
+        border-left: 6px solid #2150E8;
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      #root .step-num {
+        font-family: "Geist Mono Variable", monospace;
+        font-size: 16px;
+        font-weight: 700;
+        color: #2150E8;
+        background: #E6EDFB;
+        padding: 8px 12px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #root .step-text {
+        font-family: "Archivo Variable", sans-serif;
+        font-variation-settings: "wdth" 112;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1.2;
+        color: #0A1433;
+      }
+
+      /* Exact 16:9 container (1152 x 648) so every screenshot is 100% uncropped */
+      #root .screen-col {
+        width: 1152px;
+        height: 648px;
+        background: #FFFFFF;
+        border: 2px solid #2150E8;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      #root .app-shot {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #EEF3FD;
+        display: block;
+      }
+    </style>
+
+    <div id="f08-bg" class="clip bg-canvas" data-start="0" data-duration="10.67"></div>
+
+    <div id="f08-stage" class="clip stage" data-start="0" data-duration="10.67">
+      <div id="f08-steps" class="steps-col">
+        <h2 id="f08-heading" class="section-title">Del cálculo al trato directo</h2>
+
+        <div id="f08-step-1" class="step-card">
+          <span class="step-num">01</span>
+          <span class="step-text">Publicás en 1 minuto, sin crear cuenta</span>
+        </div>
+
+        <div id="f08-step-2" class="step-card">
+          <span class="step-num">02</span>
+          <span class="step-text">Ves el contacto directo para cerrar</span>
+        </div>
+
+        <div id="f08-step-3" class="step-card">
+          <span class="step-num">03</span>
+          <span class="step-text">Te avisamos cuando un negocio te cierra</span>
+        </div>
+
+        <div id="f08-step-4" class="step-card">
+          <span class="step-num">04</span>
+          <span class="step-text">Cada número muestra su fuente oficial</span>
+        </div>
+      </div>
+
+      <div id="f08-screen" class="screen-col">
+        <img id="f08-shot-1" class="app-shot" src="assets/app-04-publicar.png" alt="Publicar en 1 minuto sin cuenta" />
+        <img id="f08-shot-2" class="app-shot" src="assets/app-05-contacto.png" alt="Contacto directo" />
+        <img id="f08-shot-3" class="app-shot" src="assets/app-06-campanita.png" alt="Alertas de oportunidades rentables" />
+        <img id="f08-shot-4" class="app-shot" src="assets/app-07-fuentes.png" alt="Fuentes oficiales trazables" />
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.currentScript.parentElement;
+        var heading = root.querySelector("#f08-heading");
+        var s1 = root.querySelector("#f08-step-1");
+        var s2 = root.querySelector("#f08-step-2");
+        var s3 = root.querySelector("#f08-step-3");
+        var s4 = root.querySelector("#f08-step-4");
+        var screen = root.querySelector("#f08-screen");
+        var shot2 = root.querySelector("#f08-shot-2");
+        var shot3 = root.querySelector("#f08-shot-3");
+        var shot4 = root.querySelector("#f08-shot-4");
+
+        gsap.set(heading, { opacity: 0, y: 14 });
+        gsap.set([s1, s2, s3, s4], { opacity: 0.35, x: -12 });
+        gsap.set(screen, { opacity: 0, x: 20 });
+        gsap.set([shot2, shot3, shot4], { opacity: 0 });
+
+        var tl = gsap.timeline({ paused: true });
+
+        // Step 1: 0.0s -> 3.6s ("En Sobra publicás lo que tenés o buscás en un minuto, sin crear cuenta.")
+        tl.to(heading, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.05);
+        tl.to(screen, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.10);
+        tl.to(s1, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.15);
+
+        // Step 2: 3.6s -> 5.0s ("Ves el contacto directo.")
+        tl.to(s1, { opacity: 0.55, duration: 0.3 }, 3.50);
+        tl.to(s2, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 3.50);
+        tl.to(shot2, { opacity: 1, duration: 0.4, ease: "power2.inOut" }, 3.50);
+
+        // Step 3: 5.0s -> 7.5s ("Te avisamos cuando el negocio te cierra")
+        tl.to(s2, { opacity: 0.55, duration: 0.3 }, 4.95);
+        tl.to(s3, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 4.95);
+        tl.to(shot3, { opacity: 1, duration: 0.4, ease: "power2.inOut" }, 4.95);
+
+        // Step 4: 7.5s -> 10.17s ("y cada número muestra su fuente oficial.")
+        tl.to(s3, { opacity: 0.55, duration: 0.3 }, 7.45);
+        tl.to(s4, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 7.45);
+        tl.to(shot4, { opacity: 1, duration: 0.4, ease: "power2.inOut" }, 7.45);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["08-features"] = tl;
+      })();
+    </script>
+  </div>
+</template>

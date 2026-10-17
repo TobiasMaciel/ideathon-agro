@@ -1,0 +1,137 @@
+[h1] Mapa Circular NEA — ¿Cierra el negocio?
+[div] Molinos Ala (Adecoagro) → Iberá Mercantil — secadero de arroz · Cierra
+[div] 5 km
+[a] Leaflet
+[div] © Esri, HERE, Garmin, © OpenStreetMap contributors
+[button] Leyenda
+[p] Plantas
+[li] Aserradero o foresto-industria
+[li] Molino arrocero
+[li] Aserrín
+[li] Chips
+[li] Costaneros
+[li] Cascarilla
+[p] Compradores
+[li] Cierra
+[li] Justo
+[li] No cierra
+[li] No compra este material
+[li] Central de biomasa
+[li] Yerbatera
+[li] Citrícola
+[li] Secadero de granos
+[li] Frigorífico
+[p] Publicaciones
+[p] Contorno punteado: publicada por un usuario, sin verificar
+[span] Circular NEA
+[button] Publicar
+[p] Plantas
+[p] 13 en el mapa
+[p] Toneladas/mes
+[p] 13.095
+[p] disponibles
+[p] Compradores
+[p] 6 para este material
+[p] Cierran
+[p] 1 de 6
+[p] vendiendo suelto
+[p] Tu planta
+[span] Molinos Ala (Adecoagro)
+[span] Molino arrocero
+[span] Cascarilla de arroz
+[span] Mercedes ·
+[span] 1.615
+[span] t/mes
+[button] Ver contacto
+[p] Cómo lo vendés
+[span] Radio viable:
+[span] 25 km
+[span] Suelto
+[span] 1 cierra
+[span] Radio viable:
+[span] 259 km
+[span] Compactado
+[span] 2 cierran
+[span] Radio viable:
+[span] 310 km
+[span] Pellet
+[span] 3 cierran
+[p] Radio viable
+[strong] 25 km
+[p] por ruta
+[span] 19 km
+[span] en línea recta
+[p] Resultado
+[p] Cierra
+[p] : margen
+[p] 93,2 %
+[p] Iberá Mercantil — secadero de arroz
+[p] Secadero de granos
+[p] Mercedes ·
+[p] 2 km
+[p] por ruta
+[p] Margen por mes
+[p] $ 2.442.212
+[span] Cierra desde
+[span] 15 %
+[button] Ver contacto
+[button] Compradores
+[button] Detalle
+[button] Supuestos
+[button] Fuentes
+[p] 1 cierran · 0 justos · 5 no cierran
+[button] Filtros
+[span] Iberá Mercantil — secadero de arroz
+[span] Secadero de granos
+[span] Mercedes ·
+[span] 2 km
+[span] El comprador ahorra
+[span] $ 73.623.898
+[span] /mes
+[span] 93,2 %
+[span] $ 2.442.212
+[span] Frigorífico Duhalde
+[span] Frigorífico
+[span] Curuzú Cuatiá ·
+[span] 88 km
+[span] El comprador ahorra
+[span] $ 22.537.928
+[span] /mes
+[span] −281,5 %
+[span] −$ 2.258.193
+[span] UTE BV S.A. — industria citrícola
+[span] Citrícola
+[span] Bella Vista ·
+[span] 156 km
+[span] El comprador ahorra
+[span] $ 52.588.499
+[span] /mes
+[span] −530,5 %
+[span] −$ 9.928.145
+[span] Rosamonte (Hreñuk S.A.)
+[span] Yerbatera
+[span] Apóstoles (Misiones) ·
+[span] 348 km
+[span] El comprador ahorra
+[span] $ 21.281.250
+[span] /mes
+[span] −1.293,6 %
+[span] −$ 151.588.978
+[span] Establecimiento Las Marías — secadero de yerba y té
+[span] Yerbatera
+[span] Gobernador Virasoro ·
+[span] 307 km
+[span] El comprador ahorra
+[span] $ 28.375.000
+[span] /mes
+[span] −1.129,9 %
+[span] −$ 176.545.972
+[span] Cooperativa Colonia Liebig (Playadito)
+[span] Yerbatera
+[span] Colonia Liebig ·
+[span] 340 km
+[span] El comprador ahorra
+[span] $ 43.992.600
+[span] /mes
+[span] −1.260,2 %
+[span] −$ 305.289.001

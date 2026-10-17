@@ -1,0 +1,264 @@
+{
+  "typography": [
+    {
+      "role": "body",
+      "fontFamily": "Geist Mono Variable",
+      "fontSize": "28px",
+      "fontWeight": "700",
+      "lineHeight": "32px",
+      "letterSpacing": "-0.56px",
+      "color": "#141A17",
+      "sampleText": "13"
+    },
+    {
+      "role": "display",
+      "fontFamily": "Geist Variable",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "letterSpacing": "normal",
+      "color": "#141A17",
+      "sampleText": "Mapa Circular NEA — ¿Cierra el negocio?"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Geist Variable",
+      "fontSize": "12px",
+      "fontWeight": "600",
+      "lineHeight": "18px",
+      "letterSpacing": "normal",
+      "color": "#141A17",
+      "sampleText": "Molinos Ala (Adecoagro) → Iberá Mercantil — secadero de arro"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Geist Mono Variable",
+      "fontSize": "11px",
+      "fontWeight": "400",
+      "lineHeight": "15.4px",
+      "letterSpacing": "normal",
+      "color": "#141A17",
+      "sampleText": "Leaflet"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      2,
+      4,
+      5,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "6.4px",
+    "8px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.55) 0px 8px 24px -6px",
+      "count": 9
+    },
+    {
+      "value": "rgba(20, 26, 23, 0.06) 0px 0px 0px 1px, rgba(20, 26, 23, 0.18) 0px 8px 24px -6px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(58, 114, 84) 2px 0px 0px 0px inset",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "+",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#141A17",
+      "padding": "0px",
+      "borderRadius": "2px 2px 0px 0px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "22px",
+      "fontWeight": "700",
+      "height": "32px"
+    },
+    {
+      "label": "−",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#141A17",
+      "padding": "0px",
+      "borderRadius": "0px 0px 2px 2px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "22px",
+      "fontWeight": "700",
+      "height": "32px"
+    },
+    {
+      "label": "Leyenda",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#55605B",
+      "padding": "8px 12px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "500",
+      "height": "32px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#55605B",
+      "padding": "0px",
+      "borderRadius": "6.4px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "28px"
+    },
+    {
+      "label": "Publicar",
+      "background": "#447D5F",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px 14px 0px 12px",
+      "borderRadius": "8px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.55) 0px 8px 24px -6px",
+      "fontSize": "13px",
+      "fontWeight": "600",
+      "height": "36px"
+    },
+    {
+      "label": "button",
+      "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+      "backgroundImage": "",
+      "backdropFilter": "blur(12px)",
+      "color": "#55605B",
+      "padding": "0px",
+      "borderRadius": "8px",
+      "border": "1px solid rgb(223, 228, 225)",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.55) 0px 8px 24px -6px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "36px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#141A17",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "256px"
+    }
+  ],
+  "nav": null,
+  "chips": [],
+  "statCells": [
+    {
+      "background": "transparent",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "numberFontSize": "28px",
+      "numberFontWeight": "700",
+      "numberColor": "#141A17"
+    }
+  ],
+  "tabs": [
+    {
+      "label": "13",
+      "background": "transparent",
+      "color": "#141A17",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "28px",
+      "fontWeight": "700",
+      "height": "32px"
+    },
+    {
+      "label": "1 de 6",
+      "background": "transparent",
+      "color": "#3A7254",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "28px",
+      "fontWeight": "700",
+      "height": "32px"
+    },
+    {
+      "label": "Cierra desde 15 %",
+      "background": "transparent",
+      "color": "#5F6A65",
+      "padding": "0px 0px 4px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(223, 228, 225)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "20px"
+    },
+    {
+      "label": "Compradores",
+      "background": "#FFFFFF",
+      "color": "#141A17",
+      "padding": "2px 6px",
+      "borderRadius": "6.4px",
+      "border": "1px solid rgba(0, 0, 0, 0)",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+      "fontSize": "13px",
+      "fontWeight": "500",
+      "height": "28px"
+    }
+  ],
+  "backgrounds": [],
+  "glass": [
+    {
+      "backdropFilter": "blur(8px)",
+      "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)",
+      "border": "1px solid rgb(223, 228, 225)",
+      "borderRadius": "11.2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.55) 0px 8px 24px -6px",
+      "area": 116880
+    },
+    {
+      "backdropFilter": "blur(12px)",
+      "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+      "border": "1px solid rgb(223, 228, 225)",
+      "borderRadius": "8px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.55) 0px 8px 24px -6px",
+      "area": 47232
+    }
+  ]
+}
