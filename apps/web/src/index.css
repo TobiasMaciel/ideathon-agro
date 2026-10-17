@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Tokens (docs/design.md §2). Identidad "río": tinta naval con un acento azul río; semáforo verde/ámbar/coral.
+ * Tokens (docs/design.md §2). Identidad cobalto: neutros con tinte cobalto y un acento cobalto vivo; semáforo verde/ámbar/coral.
  * Tema oscuro = valores de @theme; el claro (principal) los redefine bajo :root[data-theme='light'] (más abajo).
  * La paleta default de Tailwind se corta: solo existen estos colores. Las variables de shadcn (:root) apuntan acá.
  * Contrastes medidos (texto ≥ 4,5:1, bordes de control y foco ≥ 3:1): ver docs/design.md.
@@ -16,31 +16,31 @@
   --color-white: #ffffff;
   --color-black: #000000;
 
-  /* Neutros: tinta naval */
-  --color-canvas: #08111f;           /* fondo de página */
-  --color-surface: #0d1828;          /* cards, paneles */
-  --color-surface-subtle: #132136;   /* elevado, hover, tracks */
-  --color-surface-muted: #101c2f;
-  --color-line: #1f3049;             /* bordes 1 px (decorativos) */
-  --color-divider: #182740;
-  --color-line-strong: #58739a;      /* borde de inputs: 3,4:1 sobre card */
-  --color-fg: #e9f0f9;               /* 15,5:1 sobre card */
-  --color-fg-muted: #9fb2c9;         /* 8,2:1 */
-  --color-fg-subtle: #8ea3bd;        /* labels: 6,9:1 card, 6,3:1 elevado */
-  --color-faint: #3a4f6b;            /* solo decorativo */
+  /* Neutros: cobalto profundo */
+  --color-canvas: #0b1640;           /* fondo de página */
+  --color-surface: #101e52;          /* cards, paneles */
+  --color-surface-subtle: #17286a;   /* elevado, hover, tracks */
+  --color-surface-muted: #13235c;
+  --color-line: #24377a;             /* bordes 1 px (decorativos) */
+  --color-divider: #1c2e6c;
+  --color-line-strong: #5d74b8;      /* borde de inputs: 3,4:1 sobre card */
+  --color-fg: #eef2ff;               /* 14,1:1 sobre card */
+  --color-fg-muted: #b0bde6;         /* 8,5:1 */
+  --color-fg-subtle: #9fb0e0;        /* labels: 7,3:1 card, 6,3:1 elevado */
+  --color-faint: #3d4f8f;            /* solo decorativo */
 
-  /* Acento: azul río = activo, selección, links, marca. Relleno sólido con tinta naval encima (8,7:1). */
-  --color-selection: #5ab8ff;        /* 8,3:1 sobre card */
-  --color-selection-hover: #8ccdff;
-  --color-selection-ring: #5ab8ff;
-  --color-selection-solid: #5ab8ff;
-  --color-selection-subtle: rgb(90 184 255 / 0.12);
-  --color-on-accent: #061224;
+  /* Acento: azul río = activo, selección, links, marca. Relleno sólido con tinta naval encima (7,8:1). */
+  --color-selection: #7aa7ff;        /* 6,6:1 sobre card */
+  --color-selection-hover: #a6c4ff;
+  --color-selection-ring: #7aa7ff;
+  --color-selection-solid: #7aa7ff;
+  --color-selection-subtle: rgb(122 167 255 / 0.14);
+  --color-on-accent: #071033;
 
-  /* Semáforo (siempre con ícono y texto). Texto sobre card ≥ 7,7:1, sobre su tenue ≥ 6,4:1. */
-  --color-ok: #6fd3a0;   --color-ok-bg: rgb(111 211 160 / 0.12); --color-ok-fg: #6fd3a0;  --color-ok-line: rgb(111 211 160 / 0.32);
-  --color-warn: #f2c45c; --color-warn-bg: rgb(242 196 92 / 0.12); --color-warn-fg: #f2c45c; --color-warn-line: rgb(242 196 92 / 0.32);
-  --color-bad: #ff8a70;  --color-bad-bg: rgb(255 138 112 / 0.12); --color-bad-fg: #ff8a70;  --color-bad-line: rgb(255 138 112 / 0.32);
+  /* Semáforo (siempre con ícono y texto). Texto sobre card ≥ 7,6:1, sobre su tenue ≥ 6,2:1. */
+  --color-ok: #6fe0a8;   --color-ok-bg: rgb(111 224 168 / 0.12); --color-ok-fg: #6fe0a8;  --color-ok-line: rgb(111 224 168 / 0.32);
+  --color-warn: #ffd06b; --color-warn-bg: rgb(255 208 107 / 0.12); --color-warn-fg: #ffd06b; --color-warn-line: rgb(255 208 107 / 0.32);
+  --color-bad: #ff9a80;  --color-bad-bg: rgb(255 154 128 / 0.12); --color-bad-fg: #ff9a80;  --color-bad-line: rgb(255 154 128 / 0.32);
 
   /*
    * Tipografía: Archivo (ancho expandido) para marca, títulos y cifras grandes; Geist para el texto;
@@ -64,8 +64,8 @@
   --radius-xs: 2px;
   --radius-2xl: 8px;
 
-  /* Solo lo que flota sobre el mapa: sombra teñida de naval. */
-  --shadow-overlay: 0 0 0 1px rgb(2 8 18 / 0.5), 0 14px 36px -14px rgb(2 8 18 / 0.7);
+  /* Solo lo que flota sobre el mapa: sombra teñida de cobalto. */
+  --shadow-overlay: 0 0 0 1px rgb(4 10 40 / 0.45), 0 14px 36px -14px rgb(4 10 40 / 0.6);
 
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -92,39 +92,39 @@ html {
   color-scheme: dark;
   /* Ancho del panel de la calculadora: crece con la pantalla, entre 22 y 28 rem. */
   --panel-w: clamp(22rem, 23vw, 28rem);
-  --background: #08111f;
-  --foreground: #e9f0f9;
-  --card: #0d1828;
-  --card-foreground: #e9f0f9;
-  --popover: #0d1828;
-  --popover-foreground: #e9f0f9;
-  --primary: #5ab8ff;
-  --primary-foreground: #061224;
-  --secondary: #132136;
-  --secondary-foreground: #e9f0f9;
-  --muted: #132136;
-  --muted-foreground: #9fb2c9;
-  --accent: #132136;              /* en shadcn "accent" es el fondo de hover/ítem activo */
-  --accent-foreground: #e9f0f9;
-  --destructive: #ff8a70;
-  --border: #1f3049;
-  --input: #58739a;
-  --ring: #5ab8ff;
+  --background: #0b1640;
+  --foreground: #eef2ff;
+  --card: #101e52;
+  --card-foreground: #eef2ff;
+  --popover: #101e52;
+  --popover-foreground: #eef2ff;
+  --primary: #7aa7ff;
+  --primary-foreground: #071033;
+  --secondary: #17286a;
+  --secondary-foreground: #eef2ff;
+  --muted: #17286a;
+  --muted-foreground: #b0bde6;
+  --accent: #17286a;              /* en shadcn "accent" es el fondo de hover/ítem activo */
+  --accent-foreground: #eef2ff;
+  --destructive: #ff9a80;
+  --border: #24377a;
+  --input: #5d74b8;
+  --ring: #7aa7ff;
   --radius: 0.3125rem;            /* sm 3px · md 4px · lg 5px · xl 7px */
 
   /* Grilla de fondo (la textura de instrumento del bloque fijo del panel). */
-  --grid: rgb(233 240 249 / 0.045);
-  --map-grid: rgb(90 184 255 / 0.07);
+  --grid: rgb(238 242 255 / 0.05);
+  --map-grid: rgb(122 167 255 / 0.09);
 
   /* Pines del mapa (markers.ts arma su HTML con estas variables, así cambian con el tema sin rehacerse). */
-  --pin-center: #08111f;          /* centro de los pines huecos y anillo interior del elegido */
-  --pin-on-fill: #061224;         /* ícono sobre el disco relleno (Cierra) */
-  --pin-glyph: #e9f0f9;           /* ícono sobre el centro */
-  --pin-muted: #9fb2c9;           /* "No compra este material" */
-  --pin-outline: #e9f0f9;         /* contorno de los pines curados */
-  --pin-dash: #e9f0f9;            /* contorno punteado de las publicaciones */
-  --pin-neutral: #08111f;         /* rombo neutro de la leyenda */
-  --pin-shadow: rgb(2 8 18 / 0.65);
+  --pin-center: #0b1640;          /* centro de los pines huecos y anillo interior del elegido */
+  --pin-on-fill: #071033;         /* ícono sobre el disco relleno (Cierra) */
+  --pin-glyph: #eef2ff;           /* ícono sobre el centro */
+  --pin-muted: #b0bde6;           /* "No compra este material" */
+  --pin-outline: #eef2ff;         /* contorno de los pines curados */
+  --pin-dash: #eef2ff;            /* contorno punteado de las publicaciones */
+  --pin-neutral: #0b1640;         /* rombo neutro de la leyenda */
+  --pin-shadow: rgb(4 10 40 / 0.6);
 }
 
 /*
@@ -134,62 +134,62 @@ html {
 :root[data-theme='light'] {
   color-scheme: light;
 
-  --color-canvas: #f1f5fa;
+  --color-canvas: #eef3fd;
   --color-surface: #ffffff;
-  --color-surface-subtle: #e9eff6;
-  --color-surface-muted: #f5f8fb;
-  --color-line: #d6e0eb;
-  --color-divider: #e3eaf2;
-  --color-line-strong: #71849b;      /* borde de inputs: 3,8:1 card, 3,3:1 elevado */
-  --color-fg: #0b1626;               /* 18,2:1 */
-  --color-fg-muted: #4a5b70;         /* 7,0:1 */
-  --color-fg-subtle: #55667b;        /* 5,9:1 card, 5,1:1 elevado */
-  --color-faint: #b1bfcf;            /* solo decorativo */
+  --color-surface-subtle: #e6edfb;
+  --color-surface-muted: #f4f7fe;
+  --color-line: #d3def3;
+  --color-divider: #e2e9f7;
+  --color-line-strong: #6e80a3;      /* borde de inputs: 4,0:1 card, 3,4:1 elevado */
+  --color-fg: #0a1433;               /* 18,1:1 */
+  --color-fg-muted: #45547a;         /* 7,5:1 */
+  --color-fg-subtle: #52618a;        /* 6,1:1 card, 5,2:1 elevado */
+  --color-faint: #aebbd8;            /* solo decorativo */
 
-  --color-selection: #1858d6;        /* 6,2:1 card, 5,2:1 sobre su tenue */
-  --color-selection-hover: #1146ad;
-  --color-selection-ring: #1858d6;
-  --color-selection-solid: #1858d6;  /* relleno sólido; texto blanco: 6,2:1 */
-  --color-selection-subtle: rgb(24 88 214 / 0.09);
+  --color-selection: #2150e8;        /* 6,2:1 card, 5,2:1 sobre su tenue */
+  --color-selection-hover: #1a3fba;
+  --color-selection-ring: #2150e8;
+  --color-selection-solid: #2150e8;  /* relleno sólido; texto blanco: 6,2:1 */
+  --color-selection-subtle: rgb(33 80 232 / 0.08);
   --color-on-accent: #ffffff;
 
   --color-ok: #17784a;   --color-ok-bg: rgb(23 120 74 / 0.09);  --color-ok-fg: #17784a;   --color-ok-line: rgb(23 120 74 / 0.30);
   --color-warn: #8a6410; --color-warn-bg: rgb(138 100 16 / 0.09); --color-warn-fg: #8a6410; --color-warn-line: rgb(138 100 16 / 0.30);
   --color-bad: #b5402a;  --color-bad-bg: rgb(181 64 42 / 0.09);  --color-bad-fg: #b5402a;   --color-bad-line: rgb(181 64 42 / 0.30);
 
-  --shadow-overlay: 0 0 0 1px rgb(11 22 38 / 0.07), 0 14px 36px -14px rgb(11 38 82 / 0.28);
+  --shadow-overlay: 0 0 0 1px rgb(10 20 51 / 0.07), 0 14px 36px -14px rgb(22 50 150 / 0.22);
 
-  --background: #f1f5fa;
-  --foreground: #0b1626;
+  --background: #eef3fd;
+  --foreground: #0a1433;
   --card: #ffffff;
-  --card-foreground: #0b1626;
+  --card-foreground: #0a1433;
   --popover: #ffffff;
-  --popover-foreground: #0b1626;
-  --primary: #1858d6;
+  --popover-foreground: #0a1433;
+  --primary: #2150e8;
   --primary-foreground: #ffffff;
-  --secondary: #e9eff6;
-  --secondary-foreground: #0b1626;
-  --muted: #e9eff6;
-  --muted-foreground: #4a5b70;
-  --accent: #e9eff6;
-  --accent-foreground: #0b1626;
+  --secondary: #e6edfb;
+  --secondary-foreground: #0a1433;
+  --muted: #e6edfb;
+  --muted-foreground: #45547a;
+  --accent: #e6edfb;
+  --accent-foreground: #0a1433;
   --destructive: #b5402a;
-  --border: #d6e0eb;
-  --input: #71849b;
-  --ring: #1858d6;
+  --border: #d3def3;
+  --input: #6e80a3;
+  --ring: #2150e8;
 
-  --grid: rgb(11 22 38 / 0.05);
-  --map-grid: rgb(24 88 214 / 0.07);
+  --grid: rgb(10 20 51 / 0.05);
+  --map-grid: rgb(33 80 232 / 0.08);
 
   /* Pines: discos con ícono blanco y centro blanco; contornos blancos (curados) o grises punteados. */
   --pin-center: #ffffff;
   --pin-on-fill: #ffffff;
-  --pin-glyph: #0b1626;
-  --pin-muted: #4a5b70;
+  --pin-glyph: #0a1433;
+  --pin-muted: #45547a;
   --pin-outline: #ffffff;
-  --pin-dash: #4a5b70;
-  --pin-neutral: #4a5b70;
-  --pin-shadow: rgb(11 22 38 / 0.35);
+  --pin-dash: #45547a;
+  --pin-neutral: #45547a;
+  --pin-shadow: rgb(10 20 51 / 0.35);
 }
 
 @theme inline {
@@ -284,11 +284,11 @@ html {
   font-family: var(--font-sans);
   background: var(--color-canvas);
 }
-/* Base gris oscura llevada hacia la tinta naval de la app (#08111f). */
+/* Base gris oscura llevada hacia el cobalto profundo de la app (#0b1640). */
 .leaflet-container .tiles-base {
   filter: brightness(0.8) contrast(1.12) sepia(0.5) hue-rotate(182deg) saturate(1.9);
 }
-/* Claro (World Light Gray Canvas): tinte azulado frío, hacia el fondo #f1f5fa. */
+/* Claro (World Light Gray Canvas): tinte azulado frío, hacia el fondo #eef3fd. */
 [data-theme='light'] .leaflet-container .tiles-base {
   filter: sepia(0.18) hue-rotate(168deg) saturate(1.4);
 }

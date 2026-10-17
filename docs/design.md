@@ -1,6 +1,6 @@
 # Dirección de diseño: Circular NEA
 
-App de una sola pantalla: mapa de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet), con **tema claro (principal)** y **tema oscuro (alternativa)**. Identidad "río" (2026-10): neutros con tinte naval, un acento azul (río de noche en oscuro, cobalto en claro), marca de píxeles, títulos y cifras en Archivo semiexpandida, labels en mono, radios rectos y grilla de instrumento. Mismo nivel de terminación que Dosel (proyecto hermano), con otra paleta, otra marca y otras fuentes. Este documento describe lo implementado en `apps/web`. Prioridad: escritorio (1280–1920 px); mobile solo tiene que funcionar.
+App de una sola pantalla: mapa de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet), con **tema claro (principal)** y **tema oscuro (alternativa)**. Identidad cobalto (2026-10): neutros con tinte cobalto, un acento cobalto (vivo en claro, cobalto profundo con acento celeste en oscuro), marca de píxeles, títulos y cifras en Archivo semiexpandida, labels en mono, radios rectos y grilla de instrumento. Mismo nivel de terminación que Dosel (proyecto hermano), con otra paleta, otra marca y otras fuentes. Este documento describe lo implementado en `apps/web`. Prioridad: escritorio (1280–1920 px); mobile solo tiene que funcionar.
 
 Fuentes de criterio: skills `minimalist-ui`, `better-ui`, `better-layout`, `better-typography`, `better-colors`, `better-accessibility`, `better-writing`.
 
@@ -32,15 +32,15 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 | Token | Valor | Uso |
 |---|---|---|
-| `canvas` | `#f1f5fa` | fondo de página, fondo de etiquetas del mapa |
+| `canvas` | `#eef3fd` | fondo de página, fondo de etiquetas del mapa |
 | `surface` | `#ffffff` | cards, panel |
-| `surface-subtle` | `#e9eff6` | elevado, hover, tracks |
-| `line` / `divider` | `#d6e0eb` / `#e3eaf2` | bordes 1 px y divisores (decorativos) |
-| `line-strong` | `#71849b` | borde de inputs (≥ 3:1) |
-| `fg` / `fg-muted` / `fg-subtle` | `#0b1626` / `#4a5b70` / `#55667b` | texto primario, secundario, labels |
-| `faint` | `#b1bfcf` | solo decorativo |
-| `selection` / `selection-solid` | `#1858d6` | acento cobalto: foco, pestaña activa, links, círculo, ruta, marca; relleno de "Publicar" con texto blanco |
-| `selection-subtle` | `rgb(24 88 214 / .09)` | fila/card elegida |
+| `surface-subtle` | `#e6edfb` | elevado, hover, tracks |
+| `line` / `divider` | `#d3def3` / `#e2e9f7` | bordes 1 px y divisores (decorativos) |
+| `line-strong` | `#6e80a3` | borde de inputs (≥ 3:1) |
+| `fg` / `fg-muted` / `fg-subtle` | `#0a1433` / `#45547a` / `#52618a` | texto primario, secundario, labels |
+| `faint` | `#aebbd8` | solo decorativo |
+| `selection` / `selection-solid` | `#2150e8` | acento cobalto: foco, pestaña activa, links, círculo, ruta, marca; relleno de "Publicar" con texto blanco |
+| `selection-subtle` | `rgb(33 80 232 / .08)` | fila/card elegida |
 | `ok` / `warn` / `bad` | `#17784a` / `#8a6410` / `#b5402a` | semáforo: texto, discos con ícono blanco, pines |
 | `on-accent` | `#ffffff` | ícono/texto sobre discos y relleno sólido |
 | `--grid` / `--map-grid` | tinta al 5 % / cobalto al 7 % | grilla del bloque fijo del panel / retícula del mapa |
@@ -50,17 +50,17 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 | Token | Valor | Uso |
 |---|---|---|
-| `canvas` | `#08111f` | fondo de página, centro de pines |
-| `surface` | `#0d1828` | cards, panel |
-| `surface-subtle` | `#132136` | elevado, hover, tracks |
-| `line` / `divider` | `#1f3049` / `#182740` | bordes 1 px y divisores (decorativos) |
-| `line-strong` | `#58739a` | borde de inputs (≥ 3:1 sobre card) |
-| `fg` / `fg-muted` / `fg-subtle` | `#e9f0f9` / `#9fb2c9` / `#8ea3bd` | texto primario, secundario, labels |
-| `selection` / `selection-solid` | `#5ab8ff` | acento azul río; relleno de "Publicar" con texto `#061224` |
-| `selection-subtle` | `rgb(90 184 255 / .12)` | fila/card elegida |
-| `ok` / `warn` / `bad` | `#6fd3a0` / `#f2c45c` / `#ff8a70` | semáforo (texto, discos, pines) |
-| `on-accent` | `#061224` | ícono/texto sobre discos y relleno sólido |
-| `*-bg` | mismo tono al 12 % | fondos tenues |
+| `canvas` | `#0b1640` | fondo de página, centro de pines |
+| `surface` | `#101e52` | cards, panel |
+| `surface-subtle` | `#17286a` | elevado, hover, tracks |
+| `line` / `divider` | `#24377a` / `#1c2e6c` | bordes 1 px y divisores (decorativos) |
+| `line-strong` | `#5d74b8` | borde de inputs (≥ 3:1 sobre card) |
+| `fg` / `fg-muted` / `fg-subtle` | `#eef2ff` / `#b0bde6` / `#9fb0e0` | texto primario, secundario, labels |
+| `selection` / `selection-solid` | `#7aa7ff` | acento celeste sobre cobalto profundo; relleno de "Publicar" con texto `#071033` |
+| `selection-subtle` | `rgb(122 167 255 / .14)` | fila/card elegida |
+| `ok` / `warn` / `bad` | `#6fe0a8` / `#ffd06b` / `#ff9a80` | semáforo (texto, discos, pines) |
+| `on-accent` | `#071033` | ícono/texto sobre discos y relleno sólido |
+| `*-bg` | mismo tono al 12–14 % | fondos tenues |
 
 ### 2.3.1 Marca
 
@@ -102,23 +102,32 @@ Nada por debajo de 11 px. Radios rectos, de instrumento: `--radius: .3125rem` (c
 
 ## 3. Contraste medido
 
-Fórmula WCAG; los fondos tenues se componen al 12 % sobre la card. Los pares sobre el mapa (pines, círculo y ruta) no se volvieron a medir con la paleta azul: revisarlos antes de la próxima entrega.
+Fórmula WCAG; los fondos tenues se componen al 12 % sobre la card. Los pares sobre el mapa (pines, círculo y ruta) no se volvieron a medir con la paleta cobalto: revisarlos antes de la próxima entrega.
 
 | Par | Claro | Oscuro |
 |---|---|---|
-| `fg` sobre card / elevado | 18,2 / 15,7 | 15,5 / 14,1 |
-| `fg-muted` sobre card / elevado | 7,0 / 6,0 | 8,2 / 7,5 |
-| `fg-subtle` sobre card / elevado / tenue | 5,9 / 5,1 / 5,0 | 6,9 / 6,3 / 5,7 |
-| acento sobre card / elevado / su tenue | 6,2 / 5,3 / 5,2 | 8,3 / 7,5 / 6,7 |
-| verde / ámbar / coral sobre card | 5,5 / 5,4 / 5,6 | 9,8 / 10,9 / 7,7 |
-| verde / ámbar / coral sobre su tenue | 4,7 / 4,6 / 4,7 | 7,7 / 8,5 / 6,4 |
-| texto sobre `selection-solid` | blanco: 6,2 | `#061224`: 8,7 |
-| ícono sobre disco verde / ámbar / coral | blanco: 5,5 / 5,4 / 5,6 | `#061224`: 10,3 / 11,5 / 8,2 |
-| borde de input sobre card / elevado | 3,8 / 3,3 | 3,4 / 3,1 |
+| `fg` sobre card / elevado | 18,1 / 15,4 | 14,1 / 12,1 |
+| `fg-muted` sobre card / elevado | 7,5 / 6,4 | 8,5 / 7,3 |
+| `fg-subtle` sobre card / elevado / tenue | 6,1 / 5,2 / 5,2 | 7,3 / 6,3 / 5,9 |
+| acento sobre card / elevado / su tenue | 6,2 / 5,3 / 5,2 | 6,6 / 5,7 / 5,4 |
+| verde / ámbar / coral sobre card | 5,5 / 5,4 / 5,6 | 9,7 / 10,9 / 7,7 |
+| verde / ámbar / coral sobre su tenue | 4,7 / 4,6 / 4,7 | 7,5 / 8,4 / 6,3 |
+| texto sobre `selection-solid` | blanco: 6,2 | `#071033`: 7,8 |
+| ícono sobre disco verde / ámbar / coral | blanco: 5,5 / 5,4 / 5,6 | `#071033`: 11,4 / 12,8 / 9,0 |
+| borde de input sobre card / elevado | 4,0 / 3,4 | 3,5 / 3,0 |
 
 Materiales (rombos de planta, ícono blanco encima, iguales en ambos temas): `#6f4fa0`, `#287a78`, `#5a3826`, `#8a7a24` — ΔE2000 ≥ 14,9 entre sí con visión normal, deuteranopia, protanopia y tritanopia simuladas.
 
 ## 4. Layout
+
+### 4.0 Pantallas y ruteo
+
+Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre directo en la app) y la **portada** en `#/inicio`, a la que lleva la marca de la pastilla. La portada (`src/features/landing`, carga diferida) tiene: hero con el titular resaltado en cobalto, un **ejemplo en vivo** que recorre plantas reales y calcula con el catálogo el radio por estado y el mejor negocio (`examples.ts`, lógica pura con tests), cifras del catálogo, "Cómo funciona" en cuatro pasos, dos puertas (tengo residuo / necesito calor), "Sin humo" y un llamado final en bloque cobalto.
+
+### 4.1 Mapa
+
+- **Un solo scroll en el panel**: el bloque fijo y las pestañas scrollean juntos; la barra de pestañas queda pegada arriba (`sticky`). No hay scroll anidado dentro de las pestañas.
+- **La respuesta es un bloque cobalto**: "Resultado", comprador y margen por mes en `selection-solid` con texto `on-accent`; el semáforo va en una ficha clara para mantener su color. Debajo, en la card, el aviso de "al comprador le sale más caro" y el contacto.
 
 - **Mapa a pantalla completa**; no hay barra superior. El título completo es el `h1` (`sr-only`); a la vista, la pastilla "Circular NEA" arriba a la izquierda, con el selector de tema adentro, y al lado "Publicar".
 - **Franja de KPIs** flotante arriba: Plantas · Toneladas/mes · Compradores · Cierran (`3 de 6`, verde si hay alguno, coral si no). Se recalcula con la planta y el estado.

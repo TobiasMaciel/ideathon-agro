@@ -30,45 +30,53 @@ export default function Answer({
   const buyerPays = !result.buyerBenefits && result.sellerLight !== 'rojo';
   const from = useStateTrajectory(`${generatorId}|${buyer.id}`, state, result.marginPct);
   return (
-    <div className="rounded-md border border-line bg-surface p-3.5 shadow-[inset_0_2px_0_var(--color-selection-solid)]" data-testid="result-light" data-light={result.light}>
-      <div className="flex items-start justify-between gap-3">
-        <p className="kicker">Resultado</p>
-        <p className={cn('flex items-center gap-1.5 font-mono text-caption font-medium tracking-wide uppercase tabular-nums', LIGHT_TONE[result.light])}>
-          <Light light={result.light} size="xs" />
-          {LIGHT_LABELS[result.light]}: margen {pct(result.marginPct)}
-        </p>
-      </div>
-      <p className="mt-1.5 font-display text-heading font-semibold text-pretty text-fg">{buyer.name}</p>
-      <p className="mt-0.5 font-mono text-caption text-fg-muted uppercase tabular-nums">
-        {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}
-        {formatKm(result.distanceKm)} por ruta
-      </p>
-      <div className="mt-2.5 flex flex-wrap items-end justify-between gap-x-3 gap-y-1">
-        <div>
-          <p className="eyebrow">Margen por mes</p>
-          <p className={cn('font-display text-figure font-bold whitespace-nowrap tabular-nums', result.marginPerMonth >= 0 ? 'text-fg' : 'text-bad')} data-testid="result-margin">
-            {ars(result.marginPerMonth)}
+    <div className="overflow-hidden rounded-md border border-line bg-surface shadow-overlay" data-testid="result-light" data-light={result.light}>
+      {/* La respuesta es el bloque de color de la pantalla: cobalto sólido, con el semáforo en una ficha clara. */}
+      <div className="bg-selection-solid px-3.5 pt-3 pb-3.5 text-on-accent">
+        <div className="flex items-center justify-between gap-3">
+          <p className="kicker text-on-accent/85 before:bg-on-accent">Resultado</p>
+          <p
+            className={cn(
+              'flex items-center gap-1.5 rounded-sm bg-surface py-0.5 pr-2 pl-1 font-mono text-caption font-medium tracking-wide uppercase tabular-nums',
+              LIGHT_TONE[result.light],
+            )}
+          >
+            <Light light={result.light} size="xs" />
+            {LIGHT_LABELS[result.light]}: margen {pct(result.marginPct)}
           </p>
         </div>
-        <p className="ml-auto pb-1 text-right font-mono text-caption whitespace-nowrap text-fg-subtle tabular-nums">
-          {from !== null && Math.abs(from - result.marginPct) > 0.0005 ? (
-            <>
-              {pct(from)} → <span className="text-fg">{pct(result.marginPct)}</span>
-            </>
-          ) : (
-            <span className="uppercase">Cierra desde {pct(threshold)}</span>
-          )}
+        <p className="mt-2 font-display text-heading font-semibold text-pretty">{buyer.name}</p>
+        <p className="mt-0.5 font-mono text-caption text-on-accent/85 uppercase tabular-nums">
+          {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}
+          {formatKm(result.distanceKm)} por ruta
         </p>
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-x-3 gap-y-1">
+          <div>
+            <p className="font-mono text-overline tracking-[0.12em] text-on-accent/85 uppercase">Margen por mes</p>
+            <p className="font-display text-[2rem] leading-9 font-extrabold tracking-[-0.03em] whitespace-nowrap tabular-nums" data-testid="result-margin">
+              {ars(result.marginPerMonth)}
+            </p>
+          </div>
+          <p className="ml-auto pb-1.5 text-right font-mono text-caption whitespace-nowrap text-on-accent/85 tabular-nums">
+            {from !== null && Math.abs(from - result.marginPct) > 0.0005 ? (
+              <>
+                {pct(from)} → <span className="font-semibold text-on-accent">{pct(result.marginPct)}</span>
+              </>
+            ) : (
+              <span className="uppercase">Cierra desde {pct(threshold)}</span>
+            )}
+          </p>
+        </div>
       </div>
       {buyerPays && (
-        <p className="mt-3 flex gap-1.5 border-t border-line pt-3 text-small font-medium text-bad" data-testid="buyer-pays-more">
+        <p className="flex gap-1.5 bg-bad-bg px-3.5 py-2.5 text-small font-medium text-bad" data-testid="buyer-pays-more">
           <TriangleAlert size={14} aria-hidden="true" className="mt-0.5 shrink-0" />
           <span>
             Al vendedor le cierra, pero al comprador le sale {formatArs(-s)}/mes más caro que {altName(alternative)}
           </span>
         </p>
       )}
-      {contact && <div className="mt-3 border-t border-line pt-2.5">{contact}</div>}
+      {contact && <div className="px-3.5 pt-2.5 pb-3">{contact}</div>}
     </div>
   );
 }
