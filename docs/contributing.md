@@ -24,10 +24,10 @@ Desde la raíz:
 | `npm run dev:api` / `npm run dev:web` | Cada app por separado. |
 | `npm run build` | Build de todos los workspaces. |
 | `npm run typecheck` | `tsc` en la raíz y en cada workspace. |
-| `npm run lint` | ESLint sobre todo el repo (incluye las reglas de capas cuando estén activas). |
+| `npm run lint` | ESLint sobre todo el repo (incluye la verificación estricta de capas de clean architecture con `no-restricted-imports`). |
 | `npm test` | Vitest en cada workspace. Uno solo: `npm test -w @mapa/core`. |
 | `npm run test:e2e` | Playwright contra web y API levantadas juntas. |
-| `npm run verify` | Verificación única previa a commitear. TODO(verify): se agrega en el paso 0.2 del plan de migración; confirmar su contenido exacto contra `package.json`. |
+| `npm run verify` | Verificación completa previa a commitear (`typecheck`, `lint` y `test`). |
 | `npm run db:generate` | Genera migraciones SQL tras editar `packages/db/src/schema.ts`. |
 | `npm run db:migrate` | Aplica las migraciones a `DATABASE_URL`. |
 | `npm run db:seed` | Carga los datos de `packages/core` en `DATABASE_URL`. |
