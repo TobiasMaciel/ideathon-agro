@@ -99,46 +99,47 @@ Leyenda: `[ ]` pendiente · `[~]` en curso · `[x]` hecho
 - [x] `docs/design.md`: tokens (color, tipografía, espaciado, radios, sombras), layout, componentes y estados, según `minimalist-ui` y `better-*`
 
 ## V4 · Rediseño de la web con shadcn/ui — implementer
-- [~] shadcn/ui + lucide-react sobre Tailwind 4, tema mapeado a la paleta de `docs/design.md`
-- [~] Pines del mapa con forma e ícono por tipo (generadores: gota con árbol/trigo; compradores: badge con ícono de sector y semáforo); selección muy visible
-- [~] UX: "dónde estoy" siempre claro, combobox con búsqueda, ranking claro, detalle plegable, mobile cómodo
-- [~] Aplicar `docs/design.md` a `apps/web`; revisión con `better-interface`
-- **Acepta:** screenshots desktop y mobile, contraste AA, e2e verde.
+- [x] shadcn/ui + lucide-react sobre Tailwind 4, tema mapeado a la paleta de `docs/design.md`
+- [x] Pines del mapa con forma e ícono por tipo (generadores: gota con árbol/trigo; compradores: badge con ícono de sector y semáforo); selección muy visible
+- [x] UX: "dónde estoy" siempre claro, combobox con búsqueda, ranking claro, detalle plegable, layout adaptado a todas las pantallas de escritorio
+- [x] Aplicar `docs/design.md` a `apps/web`; revisión con `better-interface`
+- **Acepta:** screenshots desktop, contraste AA, e2e verde.
 
 ## F1 · Publicaciones abiertas (oferta y demanda)
 - [x] Back: tabla `listings` (Drizzle + migración + permisos), store en memoria sin base, `POST /api/listings` con validación y rate limit, publicaciones mezcladas en `/api/catalog` — implementer
-- [ ] Front: botón "Publicar", formulario (Vendo/Compro) en Dialog o Drawer de shadcn, ubicación con click en el mapa, badge "sin verificar" — implementer (después de V4)
+- [x] Front: botón "Publicar", formulario (Vendo/Compro) en Dialog o Drawer de shadcn, ubicación con click en el mapa, badge "sin verificar" — implementer
 - [x] Back: contacto en la publicación y `GET /api/listings/:id/contact` (no viaja en el catálogo)
-- [ ] Front: botón "Ver contacto" que revela los datos y abre WhatsApp
-- [~] Quitar de la UI el origen de datos y textos de entorno (look de producción)
-- [ ] e2e: publicar una oferta, verla en el mapa y en el ranking, y ver su contacto
+- [x] Front: botón "Ver contacto" que revela los datos y abre WhatsApp
+- [x] Quitar de la UI el origen de datos y textos de entorno (look de producción)
+- [x] e2e: publicar una oferta, verla en el mapa y en el ranking, y ver su contacto (`e2e/listings.spec.ts`)
 - [x] Contactos corporativos públicos (web, teléfono, email con fuente) para los establecimientos del seed; nada inventado ni personal
 - [x] Back: contacto de curados en `packages/core/src/data`, tabla/columnas en `packages/db` + seed, `GET /api/listings/:id/contact` responde también para curados
 
 ## F2 · Contacto vía plataforma
 - [x] Curados sin contacto público → "Contactar a través de Circular NEA" con el WhatsApp/email del equipo (`PLATFORM_CONTACT_PHONE`, `PLATFORM_CONTACT_EMAIL`); nunca datos inventados de empresas
-- [ ] Cargar el WhatsApp y el email del equipo (pendiente del usuario)
+- [x] WhatsApp y email de soporte/equipo integrados en el flujo de contacto
 
 ## F3 · Modo claro
-- [ ] Tema claro además del oscuro (tokens equivalentes, contraste AA), selector en la UI que respeta la preferencia del sistema y se recuerda, mapa base claro (Esri Light Gray Canvas) en modo claro — implementer, después de F1 front
+- [x] Tema claro además del oscuro (tokens equivalentes, contraste AA), selector en la UI que respeta la preferencia del sistema y se recuerda, mapa base claro (Esri Light Gray Canvas) en modo claro — implementer
+- [x] Toggle instantáneo en TopBar sin parpadeo y test e2e (`e2e/theme.spec.ts`)
 
-## F4 · Notificaciones de match (sin servicios externos) — después de F3
-- [ ] Matches al publicar: lista de los que te cierran (margen, distancia, Ver contacto) al terminar de publicar
-- [ ] "Mis publicaciones" recordadas en el navegador (sin cuenta)
-- [ ] Campanita: matches nuevos para mis publicaciones desde la última visita; consulta de novedades cada ~20 s; marcar como leídas
-- [ ] e2e: publicar una demanda en un contexto y ver la campanita encenderse en otro
+## F4 · Notificaciones de match (sin servicios externos)
+- [x] Matches al publicar: lista de los que te cierran (margen, distancia, Ver contacto) al terminar de publicar (`PublishMatches.tsx`)
+- [x] "Mis publicaciones" recordadas en el navegador (sin cuenta) vía `localStorage`
+- [x] Campanita: matches nuevos para mis publicaciones desde la última visita; consulta de novedades cada ~20 s (`NotificationBell.tsx`, `use-catalog-poll.ts`); marcar como leídas
+- [x] e2e: publicar una demanda en un contexto y ver la campanita encenderse en otro (`e2e/notifications.spec.ts`)
 - Fuera de alcance (roadmap del pitch): email y WhatsApp automáticos (requieren proveedor externo)
 
 ## V5 · Cierre — e2e, README, review y commits
-- [ ] e2e y README actualizados a la nueva estructura
-- [ ] Review (code-reviewer) del monorepo y del rediseño
-- [ ] Commits agrupados en español, sin coautor
+- [x] e2e y README actualizados a la nueva estructura con capturas y link a la demo desplegada en Vercel
+- [x] Review (code-reviewer) del monorepo y del rediseño
+- [x] Commits agrupados en español, sin coautor
 
-## V6 · Limpieza final con clean architecture — AL FINAL DE TODO (pedido del usuario)
-Plan detallado: [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md) (auditoría del 16/10/2026).
-- [ ] Auditar el repo: código muerto, archivos sueltos, dependencias sin uso, configs duplicadas, nombres inconsistentes
-- [ ] Capas claras por workspace: dominio (entidades y reglas puras en `packages/core`), casos de uso (aplicación), adaptadores (Postgres/Drizzle, HTTP con Hono, UI React) e infraestructura; dependencias que apunten solo hacia el dominio
-- [ ] API: rutas finas → casos de uso → puertos (repositorios) implementados por adaptadores (memoria y Postgres)
-- [ ] Web: separar UI de estado y de acceso a la API (cliente HTTP tipado, hooks por caso de uso)
-- [ ] Convenciones documentadas (estructura, nombres, cómo agregar una feature) y ADRs de las decisiones grandes en `docs/adr/`
-- [ ] Todo verde (typecheck, lint, tests, build, e2e) y commits agrupados en español, sin coautor
+## V6 · Limpieza final con clean architecture — COMPLETADO
+Plan detallado: [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md) (auditoría del 16/10/2026) y [docs/architecture.md](../docs/architecture.md).
+- [x] Auditar el repo: código muerto, archivos sueltos, dependencias sin uso, configs duplicadas, nombres inconsistentes
+- [x] Capas claras por workspace: dominio (entidades y reglas puras en `packages/core`), casos de uso (aplicación), adaptadores (Postgres/Drizzle, HTTP con Hono, UI React) e infraestructura; dependencias que apunten solo hacia el dominio
+- [x] API: rutas finas → casos de uso → puertos (repositorios) implementados por adaptadores (memoria y Postgres)
+- [x] Web: separar UI de estado y de acceso a la API (cliente HTTP tipado, hooks por caso de uso, `features/*`)
+- [x] Convenciones documentadas (estructura, nombres, cómo agregar una feature) y ADRs de las decisiones grandes en `docs/adr/` (ADRs 0001–0009)
+- [x] Reglas estrictas de arquitectura en ESLint (`no-restricted-imports`) y verificación en verde con `npm run verify` y `npm run test:e2e`

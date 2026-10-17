@@ -9,10 +9,10 @@
 ## Supuestos
 
 1. **Ningún dato simulado.** Empresas, ubicaciones, precios y parámetros salen de fuentes públicas de Corrientes/NEA. Cada número lleva etiqueta `real` (tomado de una fuente) o `estimado` (calculado a partir de valores con fuente, con la fórmula a la vista) y su URL de fuente.
-2. No hay login ni carga de datos por usuarios en el MVP. Los generadores y compradores vienen precargados en la base (seed). Por eso la API es **solo lectura**.
+2. No hay login ni cuentas de usuario. La carga de publicaciones (oferta y demanda) es abierta y sin cuenta ("sin verificar", con límite por IP). Los generadores y compradores del mapa base vienen precargados en el catálogo curado (seed).
 3. La distancia es la **línea recta** entre origen y destino multiplicada por un **factor de corrección por ruta** (por defecto 1,3: las rutas no son rectas, 100 km en línea recta ≈ 130 km de camino). Es un supuesto editable; con 1 queda línea recta pura. Sin ruteo real.
 4. El mapa usa Leaflet con tiles de OpenStreetMap/CARTO, sin API key.
-5. Front y back son **dos apps separadas** (ver Arquitectura v2). La API corre en **Cloudflare Workers** (Hono) y la base es **PostgreSQL estándar** accedida con **Drizzle ORM**, sin depender de ningún proveedor (Docker local, Neon, Supabase, RDS…: solo cambia `DATABASE_URL`). Se entregan esquema, migraciones y seed listos; no se despliega nada.
+5. Front y back son **dos apps separadas** (ver Arquitectura v2). La API corre en **Cloudflare Workers** (Hono) y la base es **PostgreSQL estándar** accedida con **Drizzle ORM**, sin depender de ningún proveedor (Docker local, Neon, Supabase, RDS…: solo cambia `DATABASE_URL`). Se entregan esquema, migraciones y seed listos; demo web desplegada en Vercel.
 6. **Solo web de escritorio** (1280 px o más), en español. Mobile fuera de alcance (decisión del usuario, 16/10/2026).
 7. Si falta `DATABASE_URL`, la API sirve los mismos datos desde `packages/core/src/data/` (fuente única de la que también sale el seed de la base), así la demo funciona antes de conectar la base.
 
@@ -33,7 +33,7 @@ Que el dueño de un residuo (aserradero o molino) y un posible comprador vean **
 | B1 | Calculadora de viabilidad | Se elige generador, comprador y estado del material (suelto, compactado o pellet). Calcula ingreso, flete, acondicionamiento, margen neto, semáforo y el ahorro del comprador frente a su alternativa actual. Los supuestos se pueden editar. |
 | B2 | Radio de viabilidad | Dibuja un círculo con la distancia máxima a la que el margen es ≥ 0. Cambia al elegir suelto, compactado o pellet. |
 
-**Fuera de alcance (MVP):** A2 (alta de residuos por formulario o WhatsApp), C1 (ficha técnica y QR), ruteo real, logística compartida (B3), login, pagos y panel de administración.
+**Fuera de alcance (MVP inicial):** C1 (ficha técnica y QR), ruteo real, logística compartida (B3), login, pagos y panel de administración. *Nota:* la carga abierta de ofertas y demandas (A2) con contacto WhatsApp fue incorporada en la fase F1 y está 100% implementada.
 
 ### Guion de la demo (≤ 2 minutos)
 
@@ -173,19 +173,19 @@ TypeScript estricto. Lógica de dominio en funciones puras. La UI no calcula: so
 - **Never:** commitear secretos o credenciales de la base; dar permisos de escritura al usuario de la API; mostrar números sin etiqueta ni fuente; inventar datos.
 
 ## Success Criteria
-
-- [ ] El guion de la demo se puede recorrer completo en ≤ 2 minutos corriendo en local (`npm run dev`). El deploy a Cloudflare y a un Postgres queda configurado pero no se ejecuta en esta etapa.
-- [ ] El mapa muestra ≥ 10 generadores y ≥ 10 compradores reales servidos por la API (Postgres si hay `DATABASE_URL`; si no, los datos de `packages/core`), filtrables por material o sector.
-- [ ] Al cambiar suelto → compactado → pellet, el radio B2 y el semáforo se actualizan en < 200 ms, sin recargar la página.
-- [ ] Con los datos del seed, la cascarilla de Molinos Ala (Mercedes) suelta tiene un radio de ~25 km por ruta y da rojo para el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km); pelletizada el radio pasa a ~310 km y el mismo comprador da verde con ahorro frente al GLP.
-- [ ] Cada número de la UI muestra su etiqueta y su fuente, y los supuestos se pueden editar en la sesión.
-- [ ] `npm test`, `npm run typecheck`, `npm run lint` y el e2e pasan.
-- [ ] Se ve impecable en escritorio (1280–1920 px). Mobile fuera de alcance.
+ 
+- [x] El guion de la demo se puede recorrer completo en ≤ 2 minutos corriendo en local (`npm run dev`). Demo web pública desplegada en Vercel: [https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/).
+- [x] El mapa muestra ≥ 10 generadores (13 curados) y ≥ 10 compradores (10 curados) reales servidos por la API (Postgres si hay `DATABASE_URL`; si no, los datos de `packages/core`), filtrables por material o sector.
+- [x] Al cambiar suelto → compactado → pellet, el radio B2 y el semáforo se actualizan en < 200 ms, sin recargar la página.
+- [x] Con los datos del seed, la cascarilla de Molinos Ala (Mercedes) suelta tiene un radio de ~25 km por ruta y da rojo para el Frigorífico Duhalde (Curuzú Cuatiá, ~88 km); pelletizada el radio pasa a ~310 km y el mismo comprador da verde con ahorro frente al GLP.
+- [x] Cada número de la UI muestra su etiqueta y su fuente, y los supuestos se pueden editar en la sesión.
+- [x] `npm test`, `npm run typecheck`, `npm run lint` y el e2e pasan.
+- [x] Se ve impecable en escritorio (1280–1920 px) con soporte para pantallas bajas y notebooks chicas, y modos claro y oscuro. Mobile fuera de alcance.
 
 ## Decisiones tomadas
 
 - Distancia: línea recta × factor de corrección por ruta editable (1,3 por defecto).
 - Datos: solo fuentes reales de Corrientes/NEA, etiquetados `real` o `estimado`.
-- Cuentas de Cloudflare y del proveedor de Postgres: fuera de alcance. **No se despliega nada**: el proyecto se desarrolla y prueba en local, y queda listo para `npm run db:migrate`, `npm run db:seed` y el deploy de cada app.
+- Despliegue: demo web en vivo desplegada en Vercel (`ideathon-agro-9u3t-flax.vercel.app`) y API lista para Cloudflare Workers con o sin Postgres.
 - Base de datos: PostgreSQL estándar con Drizzle ORM, sin atarse a un proveedor (decisión del usuario).
-- Ejecución: el MVP completo lo construye el agente orquestador con subagentes.
+- Ejecución: el MVP completo y el refactor a Clean Architecture (V6) fueron construidos y verificados con éxito.

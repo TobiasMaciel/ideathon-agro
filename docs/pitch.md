@@ -1,6 +1,7 @@
 # Circular NEA — Pitch y estrategia
 
 > 16/10/2026 · Para el equipo, antes de presentar en la Ideathon NEA Tech 2026.
+> Demo online: [https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/)
 
 Circular NEA convierte residuos de aserraderos y molinos arroceros en ingresos, mostrando en un mapa quién los compra y si el negocio cierra después del flete. Acá están el pitch, la demo, qué sumar antes de presentar, cómo venderlo y cómo ganar.
 
@@ -42,19 +43,19 @@ Preparación técnica:
 
 ---
 
-## 3. Qué agregar antes del pitch
+## 3. Mejoras del producto y roadmap
 
-Ordenado por lo que suma al pitch frente a lo que cuesta. Las tres primeras son las que recomiendo hacer ya.
+Ordenado por lo que suma frente a lo que cuesta.
 
-| Prioridad | Mejora | Qué aporta al pitch | Esfuerzo |
+| Prioridad | Mejora | Qué aporta | Estado |
 | --- | --- | --- | --- |
-| 1 | **Tablero de impacto**: toneladas que dejan de quemarse, CO₂ evitado, GLP sustituido, $ que circulan en la región | El número que le habla al jurado y al Gobierno | Bajo: usa los cálculos que ya existen |
-| 2 | **Alertas de match**: al publicar una demanda, "tenés 3 ofertas viables a menos de 150 km" | Convierte el mapa en un marketplace vivo | Bajo-medio |
-| 3 | **Ficha técnica del lote con QR**: humedad, cenizas, PCI y nivel de confianza (declarado / medido / certificado INTI-INTA) | Ataca la falta de confianza del comprador | Medio |
-| 4 | **Simulador de caldera**: cuánto cuesta pasar de GLP a biomasa y en cuántos meses se repaga | Crea demanda nueva | Medio |
-| 5 | **Pool de suministro**: sumar varios aserraderos chicos para un contrato grande | Resuelve la escala de los chicos | Medio-alto |
-| 6 | **Logística compartida y fletes de retorno** | Ataca el costo número uno: el flete | Alto |
-| 7 | **Verificación de publicaciones** (CUIT, visita) | Pasa de "sin verificar" a "verificado" | Medio |
+| 1 | **Tablero de impacto**: toneladas que dejan de quemarse, CO₂ evitado, GLP sustituido, $ que circulan en la región | El número que le habla al jurado y al Gobierno | Roadmap (fórmulas listas) |
+| 2 | **Alertas de match**: modal al publicar y campanita en barra con consulta periódica | Convierte el mapa en un marketplace vivo | **Implementado** |
+| 3 | **Ficha técnica del lote con QR**: humedad, cenizas, PCI y nivel de confianza (declarado / medido / certificado INTI-INTA) | Ataca la falta de confianza del comprador | Roadmap |
+| 4 | **Simulador de caldera**: cuánto cuesta pasar de GLP a biomasa y en cuántos meses se repaga | Crea demanda nueva | Roadmap |
+| 5 | **Pool de suministro**: sumar varios aserraderos chicos para un contrato grande | Resuelve la escala de los chicos | Roadmap |
+| 6 | **Logística compartida y fletes de retorno** | Ataca el costo número uno: el flete | Roadmap |
+| 7 | **Verificación de publicaciones** (CUIT, visita) | Pasa de "sin verificar" a "verificado" | Roadmap |
 
 Si no hay tiempo para programar, mostrar 4–7 como **roadmap en una slide**, no en la demo.
 

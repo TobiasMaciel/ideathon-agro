@@ -1,6 +1,7 @@
 # Plan V6 — Limpieza final con clean architecture
 
-> Auditoría de solo lectura del 16/10/2026. Se ejecuta **al final de todo** (tarea V6 de `tasks/todo.md`), con F3 (modo claro) y F4 (notificaciones) cerradas. La app es **solo web de escritorio**: lo que existe solo para mobile se borra.
+> **Estado: COMPLETADO E IMPLEMENTADO (16/10/2026).**
+> La refactorización a clean architecture por capas, la separación de responsabilidades, los 9 ADRs y las reglas de dependencia estrictas con `no-restricted-imports` en ESLint fueron ejecutados con éxito y están vigentes en el código. Este documento se conserva como registro de la auditoría y diseño original.
 
 ## 1. Diagnóstico
 

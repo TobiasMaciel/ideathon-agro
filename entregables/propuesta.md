@@ -106,6 +106,9 @@ Una aplicación web donde quien genera residuos de madera o arroz y quien puede 
 - **Publicaciones abiertas.** Cualquiera publica una oferta ("Vendo") o una demanda ("Compro") en un minuto, sin crear cuenta. Entra al cálculo como cualquier otro punto, marcada "sin verificar".
 - **Contacto al click.** "Ver contacto" muestra el teléfono o email de quien publicó, con un enlace de WhatsApp con el mensaje armado. Para las empresas del mapa, solo su contacto corporativo público (hoy 6 empresas lo tienen).
 - **Avisos de match.** Al publicar, la app muestra los negocios que cierran. Una campanita avisa cuando aparecen nuevos para tus publicaciones.
+- **Portada interactiva con ejemplos y cifras globales (`#/inicio`).** Permite recorrer el funcionamiento del modelo antes de entrar al mapa, muestra las cifras consolidadas de plantas, compradores y biomasa disponible, y compara interactivamente el margen y radio de viabilidad de vender suelto, compactado o en pellet.
+- **Tema claro (principal) y tema oscuro (alternativo).** Diseño con paleta técnica cobalto, mapas base cartográficos claros y oscuros de Esri, selector instantáneo sin parpadeo y persistencia de preferencia en el navegador.
+- **Franja de KPIs en tiempo real.** Métricas flotantes sobre el mapa que cuantifican plantas visibles, volumen mensual total, compradores compatibles y cantidad de negocios que cierran (verde) para el estado elegido.
 - **Supuestos editables** (costo del camión, precios, factor de ruta) para probar escenarios propios.
 - **Transparencia.** Cada número lleva su etiqueta "real" o "estimado" y el enlace a su fuente, visibles en la pestaña Fuentes.
 
@@ -146,6 +149,7 @@ Qué probar en 1 minuto:
 5. Elegí una **yerbatera a leña** en pellet: "no le conviene al comprador".
 6. Publicá un "Vendo" de aserrín con un click en el mapa y tocá "Ver contacto".
 7. Abrí la pestaña **Fuentes** y fijate de dónde sale cada número.
+8. Podés cambiar entre **tema claro y oscuro** desde el botón de la barra superior o explorar la **portada** con cifras globales y ejemplos interactivos tocando en el logo o navegando a `#/inicio`.
 
 **Alternativa sin conexión:** video de la demo y capturas en el pitch deck.
 
@@ -304,7 +308,7 @@ El prototipo usa herramientas de código abierto y servicios públicos, según s
 | Vitest y Playwright | Tests unitarios y de punta a punta |
 | Mapas base de Esri | Fondo cartográfico del mapa |
 | OpenStreetMap (Nominatim) | Coordenadas de las localidades |
-| Fuentes tipográficas Geist | Tipografía (licencia SIL Open Font License) |
+| Fuentes tipográficas Archivo y Geist | Tipografía para display, cuerpo y mono (licencia SIL Open Font License) |
 
 El código propio del proyecto se publica con licencia MIT.
 

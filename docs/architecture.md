@@ -53,7 +53,7 @@ packages/core/src/
   data/                   Catálogo curado con fuentes y etiquetas (fuente única de la API sin base y del seed)
 ```
 
-Exports públicos: `./viability`, `./match`, `./overrides`, `./listings`, `./contact`, `./ports`, `./contracts`, `./data`. `./api` sigue como alias deprecado hasta el último paso de la migración. Ya no hay export raíz (`.`), ni `./db` ni `./format`.
+Exports públicos: `./catalog`, `./viability`, `./match`, `./overrides`, `./listings`, `./contact`, `./ports`, `./contracts`, `./data`. `./api` sigue como alias deprecado. Ya no hay export raíz (`.`), ni `./db` ni `./format`.
 
 ### 2.2 `packages/db`
 
@@ -99,9 +99,10 @@ SPA de escritorio (Vite + React).
 ```
 apps/web/src/
   main.tsx, App.tsx
-  app/                    AppShell, ErrorBoundary, Notice, BrandPill
+  app/                    AppShell, ErrorBoundary, Notice, BrandPill, IntroInvite, PanelShell, TopBar, Workspace, layout, use-element-width, use-notice
   api/                    http.ts (BASE único), endpoints.ts, interpret.ts (con test)
   features/
+    landing/              Landing, LandingHeader, LiveExample, examples, motion, scroll
     catalog/              use-catalog, insert-listing
     calculator/           state, derive, use-calculator, trajectory y los paneles del cálculo (CalculatorPanel, StateSelector, Answer, MatchDetail, Charts, RadiusSummary, AssumptionsEditor, KpiStrip)
     buyers/               BuyerRanking, Filters
@@ -109,9 +110,9 @@ apps/web/src/
     listings/             PublishDialog, form, after-create, use-publish-flow
     contact/              ContactReveal, use-contact, PublishedMeta
     sources/              DataUsed, TagBadge
-    notifications/        Avisos de match con localStorage
+    notifications/        Avisos de match con localStorage, NotificationBell, PublishMatches, use-catalog-poll
     theme/                theme, ThemeToggle
-  shared/                 format, labels, storage, Light
+  shared/                 format, labels, storage, Light, Logo, route, tone
   components/ui/          Componentes shadcn
   lib/utils.ts            cn
   index.css

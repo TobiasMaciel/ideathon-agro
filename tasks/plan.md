@@ -6,9 +6,12 @@ Spec: [SPEC.md](../SPEC.md) · Tareas: [todo.md](todo.md) · Arquitectura objeti
 
 ## Estado
 
-- v2 (monorepo, base con Drizzle, rediseño con shadcn) y publicaciones abiertas (F1, F2): ver `tasks/todo.md`.
-- F3 (modo claro) y F4 (notificaciones de match): ver `tasks/todo.md`.
-- V6 (limpieza con clean architecture): se ejecuta al final, siguiendo [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md).
+- **v2** (monorepo con npm workspaces, base con Drizzle, rediseño con shadcn): Completado `[x]`.
+- **F1 y F2** (publicaciones abiertas de oferta y demanda sin cuenta, contacto por WhatsApp y corporativo): Completado `[x]`.
+- **F3** (modo claro y selector de tema sin parpadeo con mapas Esri): Completado `[x]`.
+- **F4** (notificaciones de match con campanita y polling): Completado `[x]`.
+- **V6** (limpieza con clean architecture): Completado `[x]`, siguiendo [docs/plan-v6-arquitectura.md](../docs/plan-v6-arquitectura.md). Reglas de capas activas en ESLint y ADRs 0001–0009 aceptados.
+- **Demo pública:** Desplegada en Vercel ([https://ideathon-agro-9u3t-flax.vercel.app/](https://ideathon-agro-9u3t-flax.vercel.app/)).
 
 ## Fases de V6
 
