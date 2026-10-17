@@ -44,43 +44,25 @@ function SourceCell({ item, sources }: { item: DataItem; sources: Source[] }) {
   );
 }
 
-/** Pestaña "Fuentes": cada dato con su valor, si es real o estimado y de dónde sale. */
+/**
+ * Pestaña "Fuentes": cada dato con su valor, si es real o estimado y de dónde sale.
+ * Una tarjeta por dato en dos renglones (dato y valor arriba; tipo y fuente abajo): entra en el ancho del panel sin cortar nada.
+ */
 export default function DataUsed({ items, sources }: { items: DataItem[]; sources: Source[] }) {
   return (
-    <table className="w-full border-collapse text-small">
-      <caption className="sr-only">Datos usados en el cálculo</caption>
-      <thead>
-        <tr className="border-b border-line">
-          <th scope="col" className="eyebrow pb-1.5 text-left font-medium">
-            Dato
-          </th>
-          <th scope="col" className="eyebrow pb-1.5 text-right font-medium">
-            Valor
-          </th>
-          <th scope="col" className="eyebrow pb-1.5 pl-2 text-left font-medium">
-            Tipo
-          </th>
-          <th scope="col" className="pb-1.5">
-            <span className="sr-only">Fuente</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((it) => (
-          <tr key={it.label} className="border-b border-divider align-top">
-            <th scope="row" className="py-2 pr-2 text-left font-normal text-fg-muted">
-              {it.label}
-            </th>
-            <td className="py-2 text-right font-mono whitespace-nowrap text-fg tabular-nums">{it.valueText}</td>
-            <td className="py-2 pl-2">
-              <TagBadge tag={it.tagged.tag} />
-            </td>
-            <td className="py-2 pl-2 text-right">
-              <SourceCell item={it} sources={sources} />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <ul aria-label="Datos usados en el cálculo" className="mt-3 divide-y divide-divider border-y border-divider">
+      {items.map((it) => (
+        <li key={it.label} className="grid gap-2 py-3">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="text-small text-pretty text-fg-muted">{it.label}</p>
+            <p className="shrink-0 text-right font-mono text-small whitespace-nowrap text-fg tabular-nums">{it.valueText}</p>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <TagBadge tag={it.tagged.tag} />
+            <SourceCell item={it} sources={sources} />
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
