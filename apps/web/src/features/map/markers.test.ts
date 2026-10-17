@@ -17,7 +17,7 @@ import { LIGHT_LABELS, MATERIAL_LABELS } from '@/shared/labels';
 const idle = { selected: false, hot: false };
 
 describe('colores del semáforo', () => {
-  it('salvia, ámbar y coral: los tokens ok/warn/bad (siguen al tema claro u oscuro); el pin usa los mismos tonos', () => {
+  it('verde, ámbar y coral: los tokens ok/warn/bad (siguen al tema claro u oscuro); el pin usa los mismos tonos', () => {
     expect(lightColor('verde')).toBe('var(--color-ok)');
     expect(lightColor('amarillo')).toBe('var(--color-warn)');
     expect(lightColor('rojo')).toBe('var(--color-bad)');

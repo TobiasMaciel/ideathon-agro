@@ -27,9 +27,9 @@ export default function Legend() {
         aria-expanded={open}
         aria-controls={bodyId}
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center justify-between px-3 py-2 text-overline text-fg-muted uppercase transition-colors duration-120 ease-out hover:text-fg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-selection"
+        className="flex items-center justify-between px-3 py-2 font-mono text-overline text-fg-muted uppercase transition-colors duration-120 ease-out hover:text-fg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-selection"
       >
-        Leyenda
+        <span className="kicker text-inherit">Leyenda</span>
         <ChevronDown size={14} aria-hidden="true" className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
       <div id={bodyId} hidden={!open} className="space-y-3 border-t border-divider p-3">
