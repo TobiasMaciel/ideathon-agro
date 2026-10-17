@@ -30,7 +30,7 @@ export default function MatchDetail({ buyer, alternative, result, radiusKm, thre
             {LIGHT_LABELS[result.light]}: margen {pct(result.marginPct)}
           </p>
         </div>
-        <h2 className="mt-1 text-title text-pretty text-fg">{buyer.name}</h2>
+        <h2 className="mt-1 font-display text-title text-pretty text-fg">{buyer.name}</h2>
         <p className="mt-0.5 font-mono text-caption text-fg-muted uppercase tabular-nums">
           {SECTOR_SINGULAR[buyer.sector]} · {buyer.locality ? `${buyer.locality} · ` : ''}usa {altName(alternative)}
         </p>

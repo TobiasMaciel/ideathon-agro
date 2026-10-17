@@ -24,7 +24,7 @@ export default function PublishMatches({ matches, onClose }: { matches: MatchIte
     >
       <header className="flex shrink-0 items-start justify-between gap-3 border-b border-line py-3 pr-2.5 pl-4">
         <div className="min-w-0">
-          <p className="eyebrow">Publicación creada</p>
+          <p className="kicker">Publicación creada</p>
           <h2 id={titleId} data-testid="publish-matches-title" className={cn('mt-0.5 text-pretty', n > 0 ? 'text-heading text-fg' : 'text-body text-fg-muted')}>
             {n > 0 ? `Te cierran ${n} negocio${n > 1 ? 's' : ''}` : NONE}
           </h2>

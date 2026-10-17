@@ -25,7 +25,7 @@ export default function NotificationBell({ notifications, unread, onSelect, onMa
           type="button"
           data-testid="notifications-bell"
           aria-label={unread > 0 ? `Notificaciones: ${unread} sin leer` : 'Notificaciones'}
-          className="relative inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-surface/90 text-fg-muted shadow-overlay backdrop-blur-md transition-colors duration-120 ease-out hover:bg-surface-subtle hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection data-[state=open]:text-fg"
+          className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-line bg-surface/90 text-fg-muted shadow-overlay backdrop-blur-md transition-colors duration-120 ease-out hover:bg-surface-subtle hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection data-[state=open]:text-fg"
         >
           <Bell size={16} aria-hidden="true" />
           {unread > 0 && (

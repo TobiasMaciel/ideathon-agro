@@ -46,7 +46,7 @@ export default function PublishDialog({ open, onOpenChange, materials, location,
         className="flex max-h-[calc(100dvh-2rem)] flex-col gap-0 overflow-hidden border border-line bg-surface p-0 text-fg shadow-overlay ring-0 sm:max-w-xl"
       >
         <DialogHeader className="shrink-0 gap-1 border-b border-line px-5 pt-5 pb-4 pr-12">
-          <DialogTitle className="text-title text-fg">Publicar en el mapa</DialogTitle>
+          <DialogTitle className="font-display text-title text-fg">Publicar en el mapa</DialogTitle>
           <DialogDescription className="text-small text-pretty text-fg-muted">
             Tu publicación aparece en el mapa como “sin verificar”. Tu contacto solo lo ve quien toca “Ver contacto”.
           </DialogDescription>

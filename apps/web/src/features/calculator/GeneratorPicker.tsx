@@ -31,7 +31,7 @@ export default function GeneratorPicker({ generators, materials, selectedId, onS
 
   return (
     <div>
-    <p className="eyebrow mb-1">Tu planta</p>
+    <p className="kicker mb-1">Tu planta</p>
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
@@ -46,7 +46,7 @@ export default function GeneratorPicker({ generators, materials, selectedId, onS
         >
           <span className="mt-1">{selected && <PlantMark g={selected} />}</span>
           <span className="min-w-0 flex-1">
-            <span className="block text-title text-pretty text-fg">{selected?.name ?? 'Elegí tu planta'}</span>
+            <span className="block font-display text-title text-pretty text-fg">{selected?.name ?? 'Elegí tu planta'}</span>
             {selected && (
               <span className="mt-0.5 block font-mono text-caption text-fg-muted uppercase tabular-nums">
                 {GENERATOR_KIND_LABELS[selected.kind]} · {materialName(selected.materialId)} · {selected.locality ? `${selected.locality} · ` : ''}

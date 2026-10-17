@@ -8,14 +8,14 @@ export const MAP_COLORS = {
   ink: 'var(--pin-center)', // centro de los pines huecos (tinta oscura en el tema oscuro, blanco en el claro)
   onFill: 'var(--pin-on-fill)', // ícono sobre el disco relleno
   glyph: 'var(--pin-glyph)', // ícono sobre el centro
-  selection: 'var(--color-selection)', // salvia: anillo, halo, borrador
+  selection: 'var(--color-selection)', // acento azul: anillo, halo, borrador
   surface: 'var(--pin-outline)', // contorno de los pines curados
   dash: 'var(--pin-dash)', // contorno punteado de las publicaciones
   neutral: 'var(--pin-neutral)', // rombo neutro de la leyenda
   shadow: 'var(--pin-shadow)',
 } as const;
 
-/** Semáforo apagado: salvia / ámbar / coral (--color-ok/warn/bad); gris para "no compra". */
+/** Semáforo: verde / ámbar / coral (--color-ok/warn/bad); gris para "no compra". */
 export const LIGHT_COLORS = {
   verde: 'var(--color-ok)',
   amarillo: 'var(--color-warn)',
