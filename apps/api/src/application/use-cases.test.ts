@@ -139,13 +139,13 @@ describe('revealContact', () => {
     expect(card.sourceUrl).toMatch(/^https:\/\//);
   });
   it('un curado sin contacto usa la plataforma si está configurada; si no, not_found', async () => {
-    const withPlatform = fakeDeps({ platformContact: { name: 'Circular NEA', email: 'hola@circular.test' } });
+    const withPlatform = fakeDeps({ platformContact: { name: 'Sobra', email: 'hola@circular.test' } });
     expect((await revealContact(withPlatform, 'duhalde-curuzu', 'ip')).via).toBe('plataforma');
     const e = await appError(() => revealContact(fakeDeps(), 'duhalde-curuzu', 'ip'));
     expect(e.message).toBe('Este establecimiento no tiene datos de contacto publicados.');
   });
   it('un id desconocido es not_found aun con plataforma', async () => {
-    const deps = fakeDeps({ platformContact: { name: 'Circular NEA', phone: '+54 379 400-0000' } });
+    const deps = fakeDeps({ platformContact: { name: 'Sobra', phone: '+54 379 400-0000' } });
     expect((await appError(() => revealContact(deps, 'no-existe', 'ip'))).message).toBe('No existe el establecimiento.');
   });
   it('pasado el límite es rate_limited antes de buscar nada', async () => {

@@ -57,7 +57,7 @@ export function fakeDeps(overrides: Partial<Deps> = {}): Deps {
     contacts: fakeContacts(),
     rateLimiter: fakeRateLimiter(),
     hashIp: async (ip) => `hash(${ip})`,
-    platformContact: { name: 'Circular NEA' },
+    platformContact: { name: 'Sobra' },
     ...overrides,
   };
 }

@@ -20,7 +20,7 @@ export interface ContactCard {
   mailtoSubject?: string;
 }
 
-/** Contacto de la plataforma (Circular NEA) como intermediaria, configurado por el despliegue. */
+/** Contacto de la plataforma (Sobra) como intermediaria, configurado por el despliegue. */
 export interface PlatformContact {
   name: string;
   phone?: string;
@@ -41,7 +41,7 @@ export function publicationContactCard(listing: StoredListing): ContactCard {
 /** Contacto corporativo curado (`sourceUrl` = primera fuente). */
 export function curatedContactCard(c: CuratedContact, sources: Source[], materialName?: string): ContactCard {
   const sourceUrl = sources.find((s) => s.id === c.sourceIds[0])?.url;
-  const text = `Hola, los contacto desde Circular NEA por ${materialName ?? 'sus subproductos'}`;
+  const text = `Hola, los contacto desde Sobra por ${materialName ?? 'sus subproductos'}`;
   return {
     via: 'empresa',
     name: c.name,
@@ -63,12 +63,12 @@ export function platformContactCard(
 ): ContactCard | undefined {
   if (!p.phone && !p.email) return undefined;
   const what = materialName ? materialName : 'sus subproductos';
-  const text = `Hola, me interesa contactar a ${establishmentName} por ${what}, vi su ficha en Circular NEA`;
+  const text = `Hola, me interesa contactar a ${establishmentName} por ${what}, vi su ficha en Sobra`;
   return {
     via: 'plataforma',
     name: p.name,
     ...(p.phone && { phone: p.phone, whatsappUrl: waLink(p.phone, text) }),
-    ...(p.email && { email: p.email, mailtoSubject: `Consulta por ${establishmentName} (Circular NEA)` }),
+    ...(p.email && { email: p.email, mailtoSubject: `Consulta por ${establishmentName} (Sobra)` }),
   };
 }
 

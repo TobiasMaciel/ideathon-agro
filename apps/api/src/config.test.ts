@@ -8,7 +8,7 @@ describe('parseConfig', () => {
       databaseUrl: undefined,
       ipSalt: undefined,
       rateLimitDisabled: false,
-      platformContact: { name: 'Circular NEA', phone: undefined, email: undefined },
+      platformContact: { name: 'Sobra', phone: undefined, email: undefined },
     });
   });
 
@@ -30,8 +30,8 @@ describe('parseConfig', () => {
     expect(parseConfig({ RATE_LIMIT_DISABLED: '1' }).rateLimitDisabled).toBe(false);
   });
 
-  it('el contacto de plataforma recorta espacios y usa "Circular NEA" como nombre por defecto', () => {
+  it('el contacto de plataforma recorta espacios y usa "Sobra" como nombre por defecto', () => {
     const { platformContact } = parseConfig({ PLATFORM_CONTACT_PHONE: ' +54 379 400-0000 ', PLATFORM_CONTACT_NAME: ' ' });
-    expect(platformContact).toEqual({ name: 'Circular NEA', phone: '+54 379 400-0000', email: undefined });
+    expect(platformContact).toEqual({ name: 'Sobra', phone: '+54 379 400-0000', email: undefined });
   });
 });

@@ -41,7 +41,7 @@ export default function Landing() {
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    document.title = 'Circular NEA — Del residuo al mercado';
+    document.title = 'Sobra — Lo que sobra, al mercado';
     writeString(INTRO_SEEN_KEY, '1');
   }, []);
 
@@ -70,7 +70,7 @@ export default function Landing() {
                 </em>
               </h1>
               <p style={enter(220).style} className={`${enter(220).className} max-w-[56ch] text-[1.0625rem] leading-relaxed text-pretty text-fg-muted`}>
-                Circular NEA cruza los residuos de aserraderos y molinos arroceros con las industrias que necesitan calor, y calcula si la venta deja
+                Sobra cruza los residuos de aserraderos y molinos arroceros con las industrias que necesitan calor, y calcula si la venta deja
                 margen una vez pagado el flete. Con números que tienen fuente.
               </p>
               <div style={enter(320).style} className={`${enter(320).className} flex flex-wrap gap-3`}>

@@ -15,7 +15,7 @@ export interface Env {
   /** Contacto de la plataforma (intermediaria) para establecimientos curados sin contacto propio. */
   PLATFORM_CONTACT_PHONE?: string;
   PLATFORM_CONTACT_EMAIL?: string;
-  /** Nombre mostrado; por defecto "Circular NEA". */
+  /** Nombre mostrado; por defecto "Sobra". */
   PLATFORM_CONTACT_NAME?: string;
 }
 
@@ -42,7 +42,7 @@ export function parseConfig(env: Env): Config {
     // El límite se apaga solo con ENVIRONMENT=development y RATE_LIMIT_DISABLED=1 (wrangler dev para e2e).
     rateLimitDisabled: env.ENVIRONMENT === 'development' && env.RATE_LIMIT_DISABLED === '1',
     platformContact: {
-      name: clean(env.PLATFORM_CONTACT_NAME) ?? 'Circular NEA',
+      name: clean(env.PLATFORM_CONTACT_NAME) ?? 'Sobra',
       phone: clean(env.PLATFORM_CONTACT_PHONE),
       email: clean(env.PLATFORM_CONTACT_EMAIL),
     },
