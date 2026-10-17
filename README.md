@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
-  <img src="docs/images/logo-light.svg" alt="Circular NEA" width="312" height="64">
+  <img src="docs/images/logo-light.svg" alt="Circular NEA" width="360" height="64">
 </picture>
 
 ### ¿Cierra el negocio?

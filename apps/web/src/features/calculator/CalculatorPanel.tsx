@@ -15,8 +15,8 @@ import { countLights, dataItems, stateStats, type Derived } from './derive';
 import type { Calculator } from './use-calculator';
 
 const TAB_TRIGGER =
-  'h-full text-small font-medium text-fg-muted hover:text-fg focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-selection data-active:bg-surface data-active:text-fg data-active:shadow-overlay';
-const TAB_CONTENT = 'min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-3 pb-5';
+  'h-full rounded-none text-small font-medium text-fg-muted transition-colors duration-150 hover:text-fg focus-visible:ring-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-selection data-active:text-fg after:bg-selection group-data-horizontal/tabs:after:bottom-[-1px]';
+const TAB_CONTENT = 'px-4 pt-3 pb-5';
 
 export type PanelTab = 'compradores' | 'detalle' | 'supuestos' | 'fuentes';
 
@@ -45,7 +45,7 @@ export default function CalculatorPanel({ catalog, calc, generator, material, d,
   return (
     <>
       {/* Bloque fijo: dónde estoy y la respuesta. */}
-      <div className="shrink-0 space-y-3 border-b border-border px-4 pt-3 pb-4">
+      <div className="grid-paper shrink-0 space-y-3 border-b border-border px-4 pt-3.5 pb-4">
         <div>
           <GeneratorPicker generators={catalog.generators} materials={catalog.materials} selectedId={generator.id} onSelect={(id) => selectGenerator(id)} />
           <ListingInfo entity={generator} onShowSources={showSources} className="mt-1" />
@@ -73,9 +73,9 @@ export default function CalculatorPanel({ catalog, calc, generator, material, d,
         )}
       </div>
 
-      {/* Altura mínima: en pantallas bajas el panel entero scrollea en vez de aplastar la lista. */}
-      <Tabs value={tab} onValueChange={(v) => onTabChange(v as PanelTab)} className="flex min-h-80 flex-1 flex-col gap-0">
-        <TabsList className="mx-4 mt-3 grid h-9 w-auto shrink-0 grid-cols-4 rounded-lg bg-surface-subtle p-0.5">
+      {/* Un solo scroll: el del panel. Las pestañas quedan pegadas arriba mientras se baja. */}
+      <Tabs value={tab} onValueChange={(v) => onTabChange(v as PanelTab)} className="flex flex-col gap-0">
+        <TabsList variant="line" className="sticky top-0 z-10 grid h-11 w-full shrink-0 grid-cols-4 gap-0 border-b border-line bg-surface/95 px-4 pt-1 backdrop-blur-md">
           <TabsTrigger value="compradores" className={TAB_TRIGGER}>
             Compradores
           </TabsTrigger>

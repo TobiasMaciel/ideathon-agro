@@ -10,7 +10,7 @@ function PublishButton({ onClick }: { onClick: () => void }) {
       type="button"
       data-testid="publish-open"
       onClick={onClick}
-      className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-selection-solid pr-3.5 pl-3 text-small font-semibold text-on-accent shadow-overlay transition-colors duration-120 ease-out hover:bg-selection focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection"
+      className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-selection-solid pr-4 pl-3 text-small font-bold text-on-accent shadow-overlay transition-[transform,filter] duration-150 ease-out hover:-translate-y-px hover:brightness-110 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selection"
     >
       <Plus size={16} strokeWidth={2.5} aria-hidden="true" />
       Publicar

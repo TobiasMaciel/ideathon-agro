@@ -1,6 +1,6 @@
 # Dirección de diseño: Circular NEA
 
-App de una sola pantalla: mapa de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet), con **tema claro (principal)** y **tema oscuro (alternativa)**. Neutros con tinte verde, acentos terrosos apagados, títulos en sans y labels/cifras en mono. Este documento describe lo implementado en `apps/web`. Prioridad: escritorio (1280–1920 px); mobile solo tiene que funcionar.
+App de una sola pantalla: mapa de Corrientes a pantalla completa + calculadora "¿Cierra el negocio?" flotante. Dirección: **dashboard sobrio y técnico** (referencia: tablero de créditos de carbono sobre Leaflet), con **tema claro (principal)** y **tema oscuro (alternativa)**. Identidad cobalto (2026-10): neutros con tinte cobalto, un acento cobalto (vivo en claro, cobalto profundo con acento celeste en oscuro), marca de píxeles, títulos y cifras en Archivo semiexpandida, labels en mono, radios rectos y grilla de instrumento. Mismo nivel de terminación que Dosel (proyecto hermano), con otra paleta, otra marca y otras fuentes. Este documento describe lo implementado en `apps/web`. Prioridad: escritorio (1280–1920 px); mobile solo tiene que funcionar.
 
 Fuentes de criterio: skills `minimalist-ui`, `better-ui`, `better-layout`, `better-typography`, `better-colors`, `better-accessibility`, `better-writing`.
 
@@ -9,7 +9,7 @@ Fuentes de criterio: skills `minimalist-ui`, `better-ui`, `better-layout`, `bett
 ## 1. Principios
 
 1. **La respuesta siempre a la vista.** Planta, estado y "¿Cierra?" viven en un bloque fijo del panel; el resto va en pestañas, una cosa por vez.
-2. **Color semántico y apagado.** Salvia = activo/positivo/"cierra"; ámbar = "justo"; coral = "no cierra". Nada de neón ni brillos.
+2. **Un acento, un semáforo.** Azul = activo, selección, links y marca. Verde = "cierra"; ámbar = "justo"; coral = "no cierra". El azul nunca significa resultado.
 3. **Nada depende solo del color.** El semáforo siempre lleva ícono (✓ ! ✕) y texto; en el mapa los compradores cambian de forma según el estado.
 4. **Cifras alineadas.** Labels, metadatos y números en Geist Mono con `tabular-nums`; montos negativos con signo menos tipográfico (−).
 5. **Todo dato tiene origen.** Cada valor dice `real`/`estimado` y llega a su fuente en un clic (pestaña Fuentes).
@@ -32,41 +32,39 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 | Token | Valor | Uso |
 |---|---|---|
-| `canvas` | `#f7f8f7` | fondo de página, fondo de etiquetas del mapa |
+| `canvas` | `#eef3fd` | fondo de página, fondo de etiquetas del mapa |
 | `surface` | `#ffffff` | cards, panel |
-| `surface-subtle` | `#f0f2f1` | elevado, hover, tracks |
-| `line` / `divider` | `#dfe4e1` / `#e8ecea` | bordes 1 px y divisores (decorativos) |
-| `line-strong` | `#7e8883` | borde de inputs (≥ 3:1) |
-| `fg` | `#141a17` | texto primario |
-| `fg-muted` | `#55605b` | secundario |
-| `fg-subtle` | `#5f6a65` | labels/terciario (el `#6b7671` propuesto daba 4,2:1 sobre elevado) |
-| `faint` | `#b4bdb8` | solo decorativo (manija, zoom deshabilitado) |
-| `selection` | `#3a7254` | acento salvia: foco, pestaña y card activas, links, círculo y ruta (el `#3f7a5c` propuesto daba 4,45:1 sobre su tenue) |
-| `selection-solid` | `#447d5f` | relleno sólido con texto blanco ("Publicar"); hover = `selection` (el `#4f8a6b` propuesto daba 4,05:1) |
-| `selection-subtle` | `rgb(58 114 84 / .10)` | fila/card elegida |
-| `ok` / `warn` / `bad` | `#3a7254` / `#806219` / `#a5523c` | semáforo: texto, discos con ícono blanco, pines (el ámbar `#8a6a1f` propuesto daba 4,44:1 sobre su tenue) |
+| `surface-subtle` | `#e6edfb` | elevado, hover, tracks |
+| `line` / `divider` | `#d3def3` / `#e2e9f7` | bordes 1 px y divisores (decorativos) |
+| `line-strong` | `#6e80a3` | borde de inputs (≥ 3:1) |
+| `fg` / `fg-muted` / `fg-subtle` | `#0a1433` / `#45547a` / `#52618a` | texto primario, secundario, labels |
+| `faint` | `#aebbd8` | solo decorativo |
+| `selection` / `selection-solid` | `#2150e8` | acento cobalto: foco, pestaña activa, links, círculo, ruta, marca; relleno de "Publicar" con texto blanco |
+| `selection-subtle` | `rgb(33 80 232 / .08)` | fila/card elegida |
+| `ok` / `warn` / `bad` | `#17784a` / `#8a6410` / `#b5402a` | semáforo: texto, discos con ícono blanco, pines |
 | `on-accent` | `#ffffff` | ícono/texto sobre discos y relleno sólido |
-| `*-bg` | mismo tono al 10 % | fondos tenues |
-| `shadow-overlay` | `0 0 0 1px rgb(20 26 23/.06), 0 8px 24px -6px rgb(20 26 23/.18)` | lo que flota sobre el mapa |
+| `--grid` / `--map-grid` | tinta al 5 % / cobalto al 7 % | grilla del bloque fijo del panel / retícula del mapa |
+| `shadow-overlay` | anillo 1 px + `0 14px 36px -14px` naval | lo que flota sobre el mapa |
 
 ### 2.3 Tema oscuro (alternativa)
 
 | Token | Valor | Uso |
 |---|---|---|
-| `canvas` | `#0d1110` | fondo de página, centro de pines |
-| `surface` | `#131917` | cards, panel |
-| `surface-subtle` | `#1a211f` | elevado, hover, tracks |
-| `line` / `divider` | `#26302c` / `#1f2724` | bordes 1 px y divisores (decorativos) |
-| `line-strong` | `#5e6b65` | borde de inputs (≥ 3:1) |
-| `fg` | `#e8ece9` | texto primario |
-| `fg-muted` | `#9aa5a0` | secundario |
-| `fg-subtle` | `#8c9893` | labels/terciario (antes `#84908b`; el `#6f7b76` de la referencia daba 4,05:1) |
-| `selection` | `#8fb8a0` | acento salvia: foco, pestaña y card activas, links, círculo y ruta |
-| `selection-solid` | `#6f9a83` | relleno sólido con texto `#0d1110` |
-| `selection-subtle` | `rgb(143 184 160 / .10)` | fila/card elegida |
-| `ok` / `warn` / `bad` | `#8fb8a0` / `#c9a86a` / `#c98b78` | semáforo (texto, discos, pines) |
-| `on-accent` | `#0d1110` | ícono/texto sobre discos y relleno sólido |
-| `*-bg` | mismo tono al 10 % | fondos tenues |
+| `canvas` | `#0b1640` | fondo de página, centro de pines |
+| `surface` | `#101e52` | cards, panel |
+| `surface-subtle` | `#17286a` | elevado, hover, tracks |
+| `line` / `divider` | `#24377a` / `#1c2e6c` | bordes 1 px y divisores (decorativos) |
+| `line-strong` | `#5d74b8` | borde de inputs (≥ 3:1 sobre card) |
+| `fg` / `fg-muted` / `fg-subtle` | `#eef2ff` / `#b0bde6` / `#9fb0e0` | texto primario, secundario, labels |
+| `selection` / `selection-solid` | `#7aa7ff` | acento celeste sobre cobalto profundo; relleno de "Publicar" con texto `#071033` |
+| `selection-subtle` | `rgb(122 167 255 / .14)` | fila/card elegida |
+| `ok` / `warn` / `bad` | `#6fe0a8` / `#ffd06b` / `#ff9a80` | semáforo (texto, discos, pines) |
+| `on-accent` | `#071033` | ícono/texto sobre discos y relleno sólido |
+| `*-bg` | mismo tono al 12–14 % | fondos tenues |
+
+### 2.3.1 Marca
+
+`src/shared/Logo.tsx` (copias en `public/favicon.svg`, `public/logo-mark.svg` y `docs/images/logo-*.svg`): grilla de 9 × 9 píxeles sobre un cuadrado redondeado de color `selection-solid`. Un anillo que se carga en sentido horario (opacidad de .3 a 1, con un hueco arriba a la derecha: el material que vuelve al mercado) y un núcleo en cruz. Los píxeles usan `on-accent`, así la marca sigue al tema. Al lado, "Circular **NEA**" en Archivo 800 semiexpandida, con "NEA" en el acento.
 
 ### 2.4 Pines (`--pin-*`)
 
@@ -85,50 +83,54 @@ Dos juegos de los **mismos tokens semánticos**: los componentes usan solo clase
 
 ### 2.5 Tipografía
 
-**Geist** (títulos, nombres) y **Geist Mono** (labels, metadatos, cifras), ambas vía `@fontsource-variable/*`.
+**Archivo** (`font-display`, variable con eje de ancho: marca, títulos y cifras grandes, semiexpandida en marca y KPIs), **Geist** (texto) y **Geist Mono** (labels, metadatos, cifras chicas), todas vía `@fontsource-variable/*`.
 
 | Token | Tamaño / interlínea | Uso |
 |---|---|---|
-| `eyebrow` (utility) | 12/16, mono, MAYÚSCULAS, tracking .08em, `fg-subtle` | "TU PLANTA", "RESULTADO", headers de tabla |
+| `eyebrow` (utility) | 11/16, mono, MAYÚSCULAS, tracking .12em, `fg-subtle` | headers de tabla, labels |
+| `kicker` (utility) | igual que `eyebrow` con un cuadrito de acento delante | encabezados de bloque: "Tu planta", "Resultado", "Leyenda" |
 | `caption` | 12/16 | metadatos |
 | `small` | 13/18 | textos de apoyo |
 | `body` | 14/20 | cuerpo, filas |
-| `heading` | 15/22 semibold | nombre del comprador en la respuesta |
-| `title` | 20/26 semibold | nombre de planta, título del Detalle |
-| `figure` | 28/32 bold mono | KPIs y margen por mes |
+| `heading` | 15/22 semibold | nombre del comprador en la respuesta (display) |
+| `title` | 20/26 semibold | nombre de planta, título del Detalle y del diálogo (display) |
+| `figure` | 28/32 bold display | KPIs (semiexpandida) y margen por mes |
 
-Nada por debajo de 12 px salvo la atribución del mapa (11 px). Radios: 6–8 px (`--radius: .5rem`). Sombra solo en lo que flota sobre el mapa (`shadow-overlay`).
+Nada por debajo de 11 px. Radios rectos, de instrumento: `--radius: .3125rem` (controles 3–5 px), panel 8 px. Pestañas del panel subrayadas (variante `line`). Sombra teñida de naval solo en lo que flota sobre el mapa (`shadow-overlay`). "Publicar" sube 1 px y aclara al pasar el puntero.
 
 `cn` (`src/lib/utils.ts`) se crea con `createCn` registrando estos tamaños como `font-size`; sin eso el merge confunde `text-caption` con un color y lo descarta. Ojo con `text-input`: aunque exista `--text-input`, Tailwind lo compila a `color: var(--input)` (el gris del borde de shadcn); para inputs usar `text-base sm:text-body`.
 
 ## 3. Contraste medido
 
-Scripts en el scratchpad: `colors.mjs` (oscuro, con ΔE2000 y simulación Machado 2009) y `light-contrast.mjs` (ambos temas, fórmula WCAG; los fondos tenues se componen al 10 % sobre la card). Mapa claro medido contra `#eceeec` (muestreado de World Light Gray Canvas con el filtro aplicado); mapa oscuro contra `#2b2e2d` (aprox.).
+Fórmula WCAG; los fondos tenues se componen al 12 % sobre la card. Los pares sobre el mapa (pines, círculo y ruta) no se volvieron a medir con la paleta cobalto: revisarlos antes de la próxima entrega.
 
 | Par | Claro | Oscuro |
 |---|---|---|
-| `fg` sobre card / fondo | 17,7 / 16,6 | 14,9 |
-| `fg-muted` sobre card / elevado | 6,5 / 5,8 | 7,0 |
-| `fg-subtle` sobre card / elevado / fila elegida / fondo | 5,6 / 5,0 / 4,9 / 5,3 | 6,0 / 5,5 / 5,0 / 6,4 |
-| salvia sobre card / elevado / su tenue | 5,7 / 5,0 / 4,9 | 8,1 / — / 6,8 |
-| ámbar sobre card / elevado / tenue | 5,7 / 5,1 / 5,0 | 7,9 / — / 6,7 |
-| coral sobre card / elevado / tenue | 5,4 / 4,8 / 4,7 | 6,3 / — / 5,5 |
-| ícono sobre disco salvia / ámbar / coral | blanco: 5,7 / 5,7 / 5,4 | `#0d1110`: 8,6 / 8,4 / 6,7 |
-| texto sobre `selection-solid` (y su hover) | blanco: 4,8 (5,7) | `#0d1110`: 6,0 |
-| borde de input sobre card / elevado | 3,7 / 3,3 | 3,0 |
-| foco (salvia) sobre card / fondo | 5,7 / 5,3 | 8,1 |
-| pin salvia / ámbar / coral sobre el mapa | 4,9 / 4,9 / 4,7 | 6,2 / 6,1 / 4,9 |
-| pin "no compra" (opacidad .75) sobre el mapa | 3,3 | 3,7 |
-| contorno punteado de publicación sobre el mapa | 5,6 | 11,5 |
-| círculo y ruta (opacidad .8) sobre el mapa | 3,3 | 4,6 |
-| etiqueta del pin (`fg` sobre `canvas`) | 16,6 | 15,9 |
+| `fg` sobre card / elevado | 18,1 / 15,4 | 14,1 / 12,1 |
+| `fg-muted` sobre card / elevado | 7,5 / 6,4 | 8,5 / 7,3 |
+| `fg-subtle` sobre card / elevado / tenue | 6,1 / 5,2 / 5,2 | 7,3 / 6,3 / 5,9 |
+| acento sobre card / elevado / su tenue | 6,2 / 5,3 / 5,2 | 6,6 / 5,7 / 5,4 |
+| verde / ámbar / coral sobre card | 5,5 / 5,4 / 5,6 | 9,7 / 10,9 / 7,7 |
+| verde / ámbar / coral sobre su tenue | 4,7 / 4,6 / 4,7 | 7,5 / 8,4 / 6,3 |
+| texto sobre `selection-solid` | blanco: 6,2 | `#071033`: 7,8 |
+| ícono sobre disco verde / ámbar / coral | blanco: 5,5 / 5,4 / 5,6 | `#071033`: 11,4 / 12,8 / 9,0 |
+| borde de input sobre card / elevado | 4,0 / 3,4 | 3,5 / 3,0 |
 
 Materiales (rombos de planta, ícono blanco encima, iguales en ambos temas): `#6f4fa0`, `#287a78`, `#5a3826`, `#8a7a24` — ΔE2000 ≥ 14,9 entre sí con visión normal, deuteranopia, protanopia y tritanopia simuladas.
 
 ## 4. Layout
 
+### 4.0 Pantallas y ruteo
+
+Ruteo por hash (`src/shared/route.ts`): el mapa en `/` y `#/mapa` (la demo abre directo en la app) y la **portada** en `#/inicio`, a la que lleva la marca de la pastilla. La portada (`src/features/landing`, carga diferida) tiene: hero con el titular resaltado en cobalto, un **ejemplo en vivo** que recorre plantas reales y calcula con el catálogo el radio por estado y el mejor negocio (`examples.ts`, lógica pura con tests), cifras del catálogo, "Cómo funciona" en cuatro pasos, dos puertas (tengo residuo / necesito calor), "Sin humo" y un llamado final en bloque cobalto.
+
+### 4.1 Mapa
+
+- **Un solo scroll en el panel**: el bloque fijo y las pestañas scrollean juntos; la barra de pestañas queda pegada arriba (`sticky`). No hay scroll anidado dentro de las pestañas.
+- **La respuesta es un bloque cobalto**: "Resultado", comprador y margen por mes en `selection-solid` con texto `on-accent`; el semáforo va en una ficha clara para mantener su color. Debajo, en la card, el aviso de "al comprador le sale más caro" y el contacto.
+
 - **Mapa a pantalla completa**; no hay barra superior. El título completo es el `h1` (`sr-only`); a la vista, la pastilla "Circular NEA" arriba a la izquierda, con el selector de tema adentro, y al lado "Publicar".
-- **Franja de KPIs** flotante arriba: Plantas · Toneladas/mes · Compradores · Cierran (`3 de 6`, salvia si hay alguno, coral si no). Se recalcula con la planta y el estado.
+- **Franja de KPIs** flotante arriba: Plantas · Toneladas/mes · Compradores · Cierran (`3 de 6`, verde si hay alguno, coral si no). Se recalcula con la planta y el estado.
 - **Desktop (≥ 1024 px):** panel flotante a la derecha, 400 px, `top/right/bottom: 16px`, card con scroll interno. Zoom arriba a la izquierda; leyenda, escala y atribución abajo a la izquierda.
 - **Mobile:** hoja inferior propia, **no modal**, de 470 px (manija para agrandarla al 92 %; elegir una pestaña la agranda). No se usa el Drawer de shadcn: `vaul` siempre monta un Dialog modal de Radix que pone `aria-hidden` en `#root` y atrapa el foco, y el mapa tiene que seguir usable detrás. KPIs en **grilla 2×2** (cifra 20 px, sin sublabel) debajo de marca y "Publicar"; atribución y escala **debajo de los KPIs**, a la derecha (`top: 176px`); "Referencias" debajo de los KPIs, a la izquierda. Las etiquetas permanentes de los pines van **debajo** del pin (arriba está la atribución).
 - El encuadre del mapa (`flyToBounds`) descuenta el panel o la hoja (`insets`).
@@ -157,12 +159,12 @@ Materiales (rombos de planta, ícono blanco encima, iguales en ambos temas): `#6
 - Atribución y escala con fondo `canvas` al 80/75 % (`color-mix`), así acompañan al tema.
 - **Escala métrica** (`ScaleControl`).
 - **Plantas**: rombo de 16 px del tono del material con ícono blanco de 9 px (árbol para aserraderos/foresto-industria, trigo para el molino arrocero) y contorno `--pin-outline`.
-- **Compradores**: punto de 16 px con ícono de sector de 9 px (rayo, hoja, cítrico, galpón, carne). Forma según estado: salvia relleno (Cierra), anillo grueso ámbar (Justo), hueco con borde coral (No cierra), gris punteado de 13 px atenuado a **opacidad .75** (No compra este material; con .55 el contorno quedaba en ~2,9:1).
+- **Compradores**: punto de 16 px con ícono de sector de 9 px (rayo, hoja, cítrico, galpón, carne). Forma según estado: verde relleno (Cierra), anillo grueso ámbar (Justo), hueco con borde coral (No cierra), gris punteado de 13 px atenuado a **opacidad .75** (No compra este material; con .55 el contorno quedaba en ~2,9:1).
 - **Publicaciones** (`data-origin="publicacion"`, sin verificar): mismo pin, pero el contorno sólido se reemplaza por un **contorno punteado** de 1,5 px separado 2 px del pin (`--pin-dash`). Explicado en la leyenda ("Publicaciones").
-- **Elegido**: 21 px, anillo salvia de 2 px + halo suave, etiqueta permanente (planta: nombre; comprador: nombre y estado) con fondo `canvas`, borde salvia y hasta 260 px de ancho en varias líneas.
+- **Elegido**: 21 px, anillo de acento de 2 px + halo suave, etiqueta permanente (planta: nombre; comprador: nombre y estado) con fondo `canvas`, borde de acento y hasta 260 px de ancho en varias líneas.
 - **Etiquetas que se pisan**: si la planta y el comprador elegidos quedan a < 200 px en horizontal y < 48 px en vertical en pantalla (p. ej. Molinos Ala e Iberá Mercantil, ambos en Mercedes), se muestra **una sola etiqueta** "Planta → Comprador · Estado" en el pin del extremo libre (el de más arriba; en mobile, donde las etiquetas van abajo, el de más abajo). Se recalcula al hacer zoom (`mergedLabelHost` en `markers.ts`). El otro pin conserva su tooltip al pasar el puntero.
 - Área táctil ≥ 24 px; los pines son enfocables con teclado (Leaflet) y tienen `aria-label` con nombre, localidad y estado.
-- Círculo de radio y línea al comprador en salvia al 80 %; el color sale del token por CSS sobre `path.radius-circle` / `path.route-line`, así sigue al tema.
+- Círculo de radio y línea al comprador en el acento al 80 %; el color sale del token por CSS sobre `path.radius-circle` / `path.route-line`, así sigue al tema.
 - Testabilidad: `data-marker="gen-<id>"` / `data-marker="buyer-<id>"`, `data-light` en compradores, clases `radius-circle`, `route-line`, `tiles-base` y `tiles-labels`.
 - Los trazos de los íconos de pin son los de lucide (ISC) copiados a `markers.ts` para armar el HTML sin renderizar React.
 
@@ -177,7 +179,7 @@ Español rioplatense, voseo, sentence case. Semáforo: **Cierra / Justo / No cie
 - [x] Cifras en mono tabular; restas con "−".
 - [x] Contraste AA medido en ambos temas (tabla de §3).
 - [x] Semáforo con ícono + texto; en el mapa, forma distinta por estado.
-- [x] Foco visible (anillo salvia) en combobox, cards de estado, pestañas, filas, chips, inputs, links, pines y selector de tema.
+- [x] Foco visible (anillo de acento) en combobox, cards de estado, pestañas, filas, chips, inputs, links, pines y selector de tema.
 - [x] `prefers-reduced-motion`: sin `flyTo`, sin transiciones ni `animate-pulse`.
 - [x] 375 px sin scroll horizontal.
 - [x] `npm run test:e2e`, incluido `e2e/theme.spec.ts` (default claro, alternar, persistir al recargar, tiles del mapa).
