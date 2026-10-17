@@ -82,10 +82,10 @@ export function DistanceBar({ distanceKm, radiusKm }: { distanceKm: number; radi
   const r = (radiusKm / max) * 100;
   const inside = distanceKm <= radiusKm;
   return (
-    <figure className="m-0">
-      <figcaption className="mb-1.5 flex items-baseline justify-between gap-3">
-        <span className="eyebrow">Distancia vs. radio viable</span>
-        <span className={cn('font-mono text-caption tabular-nums', inside ? 'text-ok' : 'text-bad')}>
+    <figure className="mx-0 mt-0">
+      <figcaption className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+        <span className="eyebrow whitespace-nowrap">Distancia vs. radio</span>
+        <span className={cn('font-mono text-caption whitespace-nowrap tabular-nums', inside ? 'text-ok' : 'text-bad')}>
           {formatKm(distanceKm)} / {formatKm(radiusKm)}
         </span>
       </figcaption>

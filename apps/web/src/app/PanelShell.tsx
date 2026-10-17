@@ -9,7 +9,7 @@ export default function PanelShell({ children, ref }: { children: React.ReactNod
     <aside
       ref={ref}
       aria-label="Calculadora"
-      className="absolute top-4 right-4 bottom-4 z-[1000] flex w-(--panel-w) flex-col overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-border bg-surface shadow-overlay"
+      className="absolute top-4 right-4 bottom-4 z-[1000] flex w-(--panel-w) flex-col panel-scroll overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-border bg-surface shadow-overlay"
     >
       {children}
     </aside>

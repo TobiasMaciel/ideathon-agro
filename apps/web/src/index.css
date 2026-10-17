@@ -269,6 +269,13 @@ html {
   }
 }
 
+/* Scroll del panel: barra fina del color de la línea, con su lugar reservado (el contenido no queda debajo). */
+.panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+  scrollbar-gutter: stable;
+}
+
 /* ---------- Portada: barra de navegación ---------- */
 
 /*
